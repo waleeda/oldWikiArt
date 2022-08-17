@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="PaintingCollectionViewCell" customModule="WikiArt" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="687" height="755"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="687" height="755"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="267" axis="vertical" distribution="fillProportionally" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="Gxh-LQ-OKS">
+                        <rect key="frame" x="20" y="694.5" width="647" height="52.5"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="99" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SFA-h7-GbA" userLabel="artistName">
+                                <rect key="frame" x="0.0" y="0.0" width="31" height="14.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="253" verticalCompressionResistancePriority="753" text="Label" lineBreakMode="tailTruncation" numberOfLines="99" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tED-Mn-drb">
+                                <rect key="frame" x="0.0" y="16.5" width="34" height="19.5"/>
+                                <fontDescription key="fontDescription" name="BodoniSvtyTwoITCTT-Book" family="Bodoni 72" pointSize="16"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="99" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x7c-Jv-e14" userLabel="date">
+                                <rect key="frame" x="0.0" y="38" width="31" height="14.5"/>
+                                <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                    </stackView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X7X-vm-fgi">
+                        <rect key="frame" x="0.0" y="0.0" width="687" height="686.5"/>
+                        <color key="backgroundColor" systemColor="opaqueSeparatorColor" red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </imageView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="X7X-vm-fgi" secondAttribute="trailing" id="5rO-RC-5LA"/>
+                <constraint firstItem="X7X-vm-fgi" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="IQn-0A-byK"/>
+                <constraint firstItem="X7X-vm-fgi" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="Nx6-vu-Vcb"/>
+                <constraint firstAttribute="trailingMargin" secondItem="Gxh-LQ-OKS" secondAttribute="trailing" id="QD5-aE-AWe"/>
+                <constraint firstAttribute="bottom" secondItem="Gxh-LQ-OKS" secondAttribute="bottom" constant="8" id="XLA-f9-Hnz"/>
+                <constraint firstItem="Gxh-LQ-OKS" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leadingMargin" id="gV5-ev-cY0"/>
+                <constraint firstItem="Gxh-LQ-OKS" firstAttribute="top" secondItem="X7X-vm-fgi" secondAttribute="bottom" constant="8" id="hLl-y2-F8r"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="687" height="755"/>
+            <connections>
+                <outlet property="artistName" destination="SFA-h7-GbA" id="qNe-ky-Ule"/>
+                <outlet property="date" destination="x7c-Jv-e14" id="Hgr-tS-7MW"/>
+                <outlet property="imageView" destination="X7X-vm-fgi" id="w4I-pk-0Ks"/>
+                <outlet property="stack" destination="Gxh-LQ-OKS" id="Jwm-5D-TV9"/>
+                <outlet property="titleView" destination="tED-Mn-drb" id="LRx-Vm-92i"/>
+            </connections>
+            <point key="canvasLocation" x="-329.71014492753625" y="388.72767857142856"/>
+        </collectionViewCell>
+    </objects>
+</document>

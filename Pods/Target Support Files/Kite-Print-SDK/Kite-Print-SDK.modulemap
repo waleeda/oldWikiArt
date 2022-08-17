@@ -1,0 +1,6 @@
+framework module KiteSDK {
+  umbrella header "Kite-Print-SDK-umbrella.h"
+
+  export *
+  module * { export * }
+}

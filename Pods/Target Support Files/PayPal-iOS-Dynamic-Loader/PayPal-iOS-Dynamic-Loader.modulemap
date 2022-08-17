@@ -1,0 +1,6 @@
+framework module PayPalDynamicLoader {
+  umbrella header "PayPal-iOS-Dynamic-Loader-umbrella.h"
+
+  export *
+  module * { export * }
+}
