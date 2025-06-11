@@ -69,6 +69,17 @@ class WikiArtService(
         }
     }
 
+
+    fun fetchRelatedPaintings(path: String): PaintingList? {
+        val cleanPath = if (path.startsWith("http")) path else "${serverConfig.apiBaseUrl}$path"
+        val url = "$cleanPath?json=2"
+      val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            return gson.fromJson(body, PaintingList::class.java)
+        }
+    }
     fun fetchArtistDetails(path: String): ArtistDetails? {
         val url = "${serverConfig.apiBaseUrl}$path?json=2"
         val request = Request.Builder().url(url).build()
@@ -81,6 +92,7 @@ class WikiArtService(
 
     fun fetchFamousPaintings(path: String, page: Int = 1): PaintingList? {
         val url = "${serverConfig.apiBaseUrl}$path/mode/featured?page=$page&json=2"
+
         val request = Request.Builder().url(url).build()
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
@@ -88,6 +100,7 @@ class WikiArtService(
             return gson.fromJson(body, PaintingList::class.java)
         }
     }
+
 
     fun fetchSections(category: PaintingCategory): List<PaintingSection>? {
         val group = when (category) {
@@ -105,4 +118,5 @@ class WikiArtService(
             return arr.toList()
         }
     }
+
 }

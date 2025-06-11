@@ -34,6 +34,11 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
             SearchPagingSource(service, term)
         }.flow
 
+
+    suspend fun getRelatedPaintings(path: String): List<Painting> =
+        withContext(Dispatchers.IO) {
+            service.fetchRelatedPaintings(path)?.paintings ?: emptyList()
+        }
     suspend fun sections(category: PaintingCategory): List<PaintingSection> =
         withContext(Dispatchers.IO) {
             service.fetchSections(category) ?: emptyList()
