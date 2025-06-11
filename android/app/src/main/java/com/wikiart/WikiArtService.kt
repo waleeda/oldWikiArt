@@ -4,6 +4,11 @@ import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import com.wikiart.model.PaintingSection
+import com.wikiart.model.Artist
+import com.wikiart.model.ArtistCategory
+import com.wikiart.model.ArtistSection
+import com.wikiart.model.ArtistSectionsResponse
+import com.wikiart.model.ArtistsList
 
 class WikiArtService(
     private val serverConfig: ServerConfigType = ServerConfig.production,
@@ -116,6 +121,43 @@ class WikiArtService(
             val body = response.body?.string() ?: return null
             val arr = gson.fromJson(body, Array<PaintingSection>::class.java)
             return arr.toList()
+        }
+    }
+
+    fun fetchArtistSections(category: ArtistCategory): List<ArtistSection>? {
+        val url = "${serverConfig.apiBaseUrl}/$language/App/Search/${category.path}?json=2"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            val res = gson.fromJson(body, ArtistSectionsResponse::class.java)
+            return res.items
+        }
+    }
+
+    fun fetchArtists(
+        category: ArtistCategory,
+        page: Int = 1,
+        section: String? = null
+    ): ArtistsList? {
+        val encoded = section?.let { java.net.URLEncoder.encode(it, "UTF-8") } ?: ""
+        val url = "${serverConfig.apiBaseUrl}/$language/App/Search/${category.path}?json=3&layout=new&page=$page&searchterm=$encoded"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            return gson.fromJson(body, ArtistsList::class.java)
+        }
+    }
+
+    fun fetchArtistsList(path: String, page: Int = 1): ArtistsList? {
+        val cleanPath = if (path.startsWith("http")) path else "${serverConfig.apiBaseUrl}$path"
+        val url = "$cleanPath?page=$page&json=3&layout=new"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            return gson.fromJson(body, ArtistsList::class.java)
         }
     }
 

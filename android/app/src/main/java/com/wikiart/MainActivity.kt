@@ -112,6 +112,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SupportActivity::class.java))
                 true
             }
+            R.id.action_artists -> {
+                startActivity(Intent(this, ArtistsActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
