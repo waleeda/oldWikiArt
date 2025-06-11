@@ -1,6 +1,7 @@
 package com.wikiart
 
 import android.os.Bundle
+import android.content.Intent
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -17,7 +18,7 @@ import kotlinx.coroutines.launch
 
 class SearchActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
-        val intent = android.content.Intent(this, PaintingDetailActivity::class.java)
+        val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.image)
         startActivity(intent)
