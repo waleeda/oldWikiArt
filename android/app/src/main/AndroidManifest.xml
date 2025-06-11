@@ -18,8 +18,9 @@
         <activity android:name=".FavoritesActivity" />
 
         <activity android:name=".StoreActivity" />
-
+        <activity android:name=".ImageDetailActivity" />
         <activity android:name=".ArtistDetailActivity" />
+        <activity android:name=".SupportActivity" />
 
     </application>
 </manifest>

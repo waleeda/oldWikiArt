@@ -14,4 +14,8 @@
 
     <string name="famous_works">Famous Works</string>
 
+    <string name="support">Support</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="donate">Donate</string>
+
 </resources>
