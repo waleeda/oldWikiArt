@@ -6,4 +6,5 @@ This repository contains the original iOS project and an Android port.
 * `android` – Android port written in Kotlin.
 
 The Android port now displays a list of featured paintings retrieved from the
-WikiArt API with endless scrolling support powered by the Paging library.
+WikiArt API with endless scrolling support powered by the Paging library. List
+items load images using Coil, and tapping an item opens a simple detail screen.
