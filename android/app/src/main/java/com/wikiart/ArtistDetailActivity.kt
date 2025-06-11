@@ -2,6 +2,7 @@ package com.wikiart
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.app.ActivityOptions
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,9 @@ class ArtistDetailActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
         val intent = android.content.Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        startActivity(intent, options.toBundle())
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository = PaintingRepository()

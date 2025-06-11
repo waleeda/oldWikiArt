@@ -71,7 +71,9 @@ class PaintingDetailActivity : AppCompatActivity() {
             val intent = Intent(this, ArtistDetailActivity::class.java)
             intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, url)
             intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artistName)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
         }
 
@@ -115,7 +117,9 @@ class PaintingDetailActivity : AppCompatActivity() {
             painting ?: return@setOnClickListener
             val intent = Intent(this, StoreActivity::class.java)
             intent.putExtra(StoreActivity.EXTRA_IMAGE_URL, painting.image)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         val relatedRecycler: RecyclerView = findViewById(R.id.relatedRecyclerView)
@@ -123,7 +127,9 @@ class PaintingDetailActivity : AppCompatActivity() {
         val relatedAdapter = RelatedPaintingAdapter { selected ->
             val intent = Intent(this, PaintingDetailActivity::class.java)
             intent.putExtra(EXTRA_PAINTING, selected)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         relatedRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         relatedRecycler.adapter = relatedAdapter
