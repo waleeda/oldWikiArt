@@ -18,7 +18,9 @@
         <activity android:name=".FavoritesActivity" />
 
         <activity android:name=".StoreActivity" />
-        <activity android:name=".ImageDetailActivity" />
+        <activity
+            android:name=".ImageDetailActivity"
+            android:theme="@style/FullScreenTheme" />
         <activity android:name=".ArtistDetailActivity" />
         <activity android:name=".SupportActivity" />
         <activity android:name=".ArtistsActivity" />
