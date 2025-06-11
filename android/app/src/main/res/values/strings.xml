@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">WikiArt</string>
+    <string name="favorites">Favorites</string>
+    <string name="add_favorite">Add Favorite</string>
+    <string name="remove_favorite">Remove Favorite</string>
+    <string name="added_favorite">Added to favorites</string>
+    <string name="removed_favorite">Removed from favorites</string>
+</resources>
