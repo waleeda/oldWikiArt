@@ -16,3 +16,26 @@ To build the project, open the `android` directory in Android Studio or run
 plugin are installed). To test the billing flow you must sign in with a Google
 Play test account on your device and upload the in-app products in the Play
 Console.
+
+## Secrets
+
+Create a `local.properties` file in the `android` directory or define the
+following environment variables before building:
+
+```
+IS_OSS=false
+FIELD_REPORT_EMAIL=<your email>
+API_CLIENT_PRODUCTION=<client id>
+API_CLIENT_STAGING=<staging client id>
+API_ENDPOINT_PRODUCTION=<production endpoint>
+API_ENDPOINT_STAGING=<staging endpoint>
+BASIC_HTTP_AUTH_USERNAME=<username>
+BASIC_HTTP_AUTH_PASSWORD=<password>
+CANVAS_POP_ACCESS_KEY=<canvaspop access>
+CANVAS_POP_SECRET_KEY=<canvaspop secret>
+KITE_SECRET=<kite secret>
+KITE_PUBLIC_KEY=<kite public key>
+```
+
+Values from `local.properties` take precedence, falling back to the environment
+when not present.
