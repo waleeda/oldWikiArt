@@ -1,33 +1,33 @@
 package com.wikiart
 
 object Secrets {
-    const val IS_OSS = false
-    const val FIELD_REPORT_EMAIL = "hello@email.com"
+    val IS_OSS = BuildConfig.IS_OSS
+    val FIELD_REPORT_EMAIL = BuildConfig.FIELD_REPORT_EMAIL
 
     object Api {
         object Client {
-            const val PRODUCTION = "deadbeef"
-            const val STAGING = "beefdead"
+            val PRODUCTION = BuildConfig.API_CLIENT_PRODUCTION
+            val STAGING = BuildConfig.API_CLIENT_STAGING
         }
 
         object Endpoint {
-            const val PRODUCTION = "www.wikiart.org"
-            const val STAGING = "www.wikiart.org"
+            val PRODUCTION = BuildConfig.API_ENDPOINT_PRODUCTION
+            val STAGING = BuildConfig.API_ENDPOINT_STAGING
         }
     }
 
     object BasicHTTPAuth {
-        const val USERNAME = "usr"
-        const val PASSWORD = "pswd"
+        val USERNAME = BuildConfig.BASIC_HTTP_AUTH_USERNAME
+        val PASSWORD = BuildConfig.BASIC_HTTP_AUTH_PASSWORD
     }
 
     object CanvasPopKeys {
-        const val ACCESS_KEY = ""
-        const val SECRET_KEY = ""
+        val ACCESS_KEY = BuildConfig.CANVAS_POP_ACCESS_KEY
+        val SECRET_KEY = BuildConfig.CANVAS_POP_SECRET_KEY
     }
 
     object KiteKeys {
-        const val SECRET = ""
-        const val PUBLIC_KEY = ""
+        val SECRET = BuildConfig.KITE_SECRET
+        val PUBLIC_KEY = BuildConfig.KITE_PUBLIC_KEY
     }
 }

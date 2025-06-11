@@ -4,15 +4,48 @@ plugins {
     id 'kotlin-kapt'
 }
 
+def localProps = new Properties()
+def localPropsFile = rootProject.file("local.properties")
+if (localPropsFile.exists()) {
+    localProps.load(new FileInputStream(localPropsFile))
+}
+def getSecret = { name ->
+    return localProps.getProperty(name) ?: System.getenv(name)
+}
+
+def stringField = { name ->
+    return '"' + (getSecret(name) ?: '') + '"'
+}
+
+def booleanField = { name, defaultVal ->
+    def v = getSecret(name)
+    return v != null ? v : defaultVal
+}
+
 android {
     compileSdkVersion 33
     namespace "com.wikiart"
+    buildFeatures {
+        buildConfig true
+    }
     defaultConfig {
         applicationId "com.wikiart"
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
+        buildConfigField "boolean", "IS_OSS", booleanField("IS_OSS", "false")
+        buildConfigField "String", "FIELD_REPORT_EMAIL", stringField("FIELD_REPORT_EMAIL")
+        buildConfigField "String", "API_CLIENT_PRODUCTION", stringField("API_CLIENT_PRODUCTION")
+        buildConfigField "String", "API_CLIENT_STAGING", stringField("API_CLIENT_STAGING")
+        buildConfigField "String", "API_ENDPOINT_PRODUCTION", stringField("API_ENDPOINT_PRODUCTION")
+        buildConfigField "String", "API_ENDPOINT_STAGING", stringField("API_ENDPOINT_STAGING")
+        buildConfigField "String", "BASIC_HTTP_AUTH_USERNAME", stringField("BASIC_HTTP_AUTH_USERNAME")
+        buildConfigField "String", "BASIC_HTTP_AUTH_PASSWORD", stringField("BASIC_HTTP_AUTH_PASSWORD")
+        buildConfigField "String", "CANVAS_POP_ACCESS_KEY", stringField("CANVAS_POP_ACCESS_KEY")
+        buildConfigField "String", "CANVAS_POP_SECRET_KEY", stringField("CANVAS_POP_SECRET_KEY")
+        buildConfigField "String", "KITE_SECRET", stringField("KITE_SECRET")
+        buildConfigField "String", "KITE_PUBLIC_KEY", stringField("KITE_PUBLIC_KEY")
     }
     buildTypes {
         release {
