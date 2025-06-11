@@ -3,6 +3,8 @@ package com.wikiart
 import android.os.Bundle
 
 import android.content.Intent
+import android.app.ActivityOptions
+import com.google.android.material.transition.platform.MaterialFadeThrough
 
 import androidx.appcompat.app.AppCompatActivity
 import com.wikiart.SupportActivity
@@ -33,7 +35,10 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             val random = (1..5).random()
             if (random == SUPPORT_TRIGGER_VALUE) {
-                startActivity(Intent(this, SupportActivity::class.java))
+                val intent = Intent(this, SupportActivity::class.java)
+                val options = ActivityOptions.makeSceneTransitionAnimation(this)
+                startActivity(intent, options.toBundle())
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
             }
         }
 
@@ -61,7 +66,10 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favorites -> {
-                    startActivity(Intent(this, FavoritesActivity::class.java))
+                    val intent = Intent(this, FavoritesActivity::class.java)
+                    val options = ActivityOptions.makeSceneTransitionAnimation(this)
+                    startActivity(intent, options.toBundle())
+                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
                     true
                 }
                 R.id.nav_support -> {
@@ -74,6 +82,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun switchFragment(fragment: Fragment) {
+        fragment.enterTransition = MaterialFadeThrough()
+        fragment.exitTransition = MaterialFadeThrough()
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragmentContainer, fragment)
             .commit()
