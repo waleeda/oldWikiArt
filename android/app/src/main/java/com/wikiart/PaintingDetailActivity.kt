@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
 import android.view.View
+import android.app.ActivityOptions
 import com.wikiart.ImageDetailActivity
 import coil.load
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +36,12 @@ class PaintingDetailActivity : AppCompatActivity() {
         detailImage.setOnClickListener {
             val intent = Intent(this, ImageDetailActivity::class.java)
             intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_URL, imageUrl)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                this,
+                detailImage,
+                "detailImage"
+            )
+            startActivity(intent, options.toBundle())
         }
 
 
