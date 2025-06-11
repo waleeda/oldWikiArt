@@ -12,13 +12,24 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.content.Context
+import com.wikiart.model.LayoutType
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class PaintingsFragment : Fragment() {
-    private val adapter = PaintingAdapter { painting ->
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PaintingAdapter
+    private var layoutType: LayoutType = LayoutType.LIST
+
+    private val itemClick: (Painting) -> Unit = { painting ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
         val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
@@ -35,13 +46,19 @@ class PaintingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_paintings, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView: RecyclerView = view.findViewById(R.id.paintingRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val name = prefs.getString("layout_type", LayoutType.LIST.name) ?: LayoutType.LIST.name
+        layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.LIST)
+
+        recyclerView = view.findViewById(R.id.paintingRecyclerView)
+        adapter = PaintingAdapter(layoutType, itemClick)
+        recyclerView.layoutManager = layoutManagerFor(layoutType)
         recyclerView.adapter = adapter
 
         val spinner: Spinner = view.findViewById(R.id.categorySpinner)
@@ -69,6 +86,32 @@ class PaintingsFragment : Fragment() {
         }
 
         loadCategory(PaintingCategory.FEATURED)
+    }
+
+    private fun layoutManagerFor(type: LayoutType): RecyclerView.LayoutManager = when (type) {
+        LayoutType.COLUMN -> GridLayoutManager(requireContext(), 2)
+        LayoutType.SHEET -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        else -> LinearLayoutManager(requireContext())
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.layout_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        layoutType = when (item.itemId) {
+            R.id.layout_list -> LayoutType.LIST
+            R.id.layout_grid -> LayoutType.COLUMN
+            R.id.layout_sheet -> LayoutType.SHEET
+            else -> return super.onOptionsItemSelected(item)
+        }
+        prefs.edit().putString("layout_type", layoutType.name).apply()
+        adapter.layoutType = layoutType
+        adapter.notifyDataSetChanged()
+        recyclerView.layoutManager = layoutManagerFor(layoutType)
+        return true
     }
 
     private fun loadCategory(category: PaintingCategory, sectionId: String? = null) {

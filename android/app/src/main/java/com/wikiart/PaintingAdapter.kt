@@ -9,14 +9,23 @@ import coil.load
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.PagingDataAdapter
+import com.wikiart.model.LayoutType
 
 class PaintingAdapter(
+    var layoutType: LayoutType = LayoutType.LIST,
     private val onItemClick: (Painting) -> Unit = {}
 ) : PagingDataAdapter<Painting, PaintingAdapter.PaintingViewHolder>(DIFF_CALLBACK) {
 
+    override fun getItemViewType(position: Int): Int = layoutType.ordinal
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaintingViewHolder {
+        val layout = when (layoutType) {
+            LayoutType.SHEET -> R.layout.item_painting_sheet
+            LayoutType.COLUMN -> R.layout.item_painting_grid
+            else -> R.layout.list_item_painting
+        }
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.list_item_painting, parent, false)
+            .inflate(layout, parent, false)
         return PaintingViewHolder(view)
     }
 
