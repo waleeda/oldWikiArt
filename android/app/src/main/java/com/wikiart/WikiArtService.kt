@@ -12,7 +12,7 @@ import com.wikiart.model.ArtistsList
 
 class WikiArtService(
     private val serverConfig: ServerConfigType = ServerConfig.production,
-    private val language: String = "en"
+    private val language: String = java.util.Locale.getDefault().language
 ) {
     private val client = OkHttpClient()
     private val gson = Gson()

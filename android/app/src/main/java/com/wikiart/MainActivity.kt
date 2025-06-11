@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity() {
 
         val spinner: Spinner = findViewById(R.id.categorySpinner)
         val categories = PaintingCategory.values()
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        val categoryNames = resources.getStringArray(R.array.painting_category_names)
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categoryNames)
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -83,8 +84,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>) {
         val names = sections.map { it.titleForLanguage("en") }.toTypedArray()
+        val categoryNames = resources.getStringArray(R.array.painting_category_names)
+        val title = categoryNames[categories.indexOf(category)]
         AlertDialog.Builder(this)
-            .setTitle(category.toString())
+            .setTitle(title)
             .setItems(names) { _, which ->
                 currentSectionId = sections[which].id.oid
                 loadCategory(category, currentSectionId)

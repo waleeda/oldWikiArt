@@ -39,7 +39,8 @@ class ArtistsActivity : AppCompatActivity() {
 
         val spinner: Spinner = findViewById(R.id.artistCategorySpinner)
         val categories = ArtistCategory.values()
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categories)
+        val categoryNames = resources.getStringArray(R.array.artist_category_names)
+        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categoryNames)
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
@@ -76,8 +77,10 @@ class ArtistsActivity : AppCompatActivity() {
 
     private fun showSectionDialog(category: ArtistCategory, sections: List<ArtistSection>) {
         val names = sections.map { it.title }.toTypedArray()
+        val categoryNames = resources.getStringArray(R.array.artist_category_names)
+        val title = categoryNames[categories.indexOf(category)]
         AlertDialog.Builder(this)
-            .setTitle(category.toString())
+            .setTitle(title)
             .setItems(names) { _, which ->
                 currentSection = sections[which].url
                 loadCategory(category)
