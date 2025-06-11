@@ -8,5 +8,5 @@ data class PaintingList(
     @SerializedName("PageSize") val pageSize: Int
 ) {
     val pageCount: Int
-        get() = (allPaintingsCount / pageSize) + 1
+        get() = (allPaintingsCount + pageSize - 1) / pageSize
 }
