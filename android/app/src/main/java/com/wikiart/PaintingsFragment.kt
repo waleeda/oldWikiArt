@@ -1,6 +1,7 @@
 package com.wikiart
 
 import android.content.Intent
+import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,7 +21,9 @@ class PaintingsFragment : Fragment() {
     private val adapter = PaintingAdapter { painting ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        startActivity(intent, options.toBundle())
+        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository = PaintingRepository()
