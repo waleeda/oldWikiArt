@@ -4,11 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ImageView
+import coil.load
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.PagingDataAdapter
 
-class PaintingAdapter : PagingDataAdapter<Painting, PaintingAdapter.PaintingViewHolder>(DIFF_CALLBACK) {
+class PaintingAdapter(
+    private val onItemClick: (Painting) -> Unit = {}
+) : PagingDataAdapter<Painting, PaintingAdapter.PaintingViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PaintingViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -20,11 +24,15 @@ class PaintingAdapter : PagingDataAdapter<Painting, PaintingAdapter.PaintingView
         getItem(position)?.let { holder.bind(it) }
     }
 
-    class PaintingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class PaintingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleText: TextView = itemView.findViewById(R.id.titleText)
+        private val paintingImage: ImageView = itemView.findViewById(R.id.paintingImage)
 
         fun bind(painting: Painting) {
             titleText.text = painting.title
+            paintingImage.load(painting.image)
+
+            itemView.setOnClickListener { onItemClick(painting) }
         }
     }
 
