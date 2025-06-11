@@ -22,6 +22,7 @@ import androidx.paging.cachedIn
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.wikiart.model.PaintingSection
+import com.wikiart.SupportActivity
 
 class MainActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
@@ -105,6 +106,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_favorites -> {
                 startActivity(Intent(this, FavoritesActivity::class.java))
+                true
+            }
+            R.id.action_support -> {
+                startActivity(Intent(this, SupportActivity::class.java))
                 true
             }
             else -> super.onOptionsItemSelected(item)

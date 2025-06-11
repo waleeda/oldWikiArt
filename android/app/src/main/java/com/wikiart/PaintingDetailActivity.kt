@@ -7,7 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
-import android.content.Intent
+import android.view.View
+import com.wikiart.ImageDetailActivity
 import coil.load
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,13 @@ class PaintingDetailActivity : AppCompatActivity() {
         val imageUrl = painting?.image ?: intent.getStringExtra(EXTRA_IMAGE) ?: ""
 
         findViewById<TextView>(R.id.detailTitle).text = title
-        findViewById<ImageView>(R.id.detailImage).load(imageUrl)
+        val detailImage: ImageView = findViewById(R.id.detailImage)
+        detailImage.load(imageUrl)
+        detailImage.setOnClickListener {
+            val intent = Intent(this, ImageDetailActivity::class.java)
+            intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_URL, imageUrl)
+            startActivity(intent)
+        }
 
 
         painting?.let {
