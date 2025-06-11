@@ -25,6 +25,9 @@ import com.wikiart.model.PaintingSection
 import com.wikiart.SupportActivity
 
 class MainActivity : AppCompatActivity() {
+    companion object {
+        private const val SUPPORT_TRIGGER_VALUE = 3
+    }
     private val adapter = PaintingAdapter { painting ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
@@ -38,6 +41,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            val random = (1..5).random()
+            if (random == SUPPORT_TRIGGER_VALUE) {
+                startActivity(Intent(this, SupportActivity::class.java))
+            }
+        }
 
         val recyclerView: RecyclerView = findViewById(R.id.paintingRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
