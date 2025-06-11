@@ -17,4 +17,14 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         Pager(PagingConfig(pageSize = 20)) {
             WikiArtPagingSource(service)
         }.flow
+
+    suspend fun autoComplete(term: String): List<SearchAutoComplete> =
+        withContext(Dispatchers.IO) {
+            service.searchAutoComplete(term) ?: emptyList()
+        }
+
+    fun searchPagingFlow(term: String): Flow<PagingData<Painting>> =
+        Pager(PagingConfig(pageSize = 20)) {
+            SearchPagingSource(service, term)
+        }.flow
 }
