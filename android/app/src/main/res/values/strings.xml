@@ -20,4 +20,53 @@
     <string name="thank_you">Thank you for your support!</string>
     <string name="artists">Artists</string>
 
+    <string name="search">Search</string>
+    <string name="unable_load_products">Unable to load products</string>
+
+    <string name="painting_category_media">Media</string>
+    <string name="painting_category_style">Style</string>
+    <string name="painting_category_genre">Genre</string>
+    <string name="painting_category_high_res">High Res</string>
+    <string name="painting_category_popular">Popular</string>
+    <string name="painting_category_featured">Featured</string>
+    <string name="painting_category_favorites">Favorites</string>
+
+    <string name="artist_category_alphabet">Alphabet</string>
+    <string name="artist_category_art_movement">Art Movement</string>
+    <string name="artist_category_school">Painting School</string>
+    <string name="artist_category_genre">Genre</string>
+    <string name="artist_category_field">Field</string>
+    <string name="artist_category_nation">Nation</string>
+    <string name="artist_category_century">Century</string>
+    <string name="artist_category_chronology">Chronological</string>
+    <string name="artist_category_popular">Popular</string>
+    <string name="artist_category_female">Female</string>
+    <string name="artist_category_recent">Recent</string>
+    <string name="artist_category_institution">Art Institution</string>
+
+    <string-array name="painting_category_names">
+        <item>@string/painting_category_media</item>
+        <item>@string/painting_category_style</item>
+        <item>@string/painting_category_genre</item>
+        <item>@string/painting_category_high_res</item>
+        <item>@string/painting_category_popular</item>
+        <item>@string/painting_category_featured</item>
+        <item>@string/painting_category_favorites</item>
+    </string-array>
+
+    <string-array name="artist_category_names">
+        <item>@string/artist_category_alphabet</item>
+        <item>@string/artist_category_art_movement</item>
+        <item>@string/artist_category_school</item>
+        <item>@string/artist_category_genre</item>
+        <item>@string/artist_category_field</item>
+        <item>@string/artist_category_nation</item>
+        <item>@string/artist_category_century</item>
+        <item>@string/artist_category_chronology</item>
+        <item>@string/artist_category_popular</item>
+        <item>@string/artist_category_female</item>
+        <item>@string/artist_category_recent</item>
+        <item>@string/artist_category_institution</item>
+    </string-array>
+
 </resources>

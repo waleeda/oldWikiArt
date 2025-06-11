@@ -72,7 +72,7 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
             if (result.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty()) {
                 showProductDialog(list)
             } else {
-                Toast.makeText(this, "Unable to load products", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, R.string.unable_load_products, Toast.LENGTH_SHORT).show()
             }
         }
     }
