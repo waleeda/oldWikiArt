@@ -1,7 +1,9 @@
 # WikiArt Android Port
 
-This is an initial Android port of WikiArt. The project includes a simple
-Kotlin-based application with a single activity and placeholder layout.
+This is an Android port of WikiArt. The project now includes a RecyclerView
+based main activity that fetches a list of featured paintings from the
+WikiArt API using OkHttp and coroutines. Scrolling now loads additional
+pages automatically using the Paging library.
 
 To build the project, open the `android` directory in Android Studio or run
 `gradle assembleDebug` from this folder (ensure the Android SDK and Kotlin
