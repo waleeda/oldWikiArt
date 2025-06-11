@@ -9,6 +9,11 @@ enum class PaintingCategory {
     FEATURED,
     FAVORITES;
 
+    fun hasSections(): Boolean = when (this) {
+        MEDIA, STYLE, GENRE -> true
+        else -> false
+    }
+
     override fun toString(): String = when (this) {
         MEDIA -> "Media"
         STYLE -> "Style"

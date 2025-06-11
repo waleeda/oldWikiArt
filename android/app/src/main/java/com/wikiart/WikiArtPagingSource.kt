@@ -5,13 +5,14 @@ import androidx.paging.PagingState
 
 class WikiArtPagingSource(
     private val service: WikiArtService,
-    private val category: PaintingCategory
+    private val category: PaintingCategory,
+    private val sectionId: String? = null
 ) : PagingSource<Int, Painting>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Painting> {
         return try {
             val page = params.key ?: 1
-            val result = service.fetchPaintings(category, page)
+            val result = service.fetchPaintings(category, page, sectionId)
             val paintings = result?.paintings ?: emptyList()
             val nextKey = if (page < (result?.pageCount ?: page)) page + 1 else null
             LoadResult.Page(
