@@ -81,7 +81,7 @@ class ArtistsActivity : AppCompatActivity() {
     private fun showSectionDialog(category: ArtistCategory, sections: List<ArtistSection>) {
         val names = sections.map { it.title }.toTypedArray()
         val categoryNames = resources.getStringArray(R.array.artist_category_names)
-        val title = categoryNames[categories.indexOf(category)]
+        val title = categoryNames[ArtistCategory.values().indexOf(category)]
         AlertDialog.Builder(this)
             .setTitle(title)
             .setItems(names) { _, which ->
