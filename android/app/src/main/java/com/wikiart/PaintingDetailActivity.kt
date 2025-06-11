@@ -64,6 +64,8 @@ class PaintingDetailActivity : AppCompatActivity() {
                 dimView.visibility = View.GONE
             }
 
+        }
+
         val artistNameView: TextView = findViewById(R.id.detailArtist)
         val artistName = painting?.artistName
         artistNameView.text = artistName
