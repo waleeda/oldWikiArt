@@ -1,6 +1,7 @@
 package com.wikiart
 
 import android.os.Bundle
+
 import android.content.Intent
 
 import android.view.Menu
@@ -11,8 +12,11 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
+import java.util.Locale
+
 
 import androidx.appcompat.app.AppCompatActivity
+
 import android.view.Menu
 import android.view.MenuItem
 import androidx.lifecycle.lifecycleScope
@@ -26,7 +30,15 @@ import com.wikiart.SupportActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+
+
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private const val SUPPORT_TRIGGER_VALUE = 3
+    }
     private val adapter = PaintingAdapter { painting ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
@@ -38,12 +50,29 @@ class MainActivity : AppCompatActivity() {
     private var currentSectionId: String? = null
     private lateinit var firebaseAnalytics: FirebaseAnalytics
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
         firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
         setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            val random = (1..5).random()
+            if (random == SUPPORT_TRIGGER_VALUE) {
+                startActivity(Intent(this, SupportActivity::class.java))
+            }
+        }
+
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, PaintingsFragment())
+                .commit()
+}
+        val deviceLanguage = Locale.getDefault().language
 
         val recyclerView: RecyclerView = findViewById(R.id.paintingRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -61,7 +90,7 @@ class MainActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         val sections = repository.sections(category)
                         if (sections.isNotEmpty()) {
-                            showSectionDialog(category, sections)
+                            showSectionDialog(category, sections, deviceLanguage)
                         }
                     }
                 } else {
@@ -71,25 +100,36 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
+
         }
 
-        // Load default category
-        loadCategory(PaintingCategory.FEATURED)
-    }
-
-    private fun loadCategory(category: PaintingCategory, sectionId: String? = null) {
-        pagingJob?.cancel()
-        pagingJob = lifecycleScope.launch {
-            repository.pagingFlow(category, sectionId)
-                .cachedIn(lifecycleScope)
-                .collect { pagingData ->
-                    adapter.submitData(pagingData)
+        val nav: BottomNavigationView = findViewById(R.id.bottomNavigation)
+        nav.setOnItemSelectedListener {
+            when (it.itemId) {
+                R.id.nav_paintings -> {
+                    switchFragment(PaintingsFragment())
+                    true
                 }
+
+                R.id.nav_artists -> {
+                    switchFragment(ArtistsFragment())
+                    true
+                }
+                R.id.nav_search -> {
+                    switchFragment(SearchFragment())
+                    true
+                }
+                R.id.nav_support -> {
+                    switchFragment(SupportFragment())
+                    true
+                }
+                else -> false
+
         }
     }
 
-    private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>) {
-        val names = sections.map { it.titleForLanguage("en") }.toTypedArray()
+    private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>, language: String) {
+        val names = sections.map { it.titleForLanguage(language) }.toTypedArray()
         val categoryNames = resources.getStringArray(R.array.painting_category_names)
         val title = categoryNames[categories.indexOf(category)]
         AlertDialog.Builder(this)
@@ -97,35 +137,14 @@ class MainActivity : AppCompatActivity() {
             .setItems(names) { _, which ->
                 currentSectionId = sections[which].id.oid
                 loadCategory(category, currentSectionId)
-            }
-            .show()
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-
-            R.id.action_search -> {
-                startActivity(Intent(this, SearchActivity::class.java))
-                 true
             }
-            R.id.action_favorites -> {
-                startActivity(Intent(this, FavoritesActivity::class.java))
-                true
-            }
-            R.id.action_support -> {
-                startActivity(Intent(this, SupportActivity::class.java))
-                true
-            }
-            R.id.action_artists -> {
-                startActivity(Intent(this, ArtistsActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun switchFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .commit()
     }
 }

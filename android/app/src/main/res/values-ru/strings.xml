@@ -13,6 +13,7 @@
     <string name="famous_works">Известные работы</string>
     <string name="support">Поддержка</string>
     <string name="send_feedback">Отправить отзыв</string>
+    <string name="feedback_unavailable">Адрес для отзывов недоступен</string>
     <string name="donate">Пожертвовать</string>
     <string name="thank_you">Спасибо за вашу поддержку!</string>
     <string name="artists">Художники</string>
