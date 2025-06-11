@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Button
 import android.widget.Toast
+import android.content.Intent
 import coil.load
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,6 +31,7 @@ class PaintingDetailActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.detailTitle).text = title
         findViewById<ImageView>(R.id.detailImage).load(imageUrl)
 
+
         painting?.let {
             val yearView: TextView = findViewById(R.id.detailYear)
             val dimView: TextView = findViewById(R.id.detailDimensions)
@@ -47,6 +49,17 @@ class PaintingDetailActivity : AppCompatActivity() {
             } else {
                 dimView.visibility = View.GONE
             }
+
+        val artistNameView: TextView = findViewById(R.id.detailArtist)
+        val artistName = painting?.artistName
+        artistNameView.text = artistName
+        artistNameView.setOnClickListener {
+            val url = painting?.artistUrl ?: return@setOnClickListener
+            val intent = Intent(this, ArtistDetailActivity::class.java)
+            intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, url)
+            intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artistName)
+            startActivity(intent)
+
         }
 
         val favoriteButton: Button = findViewById(R.id.favoriteButton)
@@ -120,5 +133,7 @@ class PaintingDetailActivity : AppCompatActivity() {
         const val EXTRA_TITLE = "extra_title"
         const val EXTRA_IMAGE = "extra_image"
         const val EXTRA_PAINTING = "extra_painting"
+        const val EXTRA_ARTIST_URL = "extra_artist_url"
+        const val EXTRA_ARTIST_NAME = "extra_artist_name"
     }
 }

@@ -5,9 +5,13 @@
     <string name="remove_favorite">Remove Favorite</string>
     <string name="added_favorite">Added to favorites</string>
     <string name="removed_favorite">Removed from favorites</string>
+
     <string name="share">Share</string>
     <string name="buy">Buy</string>
     <string name="year">Year: %1$s</string>
     <string name="dimensions">Dimensions: %1$dx%2$d</string>
     <string name="related_paintings">Related Paintings</string>
+
+    <string name="famous_works">Famous Works</string>
+
 </resources>

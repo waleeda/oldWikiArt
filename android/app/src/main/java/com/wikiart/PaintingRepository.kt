@@ -6,17 +6,22 @@ import androidx.paging.PagingData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.wikiart.model.PaintingSection
 
 class PaintingRepository(private val service: WikiArtService = WikiArtService()) {
 
-    suspend fun getPaintings(category: PaintingCategory, page: Int = 1): List<Painting> =
+    suspend fun getPaintings(
+        category: PaintingCategory,
+        page: Int = 1,
+        sectionId: String? = null
+    ): List<Painting> =
         withContext(Dispatchers.IO) {
-            service.fetchPaintings(category, page)?.paintings ?: emptyList()
+            service.fetchPaintings(category, page, sectionId)?.paintings ?: emptyList()
         }
 
-    fun pagingFlow(category: PaintingCategory): Flow<PagingData<Painting>> =
+    fun pagingFlow(category: PaintingCategory, sectionId: String? = null): Flow<PagingData<Painting>> =
         Pager(PagingConfig(pageSize = 20)) {
-            WikiArtPagingSource(service, category)
+            WikiArtPagingSource(service, category, sectionId)
         }.flow
 
     suspend fun autoComplete(term: String): List<SearchAutoComplete> =
@@ -29,8 +34,23 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
             SearchPagingSource(service, term)
         }.flow
 
+
     suspend fun getRelatedPaintings(path: String): List<Painting> =
         withContext(Dispatchers.IO) {
             service.fetchRelatedPaintings(path)?.paintings ?: emptyList()
+        }
+    suspend fun sections(category: PaintingCategory): List<PaintingSection> =
+        withContext(Dispatchers.IO) {
+            service.fetchSections(category) ?: emptyList()
+        }
+
+    suspend fun getArtistDetails(path: String): ArtistDetails? =
+        withContext(Dispatchers.IO) {
+            service.fetchArtistDetails(path)
+        }
+
+    suspend fun getFamousPaintings(path: String): List<Painting> =
+        withContext(Dispatchers.IO) {
+            service.fetchFamousPaintings(path)?.paintings ?: emptyList()
         }
 }
