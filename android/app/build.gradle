@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 
 def localProps = new Properties()
@@ -72,5 +73,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.6.1"
     implementation "androidx.room:room-ktx:2.6.1"
     implementation 'com.android.billingclient:billing-ktx:6.1.0'
+    implementation platform('com.google.firebase:firebase-bom:33.15.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
     testImplementation 'junit:junit:4.13.2'
 }

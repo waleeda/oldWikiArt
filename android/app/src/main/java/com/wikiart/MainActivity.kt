@@ -16,8 +16,23 @@ import java.util.Locale
 
 
 import androidx.appcompat.app.AppCompatActivity
+
+import android.view.Menu
+import android.view.MenuItem
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.cachedIn
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import com.wikiart.model.PaintingSection
+import com.wikiart.SupportActivity
+import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
+
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -33,11 +48,15 @@ class MainActivity : AppCompatActivity() {
     private val repository = PaintingRepository()
     private var pagingJob: Job? = null
     private var currentSectionId: String? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
