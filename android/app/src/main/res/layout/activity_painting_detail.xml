@@ -46,26 +46,38 @@
             android:textStyle="bold" />
 
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/favoriteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/add_favorite" />
+            android:text="@string/add_favorite"
+            style="@style/Widget.Material3.Button"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="@android:color/white"
+            android:foreground="?attr/selectableItemBackground" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/shareButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/share" />
+            android:text="@string/share"
+            style="@style/Widget.Material3.Button"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="@android:color/white"
+            android:foreground="?attr/selectableItemBackground" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/buy" />
+            android:text="@string/buy"
+            style="@style/Widget.Material3.Button"
+            android:backgroundTint="?attr/colorPrimary"
+            android:textColor="@android:color/white"
+            android:foreground="?attr/selectableItemBackground" />
 
         <TextView
             android:id="@+id/relatedTitle"

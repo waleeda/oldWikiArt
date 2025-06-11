@@ -5,16 +5,24 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/feedbackButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/send_feedback"/>
+        android:text="@string/send_feedback"
+        style="@style/Widget.Material3.Button"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@android:color/white"
+        android:foreground="?attr/selectableItemBackground" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/donateButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/donate"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        style="@style/Widget.Material3.Button"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@android:color/white"
+        android:foreground="?attr/selectableItemBackground" />
 </LinearLayout>
