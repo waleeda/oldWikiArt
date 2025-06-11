@@ -10,6 +10,8 @@ Additional screens let you search with autocomplete, manage favourites and view
 artist information. You can share or buy prints of a painting, view the image in
 full screen and visit a Support screen to send feedback or make a donation
 using Google Play Billing.
+Section titles in category dialogs are shown in your device language when
+available, defaulting to English otherwise.
 
 To build the project, open the `android` directory in Android Studio or run
 `gradle assembleDebug` from this folder (ensure the Android SDK and Kotlin

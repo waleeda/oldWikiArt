@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
+import java.util.Locale
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val deviceLanguage = Locale.getDefault().language
+
         val recyclerView: RecyclerView = findViewById(R.id.paintingRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -55,7 +58,7 @@ class MainActivity : AppCompatActivity() {
                     lifecycleScope.launch {
                         val sections = repository.sections(category)
                         if (sections.isNotEmpty()) {
-                            showSectionDialog(category, sections)
+                            showSectionDialog(category, sections, deviceLanguage)
                         }
                     }
                 } else {
@@ -82,8 +85,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>) {
-        val names = sections.map { it.titleForLanguage("en") }.toTypedArray()
+    private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>, language: String) {
+        val names = sections.map { it.titleForLanguage(language) }.toTypedArray()
         val categoryNames = resources.getStringArray(R.array.painting_category_names)
         val title = categoryNames[categories.indexOf(category)]
         AlertDialog.Builder(this)
