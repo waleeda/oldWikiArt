@@ -40,8 +40,11 @@ extension AppVersion {
         return Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     }
     
-    static var current: AppVersion {
-        return AppVersion(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String)!
+    static var current: AppVersion? {
+        guard let versionString = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String else {
+            return nil
+        }
+        return AppVersion(versionString)
     }
     
     static var lastLaunchVersion: AppVersion? {
