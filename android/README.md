@@ -1,20 +1,17 @@
 # WikiArt Android Port
 
-This is an Android port of WikiArt. The project now includes a RecyclerView
-based main activity that fetches paintings from the WikiArt API using OkHttp
-and coroutines. Scrolling now loads additional pages automatically using the
+This is an Android port of WikiArt. The `PaintingsFragment` hosts a RecyclerView
+that fetches paintings from the WikiArt API using OkHttp and coroutines.
+Scrolling now loads additional pages automatically using the
 Paging library. Each item displays the painting image using Coil and tapping a
 painting opens a detail screen showing a larger image and the title. A spinner
 at the top allows choosing a painting category and the list updates accordingly.
 Additional screens let you search with autocomplete, manage favourites and view
 artist information. You can share or buy prints of a painting, view the image in
-full screen and visit a Support screen to send feedback or make a donation
-
-using Google Play Billing. Navigation between Paintings, Artists, Search and
-Support is now provided by a BottomNavigationView instead of the old options
+full screen and visit a Support screen to send feedback or make a donation using
+Google Play Billing. The bottom navigation bar handles switching between the
+Paintings, Artists, Search and Support fragments, replacing the old options
 menu.
-
-using Google Play Billing.
 Section titles in category dialogs are shown in your device language when
 available, defaulting to English otherwise.
 
