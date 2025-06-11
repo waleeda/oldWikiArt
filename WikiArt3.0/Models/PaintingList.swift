@@ -29,7 +29,7 @@ class PaintingList: Codable {
 extension PaintingList {
     
     var pageCount: Int {
-        return (allPaintingsCount / pageSize) + 1
+        return (allPaintingsCount + pageSize - 1) / pageSize
     }
     
 }
