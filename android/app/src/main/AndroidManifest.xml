@@ -16,5 +16,6 @@
         <activity android:name=".PaintingDetailActivity" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".FavoritesActivity" />
+        <activity android:name=".ArtistDetailActivity" />
     </application>
 </manifest>

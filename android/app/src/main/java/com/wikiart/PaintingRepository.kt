@@ -38,4 +38,14 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         withContext(Dispatchers.IO) {
             service.fetchSections(category) ?: emptyList()
         }
+
+    suspend fun getArtistDetails(path: String): ArtistDetails? =
+        withContext(Dispatchers.IO) {
+            service.fetchArtistDetails(path)
+        }
+
+    suspend fun getFamousPaintings(path: String): List<Painting> =
+        withContext(Dispatchers.IO) {
+            service.fetchFamousPaintings(path)?.paintings ?: emptyList()
+        }
 }
