@@ -10,15 +10,7 @@ import coil.load
 
 class RelatedPaintingAdapter(
     private val onItemClick: (Painting) -> Unit = {}
-) : RecyclerView.Adapter<RelatedPaintingAdapter.ViewHolder>() {
-
-    private val items = mutableListOf<Painting>()
-
-    fun submitList(list: List<Painting>) {
-        items.clear()
-        items.addAll(list)
-        notifyDataSetChanged()
-    }
+) : androidx.recyclerview.widget.ListAdapter<Painting, RelatedPaintingAdapter.ViewHolder>(Diff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -27,10 +19,8 @@ class RelatedPaintingAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position])
+        holder.bind(getItem(position))
     }
-
-    override fun getItemCount(): Int = items.size
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.paintingImage)
@@ -41,5 +31,10 @@ class RelatedPaintingAdapter(
             image.load(painting.image)
             itemView.setOnClickListener { onItemClick(painting) }
         }
+    }
+
+    private class Diff : androidx.recyclerview.widget.DiffUtil.ItemCallback<Painting>() {
+        override fun areItemsTheSame(oldItem: Painting, newItem: Painting): Boolean = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Painting, newItem: Painting): Boolean = oldItem == newItem
     }
 }

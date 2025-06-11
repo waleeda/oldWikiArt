@@ -31,9 +31,22 @@ class PaintingDetailActivity : AppCompatActivity() {
         findViewById<ImageView>(R.id.detailImage).load(imageUrl)
 
         painting?.let {
-            findViewById<TextView>(R.id.detailYear).text = getString(R.string.year, it.year)
-            findViewById<TextView>(R.id.detailDimensions).text =
-                getString(R.string.dimensions, it.width, it.height)
+            val yearView: TextView = findViewById(R.id.detailYear)
+            val dimView: TextView = findViewById(R.id.detailDimensions)
+
+            if (it.year.isNotBlank()) {
+                yearView.text = getString(R.string.year, it.year)
+                yearView.visibility = View.VISIBLE
+            } else {
+                yearView.visibility = View.GONE
+            }
+
+            if (it.width > 0 && it.height > 0) {
+                dimView.text = getString(R.string.dimensions, it.width, it.height)
+                dimView.visibility = View.VISIBLE
+            } else {
+                dimView.visibility = View.GONE
+            }
         }
 
         val favoriteButton: Button = findViewById(R.id.favoriteButton)
@@ -80,6 +93,7 @@ class PaintingDetailActivity : AppCompatActivity() {
         }
 
         val relatedRecycler: RecyclerView = findViewById(R.id.relatedRecyclerView)
+        val relatedTitle: TextView = findViewById(R.id.relatedTitle)
         val relatedAdapter = RelatedPaintingAdapter { selected ->
             val intent = Intent(this, PaintingDetailActivity::class.java)
             intent.putExtra(EXTRA_PAINTING, selected)
@@ -93,6 +107,10 @@ class PaintingDetailActivity : AppCompatActivity() {
                 val related = repository.getRelatedPaintings(it.paintingUrl)
                 if (related.isNotEmpty()) {
                     relatedAdapter.submitList(related)
+                    relatedTitle.visibility = View.VISIBLE
+                }
+                else {
+                    relatedTitle.visibility = View.GONE
                 }
             }
         }
