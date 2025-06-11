@@ -16,6 +16,7 @@
 
     <string name="support">Support</string>
     <string name="send_feedback">Send Feedback</string>
+    <string name="feedback_unavailable">Feedback email unavailable</string>
     <string name="donate">Donate</string>
     <string name="thank_you">Thank you for your support!</string>
     <string name="artists">Artists</string>

@@ -3,9 +3,12 @@ package com.wikiart
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -16,8 +19,7 @@ import com.android.billingclient.api.Purchase
 import com.android.billingclient.api.PurchasesUpdatedListener
 import com.android.billingclient.api.QueryProductDetailsParams
 
-class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
-
+class SupportFragment : Fragment(), PurchasesUpdatedListener {
     private lateinit var billingClient: BillingClient
     private val productIds = listOf(
         "wikiart.support4",
@@ -26,11 +28,14 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
         "wikiart.support1",
         "generous"
     )
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_support)
 
-        billingClient = BillingClient.newBuilder(this)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_support, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        billingClient = BillingClient.newBuilder(requireContext())
             .enablePendingPurchases()
             .setListener(this)
             .build()
@@ -39,25 +44,20 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
             override fun onBillingServiceDisconnected() {}
         })
 
-        findViewById<Button>(R.id.feedbackButton).setOnClickListener {
-            val email = Secrets.FIELD_REPORT_EMAIL
-            if (email.isBlank()) {
-                Toast.makeText(this, R.string.feedback_unavailable, Toast.LENGTH_SHORT).show()
-            } else {
-                val intent = Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse("mailto:$email")
-                }
-                startActivity(intent)
+        view.findViewById<Button>(R.id.feedbackButton).setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:wikiartfeedback@icloud.com")
             }
+            startActivity(intent)
         }
 
-        findViewById<Button>(R.id.donateButton).setOnClickListener {
+        view.findViewById<Button>(R.id.donateButton).setOnClickListener {
             queryProductsAndShowDialog()
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         billingClient.endConnection()
     }
 
@@ -77,7 +77,7 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
             if (result.responseCode == BillingClient.BillingResponseCode.OK && list.isNotEmpty()) {
                 showProductDialog(list)
             } else {
-                Toast.makeText(this, R.string.unable_load_products, Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.unable_load_products, Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -89,7 +89,7 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
         val names = sorted.map {
             "${it.title} ${it.oneTimePurchaseOfferDetails?.formattedPrice ?: ""}"
         }
-        val builder = androidx.appcompat.app.AlertDialog.Builder(this)
+        val builder = androidx.appcompat.app.AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.support))
             .setItems(names.toTypedArray()) { _, which ->
                 launchPurchase(sorted[which])
@@ -108,7 +108,7 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
                 )
             )
             .build()
-        billingClient.launchBillingFlow(this, flowParams)
+        billingClient.launchBillingFlow(requireActivity(), flowParams)
     }
 
     override fun onPurchasesUpdated(result: BillingResult, purchases: MutableList<Purchase>?) {
@@ -125,7 +125,7 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
                 .setPurchaseToken(purchase.purchaseToken)
                 .build()
             billingClient.acknowledgePurchase(params) {}
-            Toast.makeText(this, R.string.thank_you, Toast.LENGTH_LONG).show()
+            Toast.makeText(requireContext(), R.string.thank_you, Toast.LENGTH_LONG).show()
         }
     }
 }
