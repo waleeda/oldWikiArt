@@ -21,6 +21,7 @@
         <activity android:name=".ImageDetailActivity" />
         <activity android:name=".ArtistDetailActivity" />
         <activity android:name=".SupportActivity" />
+        <activity android:name=".ArtistsActivity" />
 
     </application>
 </manifest>

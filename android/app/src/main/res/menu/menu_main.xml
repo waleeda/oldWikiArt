@@ -16,4 +16,9 @@
         android:title="@string/support"
         android:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_artists"
+        android:title="@string/artists"
+        android:showAsAction="never" />
+
 </menu>

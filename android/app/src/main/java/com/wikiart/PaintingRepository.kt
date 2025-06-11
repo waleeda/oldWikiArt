@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.wikiart.model.PaintingSection
+import com.wikiart.model.Artist
+import com.wikiart.model.ArtistCategory
+import com.wikiart.model.ArtistSection
 
 class PaintingRepository(private val service: WikiArtService = WikiArtService()) {
 
@@ -52,5 +55,15 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
     suspend fun getFamousPaintings(path: String): List<Painting> =
         withContext(Dispatchers.IO) {
             service.fetchFamousPaintings(path)?.paintings ?: emptyList()
+        }
+
+    fun artistsPagingFlow(category: ArtistCategory, section: String? = null): Flow<PagingData<Artist>> =
+        Pager(PagingConfig(pageSize = 20)) {
+            ArtistsPagingSource(service, category, section)
+        }.flow
+
+    suspend fun artistSections(category: ArtistCategory): List<ArtistSection> =
+        withContext(Dispatchers.IO) {
+            service.fetchArtistSections(category) ?: emptyList()
         }
 }
