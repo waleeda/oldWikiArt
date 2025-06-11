@@ -1,6 +1,7 @@
 package com.wikiart
 
 import android.content.Intent
+import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,7 +24,9 @@ class ArtistsFragment : Fragment() {
         val intent = Intent(requireContext(), ArtistDetailActivity::class.java)
         intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, artist.artistUrl)
         intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artist.title)
-        startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        startActivity(intent, options.toBundle())
+        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository = PaintingRepository()

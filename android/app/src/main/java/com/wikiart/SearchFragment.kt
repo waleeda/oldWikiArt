@@ -1,6 +1,7 @@
 package com.wikiart
 
 import android.content.Intent
+import android.app.ActivityOptions
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -24,7 +25,9 @@ class SearchFragment : Fragment() {
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.image)
-        startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        startActivity(intent, options.toBundle())
+        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository = PaintingRepository()

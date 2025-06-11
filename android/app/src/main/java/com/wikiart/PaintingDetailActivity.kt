@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import android.view.View
 import android.app.ActivityOptions
@@ -71,11 +72,13 @@ class PaintingDetailActivity : AppCompatActivity() {
             val intent = Intent(this, ArtistDetailActivity::class.java)
             intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, url)
             intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artistName)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
         }
 
-        val favoriteButton: Button = findViewById(R.id.favoriteButton)
+        val favoriteButton: ImageButton = findViewById(R.id.favoriteButton)
         val shareButton: Button = findViewById(R.id.shareButton)
         val buyButton: Button = findViewById(R.id.buyButton)
         val repo = FavoritesRepository(this)
@@ -83,22 +86,34 @@ class PaintingDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             if (painting != null) {
                 val fav = repo.isFavorite(painting.id)
-                favoriteButton.text = if (fav) getString(R.string.remove_favorite) else getString(R.string.add_favorite)
+                favoriteButton.isSelected = fav
+                favoriteButton.contentDescription = if (fav) {
+                    getString(R.string.remove_favorite)
+                } else {
+                    getString(R.string.add_favorite)
+                }
+                favoriteButton.jumpDrawablesToCurrentState()
             }
         }
 
         favoriteButton.setOnClickListener {
             painting ?: return@setOnClickListener
             lifecycleScope.launch {
-                if (repo.isFavorite(painting.id)) {
+                val currentlyFav = repo.isFavorite(painting.id)
+                if (currentlyFav) {
                     repo.removeFavorite(painting)
-                    favoriteButton.text = getString(R.string.add_favorite)
                     Toast.makeText(this@PaintingDetailActivity, R.string.removed_favorite, Toast.LENGTH_SHORT).show()
                 } else {
                     repo.addFavorite(painting)
-                    favoriteButton.text = getString(R.string.remove_favorite)
                     Toast.makeText(this@PaintingDetailActivity, R.string.added_favorite, Toast.LENGTH_SHORT).show()
                 }
+                favoriteButton.isSelected = !currentlyFav
+                favoriteButton.contentDescription = if (!currentlyFav) {
+                    getString(R.string.remove_favorite)
+                } else {
+                    getString(R.string.add_favorite)
+                }
+                favoriteButton.jumpDrawablesToCurrentState()
             }
         }
 
@@ -115,7 +130,9 @@ class PaintingDetailActivity : AppCompatActivity() {
             painting ?: return@setOnClickListener
             val intent = Intent(this, StoreActivity::class.java)
             intent.putExtra(StoreActivity.EXTRA_IMAGE_URL, painting.image)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
 
         val relatedRecycler: RecyclerView = findViewById(R.id.relatedRecyclerView)
@@ -123,7 +140,9 @@ class PaintingDetailActivity : AppCompatActivity() {
         val relatedAdapter = RelatedPaintingAdapter { selected ->
             val intent = Intent(this, PaintingDetailActivity::class.java)
             intent.putExtra(EXTRA_PAINTING, selected)
-            startActivity(intent)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         relatedRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         relatedRecycler.adapter = relatedAdapter

@@ -1,6 +1,7 @@
 package com.wikiart
 
 import android.content.Intent
+import android.app.ActivityOptions
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,9 @@ class FavoritesActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        startActivity(intent)
+        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        startActivity(intent, options.toBundle())
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
