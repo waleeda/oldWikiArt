@@ -27,6 +27,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.wikiart.model.PaintingSection
 import com.wikiart.SupportActivity
+import com.wikiart.FavoritesActivity
 import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 
@@ -117,6 +118,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_search -> {
                     switchFragment(SearchFragment())
+                    true
+                }
+                R.id.nav_favorites -> {
+                    startActivity(Intent(this, FavoritesActivity::class.java))
                     true
                 }
                 R.id.nav_support -> {

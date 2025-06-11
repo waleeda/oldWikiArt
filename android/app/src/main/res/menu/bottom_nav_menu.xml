@@ -13,6 +13,10 @@
         android:title="@string/search"
         android:icon="@android:drawable/ic_menu_search" />
     <item
+        android:id="@+id/nav_favorites"
+        android:title="@string/favorites"
+        android:icon="@android:drawable/btn_star_big_on" />
+    <item
         android:id="@+id/nav_support"
         android:title="@string/support"
         android:icon="@android:drawable/ic_menu_help" />
