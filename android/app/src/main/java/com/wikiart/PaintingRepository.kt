@@ -28,4 +28,9 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         Pager(PagingConfig(pageSize = 20)) {
             SearchPagingSource(service, term)
         }.flow
+
+    suspend fun getRelatedPaintings(path: String): List<Painting> =
+        withContext(Dispatchers.IO) {
+            service.fetchRelatedPaintings(path)?.paintings ?: emptyList()
+        }
 }

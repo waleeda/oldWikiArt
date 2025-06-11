@@ -56,4 +56,15 @@ class WikiArtService(
             return arr.toList()
         }
     }
+
+    fun fetchRelatedPaintings(path: String): PaintingList? {
+        val cleanPath = if (path.startsWith("http")) path else "${serverConfig.apiBaseUrl}$path"
+        val url = "$cleanPath?json=2"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            return gson.fromJson(body, PaintingList::class.java)
+        }
+    }
 }
