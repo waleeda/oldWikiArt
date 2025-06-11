@@ -50,7 +50,7 @@ open class AppLauncherTemplate {
     }
     
     func updateLastLaunchVersion() {
-        Current.userDefaults.lastLaunchAppVersion = AppVersion.bundleVersion
+        Current.userDefaults.lastLaunchAppVersion = AppVersion.current?.rawValue
     }
     
     func requestSupport() {
