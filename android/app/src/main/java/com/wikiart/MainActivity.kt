@@ -23,6 +23,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import com.wikiart.model.PaintingSection
 import com.wikiart.SupportActivity
+import com.google.firebase.FirebaseApp
+import com.google.firebase.analytics.FirebaseAnalytics
 
 class MainActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
@@ -34,9 +36,13 @@ class MainActivity : AppCompatActivity() {
     private val repository = PaintingRepository()
     private var pagingJob: Job? = null
     private var currentSectionId: String? = null
+    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
         setContentView(R.layout.activity_main)
 
         val recyclerView: RecyclerView = findViewById(R.id.paintingRecyclerView)
