@@ -9,7 +9,9 @@ at the top allows choosing a painting category and the list updates accordingly.
 Additional screens let you search with autocomplete, manage favourites and view
 artist information. You can share or buy prints of a painting, view the image in
 full screen and visit a Support screen to send feedback or make a donation
-using Google Play Billing.
+using Google Play Billing. Navigation between Paintings, Artists, Search and
+Support is now provided by a BottomNavigationView instead of the old options
+menu.
 
 To build the project, open the `android` directory in Android Studio or run
 `gradle assembleDebug` from this folder (ensure the Android SDK and Kotlin

@@ -1,0 +1,88 @@
+package com.wikiart
+
+import android.content.Intent
+import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.cachedIn
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+
+class SearchFragment : Fragment() {
+    private val adapter = PaintingAdapter { painting ->
+        val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
+        intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
+        intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.image)
+        startActivity(intent)
+    }
+
+    private val repository = PaintingRepository()
+    private var searchJob: Job? = null
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_search, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val input: AutoCompleteTextView = view.findViewById(R.id.searchInput)
+        val recyclerView: RecyclerView = view.findViewById(R.id.resultsRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
+        val suggestions = ArrayAdapter<String>(requireContext(), android.R.layout.simple_dropdown_item_1line)
+        input.setAdapter(suggestions)
+
+        input.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                performSearch(input.text.toString())
+                true
+            } else {
+                false
+            }
+        }
+
+        input.setOnItemClickListener { _, _, position, _ ->
+            val term = suggestions.getItem(position) ?: return@setOnItemClickListener
+            performSearch(term)
+        }
+
+        input.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val text = s?.toString() ?: return
+                if (text.length >= 2) {
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        val autos = repository.autoComplete(text)
+                        suggestions.clear()
+                        suggestions.addAll(autos.map { it.label })
+                        suggestions.notifyDataSetChanged()
+                    }
+                }
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun performSearch(term: String) {
+        searchJob?.cancel()
+        searchJob = viewLifecycleOwner.lifecycleScope.launch {
+            repository.searchPagingFlow(term)
+                .cachedIn(viewLifecycleOwner.lifecycleScope)
+                .collectLatest { pagingData ->
+                    adapter.submitData(pagingData)
+                }
+        }
+    }
+}
