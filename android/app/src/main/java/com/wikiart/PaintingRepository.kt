@@ -28,4 +28,9 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         Pager(PagingConfig(pageSize = 20)) {
             SearchPagingSource(service, term)
         }.flow
+
+    fun searchArtistsPagingFlow(term: String): Flow<PagingData<Artist>> =
+        Pager(PagingConfig(pageSize = 20)) {
+            SearchArtistsPagingSource(service, term)
+        }.flow
 }

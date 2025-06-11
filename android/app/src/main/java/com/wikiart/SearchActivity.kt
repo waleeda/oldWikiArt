@@ -17,10 +17,16 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchActivity : AppCompatActivity() {
-    private val adapter = PaintingAdapter { painting ->
+    private val paintingAdapter = PaintingAdapter { painting ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.image)
+        startActivity(intent)
+    }
+
+    private val artistAdapter = ArtistAdapter { artist ->
+        val intent = Intent(this, ArtistDetailActivity::class.java)
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST, artist)
         startActivity(intent)
     }
 
@@ -32,9 +38,14 @@ class SearchActivity : AppCompatActivity() {
         setContentView(R.layout.activity_search)
 
         val input: AutoCompleteTextView = findViewById(R.id.searchInput)
-        val recyclerView: RecyclerView = findViewById(R.id.resultsRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
+        val artistRecyclerView: RecyclerView = findViewById(R.id.artistResultsRecyclerView)
+        val paintingRecyclerView: RecyclerView = findViewById(R.id.paintingResultsRecyclerView)
+
+        artistRecyclerView.layoutManager = LinearLayoutManager(this)
+        artistRecyclerView.adapter = artistAdapter
+
+        paintingRecyclerView.layoutManager = LinearLayoutManager(this)
+        paintingRecyclerView.adapter = paintingAdapter
 
         val suggestions = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line)
         input.setAdapter(suggestions)
@@ -73,11 +84,20 @@ class SearchActivity : AppCompatActivity() {
     private fun performSearch(term: String) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            repository.searchPagingFlow(term)
-                .cachedIn(lifecycleScope)
-                .collectLatest { pagingData ->
-                    adapter.submitData(pagingData)
-                }
+            launch {
+                repository.searchArtistsPagingFlow(term)
+                    .cachedIn(lifecycleScope)
+                    .collectLatest { pagingData ->
+                        artistAdapter.submitData(pagingData)
+                    }
+            }
+            launch {
+                repository.searchPagingFlow(term)
+                    .cachedIn(lifecycleScope)
+                    .collectLatest { pagingData ->
+                        paintingAdapter.submitData(pagingData)
+                    }
+            }
         }
     }
 }

@@ -10,8 +10,30 @@
         android:layout_height="wrap_content"
         android:hint="Search"/>
 
+    <TextView
+        android:id="@+id/artistHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/artists"
+        android:textStyle="bold"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/resultsRecyclerView"
+        android:id="@+id/artistResultsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/paintingHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="@string/paintings"
+        android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/paintingResultsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
