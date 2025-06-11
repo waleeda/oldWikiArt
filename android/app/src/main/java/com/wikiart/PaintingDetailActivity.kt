@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import android.view.View
 import android.app.ActivityOptions
@@ -75,7 +76,7 @@ class PaintingDetailActivity : AppCompatActivity() {
 
         }
 
-        val favoriteButton: Button = findViewById(R.id.favoriteButton)
+        val favoriteButton: ImageButton = findViewById(R.id.favoriteButton)
         val shareButton: Button = findViewById(R.id.shareButton)
         val buyButton: Button = findViewById(R.id.buyButton)
         val repo = FavoritesRepository(this)
@@ -83,22 +84,34 @@ class PaintingDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             if (painting != null) {
                 val fav = repo.isFavorite(painting.id)
-                favoriteButton.text = if (fav) getString(R.string.remove_favorite) else getString(R.string.add_favorite)
+                favoriteButton.isSelected = fav
+                favoriteButton.contentDescription = if (fav) {
+                    getString(R.string.remove_favorite)
+                } else {
+                    getString(R.string.add_favorite)
+                }
+                favoriteButton.jumpDrawablesToCurrentState()
             }
         }
 
         favoriteButton.setOnClickListener {
             painting ?: return@setOnClickListener
             lifecycleScope.launch {
-                if (repo.isFavorite(painting.id)) {
+                val currentlyFav = repo.isFavorite(painting.id)
+                if (currentlyFav) {
                     repo.removeFavorite(painting)
-                    favoriteButton.text = getString(R.string.add_favorite)
                     Toast.makeText(this@PaintingDetailActivity, R.string.removed_favorite, Toast.LENGTH_SHORT).show()
                 } else {
                     repo.addFavorite(painting)
-                    favoriteButton.text = getString(R.string.remove_favorite)
                     Toast.makeText(this@PaintingDetailActivity, R.string.added_favorite, Toast.LENGTH_SHORT).show()
                 }
+                favoriteButton.isSelected = !currentlyFav
+                favoriteButton.contentDescription = if (!currentlyFav) {
+                    getString(R.string.remove_favorite)
+                } else {
+                    getString(R.string.add_favorite)
+                }
+                favoriteButton.jumpDrawablesToCurrentState()
             }
         }
 

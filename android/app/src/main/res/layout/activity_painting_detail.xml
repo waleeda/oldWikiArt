@@ -46,12 +46,14 @@
             android:textStyle="bold" />
 
 
-        <Button
+        <ImageButton
             android:id="@+id/favoriteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="@string/add_favorite" />
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_favorite_animated"
+            android:contentDescription="@string/add_favorite" />
 
         <Button
             android:id="@+id/shareButton"
