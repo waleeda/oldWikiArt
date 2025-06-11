@@ -1,8 +1,13 @@
 package com.wikiart
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
+@Entity(tableName = "favorite_paintings")
 data class Painting(
+    @PrimaryKey
     @SerializedName("id") val id: String,
     @SerializedName("title") val title: String,
     @SerializedName("year") val year: String,
@@ -13,4 +18,4 @@ data class Painting(
     @SerializedName("paintingUrl") val paintingUrl: String,
     @SerializedName("artistUrl") val artistUrl: String?,
     @SerializedName("flags") val flags: Int
-)
+) : Serializable
