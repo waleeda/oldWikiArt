@@ -13,6 +13,7 @@
     <string name="famous_works">Obras famosas</string>
     <string name="support">Soporte</string>
     <string name="send_feedback">Enviar comentarios</string>
+    <string name="feedback_unavailable">Correo de comentarios no disponible</string>
     <string name="donate">Donar</string>
     <string name="thank_you">¡Gracias por tu apoyo!</string>
     <string name="artists">Artistas</string>

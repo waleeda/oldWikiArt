@@ -40,10 +40,15 @@ class SupportActivity : AppCompatActivity(), PurchasesUpdatedListener {
         })
 
         findViewById<Button>(R.id.feedbackButton).setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:wikiartfeedback@icloud.com")
+            val email = Secrets.FIELD_REPORT_EMAIL
+            if (email.isBlank()) {
+                Toast.makeText(this, R.string.feedback_unavailable, Toast.LENGTH_SHORT).show()
+            } else {
+                val intent = Intent(Intent.ACTION_SENDTO).apply {
+                    data = Uri.parse("mailto:$email")
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
         }
 
         findViewById<Button>(R.id.donateButton).setOnClickListener {
