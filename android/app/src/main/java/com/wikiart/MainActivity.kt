@@ -2,10 +2,15 @@ package com.wikiart
 
 import android.os.Bundle
 import android.content.Intent
+
+import android.view.Menu
+import android.view.MenuItem
+
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
@@ -68,6 +73,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
+
+            R.id.action_search -> {
+                startActivity(Intent(this, SearchActivity::class.java))
+                 true
+            }
             R.id.action_favorites -> {
                 startActivity(Intent(this, FavoritesActivity::class.java))
                 true

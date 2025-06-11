@@ -14,6 +14,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PaintingDetailActivity" />
+        <activity android:name=".SearchActivity" />
         <activity android:name=".FavoritesActivity" />
     </application>
 </manifest>
