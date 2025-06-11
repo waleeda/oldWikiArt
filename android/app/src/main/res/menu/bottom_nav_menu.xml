@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_paintings"
+        android:title="@string/painting_category_popular"
+        android:icon="@android:drawable/ic_menu_gallery" />
+    <item
+        android:id="@+id/nav_artists"
+        android:title="@string/artists"
+        android:icon="@android:drawable/ic_menu_manage" />
+    <item
+        android:id="@+id/nav_search"
+        android:title="@string/search"
+        android:icon="@android:drawable/ic_menu_search" />
+    <item
+        android:id="@+id/nav_support"
+        android:title="@string/support"
+        android:icon="@android:drawable/ic_menu_help" />
+</menu>
