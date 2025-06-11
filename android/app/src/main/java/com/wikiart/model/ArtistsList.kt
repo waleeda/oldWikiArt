@@ -11,5 +11,5 @@ data class ArtistsList(
     @SerializedName("PageSize") val pageSize: Int?
 ) {
     val pageCount: Int
-        get() = if (pageSize != null && pageSize > 0) (allArtistsCount / pageSize) + 1 else 1
+        get() = if (pageSize != null && pageSize > 0) (allArtistsCount + pageSize - 1) / pageSize else 1
 }
