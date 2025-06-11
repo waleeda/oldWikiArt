@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import androidx.appcompat.app.AlertDialog
 
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.cachedIn
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import com.wikiart.model.PaintingSection
 
 class MainActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
@@ -30,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     private val repository = PaintingRepository()
     private var pagingJob: Job? = null
+    private var currentSectionId: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +48,18 @@ class MainActivity : AppCompatActivity() {
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                loadCategory(categories[position])
+                val category = categories[position]
+                if (category.hasSections()) {
+                    lifecycleScope.launch {
+                        val sections = repository.sections(category)
+                        if (sections.isNotEmpty()) {
+                            showSectionDialog(category, sections)
+                        }
+                    }
+                } else {
+                    currentSectionId = null
+                    loadCategory(category)
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {}
@@ -55,15 +69,26 @@ class MainActivity : AppCompatActivity() {
         loadCategory(PaintingCategory.FEATURED)
     }
 
-    private fun loadCategory(category: PaintingCategory) {
+    private fun loadCategory(category: PaintingCategory, sectionId: String? = null) {
         pagingJob?.cancel()
         pagingJob = lifecycleScope.launch {
-            repository.pagingFlow(category)
+            repository.pagingFlow(category, sectionId)
                 .cachedIn(lifecycleScope)
                 .collect { pagingData ->
                     adapter.submitData(pagingData)
                 }
         }
+    }
+
+    private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>) {
+        val names = sections.map { it.titleForLanguage("en") }.toTypedArray()
+        AlertDialog.Builder(this)
+            .setTitle(category.toString())
+            .setItems(names) { _, which ->
+                currentSectionId = sections[which].id.oid
+                loadCategory(category, currentSectionId)
+            }
+            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
