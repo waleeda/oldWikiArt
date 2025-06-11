@@ -1,9 +1,18 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Default font for consistency across the app -->
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
 
     <!-- Full screen theme without an action bar. -->
     <style name="FullScreenTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowFullscreen">true</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
+
+    <!-- Custom text styles using Material typography -->
+    <style name="HeadingText" parent="TextAppearance.Material3.TitleLarge" />
+    <style name="BodyText" parent="TextAppearance.Material3.BodyLarge" />
+    <style name="CaptionText" parent="TextAppearance.Material3.BodySmall" />
 </resources>
