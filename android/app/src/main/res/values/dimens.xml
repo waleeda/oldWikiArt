@@ -1,0 +1,5 @@
+<resources>
+    <dimen name="image_min_height_standard">180dp</dimen>
+    <dimen name="image_min_height_small">120dp</dimen>
+    <dimen name="image_min_height_large">240dp</dimen>
+</resources>
