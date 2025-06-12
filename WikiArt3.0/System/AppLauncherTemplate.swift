@@ -4,7 +4,6 @@
 //
 
 import UIKit
-import Firebase
 import KiteSDK
 
 open class AppLauncherTemplate {
@@ -24,7 +23,6 @@ open class AppLauncherTemplate {
         updateLastLaunchVersion()
         themeApp()
         requestSupport()
-        initFirebase()
         initKite()
     }
     
@@ -58,10 +56,6 @@ open class AppLauncherTemplate {
         if Int.random(in: 1...5) == 5 {
             root.selectedIndex = 3
         }
-    }
-    
-    func initFirebase() {
-       FirebaseApp.configure()
     }
     
     func initKite() {
