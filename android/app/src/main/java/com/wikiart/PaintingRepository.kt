@@ -13,6 +13,14 @@ import com.wikiart.model.ArtistSection
 
 class PaintingRepository(private val service: WikiArtService = WikiArtService()) {
 
+    private val pageSize = 20
+    private val prefetchDistance = 5
+    private val pagingConfig = PagingConfig(
+        pageSize = pageSize,
+        prefetchDistance = prefetchDistance,
+        initialLoadSize = pageSize
+    )
+
     suspend fun getPaintings(
         category: PaintingCategory,
         page: Int = 1,
@@ -23,7 +31,7 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         }
 
     fun pagingFlow(category: PaintingCategory, sectionId: String? = null): Flow<PagingData<Painting>> =
-        Pager(PagingConfig(pageSize = 20)) {
+        Pager(pagingConfig) {
             WikiArtPagingSource(service, category, sectionId)
         }.flow
 
@@ -33,7 +41,7 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         }
 
     fun searchPagingFlow(term: String): Flow<PagingData<Painting>> =
-        Pager(PagingConfig(pageSize = 20)) {
+        Pager(pagingConfig) {
             SearchPagingSource(service, term)
         }.flow
 
@@ -58,7 +66,7 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         }
 
     fun artistsPagingFlow(category: ArtistCategory, section: String? = null): Flow<PagingData<Artist>> =
-        Pager(PagingConfig(pageSize = 20)) {
+        Pager(pagingConfig) {
             ArtistsPagingSource(service, category, section)
         }.flow
 
