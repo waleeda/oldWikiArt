@@ -11,6 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.paging.LoadState
 import com.wikiart.data.FavoritesRepository
 import kotlinx.coroutines.launch
 
@@ -22,6 +24,7 @@ class FavoritesFragment : Fragment() {
         startActivity(intent, options.toBundle())
         requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_favorites, container, false)
@@ -29,9 +32,14 @@ class FavoritesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         val recyclerView: RecyclerView = view.findViewById(R.id.favoritesRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
+        adapter.addLoadStateListener { loadState ->
+            swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
+        }
 
         val repository = FavoritesRepository(requireContext())
         viewLifecycleOwner.lifecycleScope.launch {
