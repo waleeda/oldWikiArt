@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_margin="4dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:useCompatPadding="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
 
     <ImageView
         android:id="@+id/paintingImage"
@@ -21,3 +28,4 @@
         android:gravity="center"
         android:textAppearance="@style/PaintingTitleText" />
 </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

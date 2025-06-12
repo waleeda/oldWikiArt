@@ -54,7 +54,10 @@ class PaintingAdapter(
                 }
             }
 
-            paintingImage.load(painting.thumbUrl)
+            paintingImage.load(painting.thumbUrl) {
+                placeholder(R.drawable.placeholder)
+                crossfade(true)
+            }
 
             itemView.setOnClickListener { onItemClick(painting) }
         }
