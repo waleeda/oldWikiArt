@@ -24,8 +24,10 @@
     </style>
     <style name="PaintingTitleText" parent="TextAppearance.Material3.DisplaySmall">
         <item name="android:fontFamily">serif</item>
+
         <item name="android:textColor">@color/textDark</item>
         <item name="android:textSize">24sp</item>
+
     </style>
     <style name="BodyText" parent="TextAppearance.Material3.BodyLarge">
         <item name="android:textSize">16sp</item>

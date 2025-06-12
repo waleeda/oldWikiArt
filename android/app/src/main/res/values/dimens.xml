@@ -2,4 +2,6 @@
     <dimen name="image_min_height_standard">180dp</dimen>
     <dimen name="image_min_height_small">120dp</dimen>
     <dimen name="image_min_height_large">240dp</dimen>
+    <!-- Padding around painting images in the two-column grid layout -->
+    <dimen name="painting_grid_image_padding">30dp</dimen>
 </resources>

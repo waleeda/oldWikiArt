@@ -4,6 +4,7 @@ import com.wikiart.PaintingCategory
 import com.wikiart.WikiArtPagingSource
 import com.wikiart.WikiArtService
 import com.wikiart.ArtistPaintingsPagingSource
+import com.wikiart.model.ArtistPaintingSort
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -36,7 +37,7 @@ class PaintingRepositoryTest {
     fun artistPaintingsPagingFlowCreatesSource() {
         val service = mockk<WikiArtService>(relaxed = true)
         val repo = PaintingRepository(service)
-        val flow = repo.artistPaintingsPagingFlow("/foo")
+        val flow = repo.artistPaintingsPagingFlow("/foo", ArtistPaintingSort.DATE)
 
         val field = flow.javaClass.getDeclaredField("this$0")
         field.isAccessible = true
@@ -46,9 +47,12 @@ class PaintingRepositoryTest {
 
         val serviceField = ArtistPaintingsPagingSource::class.java.getDeclaredField("service")
         val pathField = ArtistPaintingsPagingSource::class.java.getDeclaredField("path")
+        val sortField = ArtistPaintingsPagingSource::class.java.getDeclaredField("sort")
         serviceField.isAccessible = true
         pathField.isAccessible = true
+        sortField.isAccessible = true
         assertEquals(service, serviceField.get(source))
         assertEquals("/foo", pathField.get(source))
+        assertEquals(ArtistPaintingSort.DATE, sortField.get(source))
     }
 }
