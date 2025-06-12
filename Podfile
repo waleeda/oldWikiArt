@@ -7,7 +7,6 @@ target 'WikiArt3.0' do
 
   # Pods for WikiArt3.0
 pod 'PopUpLib'
-pod 'Firebase/Analytics'
 pod "Kite-Print-SDK"
 
 end

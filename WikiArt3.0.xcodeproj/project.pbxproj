@@ -157,7 +157,6 @@
 		F5A7D606235BE53C000B68CA /* ImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A7D604235BE53C000B68CA /* ImageCollectionViewCell.swift */; };
 		F5A7D607235BE53C000B68CA /* ImageCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5A7D605235BE53C000B68CA /* ImageCollectionViewCell.xib */; };
 		F5ABD71F23666DDD0039AD09 /* Layouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5ABD71E23666DDD0039AD09 /* Layouts.swift */; };
-		F5B2FA9123A0A2DB00F3C37C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F5B2FA9023A0A2DB00F3C37C /* GoogleService-Info.plist */; };
 		F5DF068E23665B8C001F5455 /* SearchAutoCompleteCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DF068D23665B8C001F5455 /* SearchAutoCompleteCollectionViewController.swift */; };
 		F5DFF62B2365AB0500B6FB56 /* SupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5DFF6292365AB0400B6FB56 /* SupportViewController.swift */; };
 		F5DFF62C2365AB0500B6FB56 /* SupportViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F5DFF62A2365AB0500B6FB56 /* SupportViewController.xib */; };
@@ -337,7 +336,6 @@
 		F5A7D604235BE53C000B68CA /* ImageCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		F5A7D605235BE53C000B68CA /* ImageCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ImageCollectionViewCell.xib; sourceTree = "<group>"; };
 		F5ABD71E23666DDD0039AD09 /* Layouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layouts.swift; sourceTree = "<group>"; };
-		F5B2FA9023A0A2DB00F3C37C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F5DF068D23665B8C001F5455 /* SearchAutoCompleteCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchAutoCompleteCollectionViewController.swift; sourceTree = "<group>"; };
 		F5DFF6292365AB0400B6FB56 /* SupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SupportViewController.swift; sourceTree = "<group>"; };
 		F5DFF62A2365AB0500B6FB56 /* SupportViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SupportViewController.xib; sourceTree = "<group>"; };
@@ -430,7 +428,6 @@
 			isa = PBXGroup;
 			children = (
 				F55F4C4A2364247D002ECA76 /* WikiArt3.0.entitlements */,
-				F5B2FA9023A0A2DB00F3C37C /* GoogleService-Info.plist */,
 				F5FFAC9F23682AF40084CCC5 /* Model.xcdatamodeld */,
 				F533711E23319339004E3F08 /* Secrets.swift */,
 				F53371242331933A004E3F08 /* AppDelegate.swift */,
@@ -822,7 +819,6 @@
 				F55F4C282362B28E002ECA76 /* Localizable.strings in Resources */,
 				F5337111233189E9004E3F08 /* Assets.xcassets in Resources */,
 				F5221097235E433800B946A2 /* PaintingCollectionViewCell.xib in Resources */,
-				F5B2FA9123A0A2DB00F3C37C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,8 +9,6 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 import androidx.appcompat.app.AppCompatActivity
 import com.wikiart.SupportActivity
 import com.wikiart.FavoritesActivity
-import com.google.firebase.FirebaseApp
-import com.google.firebase.analytics.FirebaseAnalytics
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -21,15 +19,11 @@ class MainActivity : AppCompatActivity() {
         private const val SUPPORT_TRIGGER_VALUE = 3
     }
 
-    private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        FirebaseApp.initializeApp(this)
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.APP_OPEN, null)
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
