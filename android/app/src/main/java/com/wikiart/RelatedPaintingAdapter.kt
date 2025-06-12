@@ -28,7 +28,7 @@ class RelatedPaintingAdapter(
 
         fun bind(painting: Painting) {
             title.text = painting.title
-            image.load(painting.image)
+            image.load(painting.thumbUrl)
             itemView.setOnClickListener { onItemClick(painting) }
         }
     }

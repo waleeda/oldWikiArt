@@ -21,7 +21,7 @@ class SearchActivity : AppCompatActivity() {
     private val adapter = PaintingAdapter { painting ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
-        intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.image)
+        intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
         val options = ActivityOptions.makeSceneTransitionAnimation(this)
         startActivity(intent, options.toBundle())
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
