@@ -38,4 +38,7 @@
     <string name="artist_category_female">Mujeres</string>
     <string name="artist_category_recent">Recientes</string>
     <string name="artist_category_institution">Institución artística</string>
+
+    <string name="show_more">Ver más</string>
+    <string name="show_less">Ver menos</string>
 </resources>

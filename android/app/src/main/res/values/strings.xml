@@ -45,6 +45,9 @@
     <string name="artist_category_recent">Recent</string>
     <string name="artist_category_institution">Art Institution</string>
 
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
+
     <string-array name="painting_category_names">
         <item>@string/painting_category_media</item>
         <item>@string/painting_category_style</item>
