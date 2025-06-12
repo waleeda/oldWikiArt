@@ -3,6 +3,8 @@ package com.wikiart
 import com.google.gson.Gson
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.logging.HttpLoggingInterceptor
+import android.util.Log
 import com.wikiart.model.PaintingSection
 import com.wikiart.model.Artist
 import com.wikiart.model.ArtistCategory
@@ -14,8 +16,13 @@ class WikiArtService(
     private val serverConfig: ServerConfigType = ServerConfig.production,
     private val language: String = java.util.Locale.getDefault().language
 ) {
-    private val client = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        })
+        .build()
     private val gson = Gson()
+    private val TAG = "WikiArtService"
 
 
     fun fetchFeaturedPaintings(page: Int = 1): PaintingList? =
@@ -48,7 +55,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchPaintings response: $body")
+            val result = gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchPaintings decoded: $result")
+            return result
         }
     }
 
@@ -59,7 +69,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "searchPaintings response: $body")
+            val result = gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "searchPaintings decoded: $result")
+            return result
         }
     }
 
@@ -69,7 +82,9 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
+            Log.d(TAG, "searchAutoComplete response: $body")
             val arr = gson.fromJson(body, Array<SearchAutoComplete>::class.java)
+            Log.d(TAG, "searchAutoComplete decoded: ${arr.toList()}")
             return arr.toList()
         }
     }
@@ -82,7 +97,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchRelatedPaintings response: $body")
+            val result = gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchRelatedPaintings decoded: $result")
+            return result
         }
     }
     fun fetchArtistDetails(path: String): ArtistDetails? {
@@ -91,7 +109,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, ArtistDetails::class.java)
+            Log.d(TAG, "fetchArtistDetails response: $body")
+            val result = gson.fromJson(body, ArtistDetails::class.java)
+            Log.d(TAG, "fetchArtistDetails decoded: $result")
+            return result
         }
     }
 
@@ -102,7 +123,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchFamousPaintings response: $body")
+            val result = gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchFamousPaintings decoded: $result")
+            return result
         }
     }
 
@@ -119,7 +143,9 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
+            Log.d(TAG, "fetchSections response: $body")
             val arr = gson.fromJson(body, Array<PaintingSection>::class.java)
+            Log.d(TAG, "fetchSections decoded: ${arr.toList()}")
             return arr.toList()
         }
     }
@@ -130,7 +156,9 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
+            Log.d(TAG, "fetchArtistSections response: $body")
             val res = gson.fromJson(body, ArtistSectionsResponse::class.java)
+            Log.d(TAG, "fetchArtistSections decoded: ${res.items}")
             return res.items
         }
     }
@@ -146,7 +174,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, ArtistsList::class.java)
+            Log.d(TAG, "fetchArtists response: $body")
+            val result = gson.fromJson(body, ArtistsList::class.java)
+            Log.d(TAG, "fetchArtists decoded: $result")
+            return result
         }
     }
 
@@ -157,7 +188,10 @@ class WikiArtService(
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return null
             val body = response.body?.string() ?: return null
-            return gson.fromJson(body, ArtistsList::class.java)
+            Log.d(TAG, "fetchArtistsList response: $body")
+            val result = gson.fromJson(body, ArtistsList::class.java)
+            Log.d(TAG, "fetchArtistsList decoded: $result")
+            return result
         }
     }
 
