@@ -47,6 +47,7 @@
 
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+    <string name="see_all_paintings">See all paintings</string>
     <string name="born">Born: %1$s</string>
     <string name="died">Died: %1$s</string>
 

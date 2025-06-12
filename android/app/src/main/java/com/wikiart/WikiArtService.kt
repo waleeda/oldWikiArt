@@ -141,6 +141,21 @@ class WikiArtService(
         }
     }
 
+    fun fetchAllPaintingsByDate(path: String, page: Int = 1): PaintingList? {
+        val cleanPath = if (path.startsWith("http")) path else "${serverConfig.apiBaseUrl}$path"
+        val url = "$cleanPath/all-works?page=$page&json=2"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            Log.d(TAG, "fetchAllPaintingsByDate response: $body")
+            val result = gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchAllPaintingsByDate decoded: $result")
+            return result
+        }
+    }
+
+
 
     fun fetchSections(category: PaintingCategory): List<PaintingSection>? {
         val group = when (category) {

@@ -23,6 +23,7 @@
             android:theme="@style/FullScreenTheme" />
         <activity android:name=".ArtistDetailActivity" />
         <activity android:name=".ArtistsActivity" />
+        <activity android:name=".ArtistPaintingsActivity" />
 
     </application>
 </manifest>

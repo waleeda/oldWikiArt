@@ -69,6 +69,11 @@ class PaintingRepository(private val service: WikiArtService = WikiArtService())
         Pager(pagingConfig) {
             ArtistsPagingSource(service, category, section)
         }.flow
+    fun artistPaintingsPagingFlow(path: String): Flow<PagingData<Painting>> =
+        Pager(pagingConfig) {
+            ArtistPaintingsPagingSource(service, path)
+        }.flow
+
 
     suspend fun artistSections(category: ArtistCategory): List<ArtistSection> =
         withContext(Dispatchers.IO) {

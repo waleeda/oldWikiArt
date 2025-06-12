@@ -49,6 +49,14 @@ class ArtistDetailActivity : AppCompatActivity() {
         val artistUrl = intent.getStringExtra(EXTRA_ARTIST_URL) ?: return
         val artistName = intent.getStringExtra(EXTRA_ARTIST_NAME) ?: ""
 
+        findViewById<com.google.android.material.button.MaterialButton>(R.id.seeAllButton).setOnClickListener {
+            val intent = android.content.Intent(this, ArtistPaintingsActivity::class.java)
+            intent.putExtra(ArtistPaintingsActivity.EXTRA_ARTIST_URL, artistUrl)
+            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            startActivity(intent, options.toBundle())
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+        }
+
         findViewById<TextView>(R.id.artistName).text = artistName
 
         lifecycleScope.launch {

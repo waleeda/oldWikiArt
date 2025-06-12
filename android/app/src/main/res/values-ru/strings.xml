@@ -41,6 +41,7 @@
 
     <string name="show_more">Показать больше</string>
     <string name="show_less">Показать меньше</string>
+    <string name="see_all_paintings">Посмотреть все картины</string>
     <string name="born">Дата рождения: %1$s</string>
     <string name="died">Дата смерти: %1$s</string>
 </resources>
