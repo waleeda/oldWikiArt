@@ -6,6 +6,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.wikiart.model.Artist
 import com.wikiart.model.ArtistCategory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class ArtistsPagingSource(
     private val service: WikiArtService,
