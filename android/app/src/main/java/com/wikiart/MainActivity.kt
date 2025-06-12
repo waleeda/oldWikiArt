@@ -7,7 +7,10 @@ import android.app.ActivityOptions
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 import androidx.appcompat.app.AppCompatActivity
-import com.wikiart.FavoritesActivity
+
+import com.wikiart.SupportActivity
+import com.wikiart.FavoritesFragment
+
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -51,10 +54,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_favorites -> {
-                    val intent = Intent(this, FavoritesActivity::class.java)
-                    val options = ActivityOptions.makeSceneTransitionAnimation(this)
-                    startActivity(intent, options.toBundle())
-                    overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                    switchFragment(FavoritesFragment())
                     true
                 }
                 R.id.nav_support -> {

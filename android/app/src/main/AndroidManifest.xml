@@ -16,8 +16,6 @@
         </activity>
         <activity android:name=".PaintingDetailActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".FavoritesActivity" />
-
         <activity android:name=".StoreActivity" />
         <activity
             android:name=".ImageDetailActivity"
