@@ -6,8 +6,6 @@ import com.google.android.material.transition.platform.MaterialFadeThrough
 
 import androidx.appcompat.app.AppCompatActivity
 
-import com.wikiart.FavoritesFragment
-
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -18,21 +16,9 @@ class MainActivity : AppCompatActivity() {
         private const val SUPPORT_TRIGGER_VALUE = 3
     }
 
-
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        if (savedInstanceState == null) {
-            val random = (1..5).random()
-            if (random == SUPPORT_TRIGGER_VALUE) {
-                switchFragment(SupportFragment())
-            } else {
-                switchFragment(PaintingsFragment())
-            }
-        }
 
         val nav: BottomNavigationView = findViewById(R.id.bottomNavigation)
         nav.setOnItemSelectedListener {

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15400" systemVersion="18F132" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ArtistMO" representedClassName="ArtistMO" syncable="YES" codeGenerationType="class"/>
+    <entity name="EntityMO" representedClassName="EntityMO" syncable="YES" codeGenerationType="class"/>
+    <entity name="PaintingCategoryMO" representedClassName="PaintingCategoryMO" syncable="YES" codeGenerationType="class">
+        <attribute name="attribute" optional="YES" attributeType="Transformable"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="page" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="PaintingMO" representedClassName="PaintingMO" syncable="YES">
+        <attribute name="artistName" optional="YES" attributeType="String"/>
+        <attribute name="artistUrl" optional="YES" attributeType="String"/>
+        <attribute name="flag" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="height" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="imageUrl" optional="YES" attributeType="String"/>
+        <attribute name="paintingUrl" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="width" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="year" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="PaintingSectionMO" representedClassName="PaintingSectionMO" syncable="YES" codeGenerationType="class"/>
+    <elements>
+        <element name="ArtistMO" positionX="-468.5" positionY="-253.625" width="128" height="43"/>
+        <element name="EntityMO" positionX="-467.37109375" positionY="-200.47265625" width="128" height="43"/>
+        <element name="PaintingCategoryMO" positionX="-611.2421875" positionY="-161.4140625" width="128" height="88"/>
+        <element name="PaintingMO" positionX="-283.80859375" positionY="-110.57421875" width="128" height="193"/>
+        <element name="PaintingSectionMO" positionX="-469.18359375" positionY="-147" width="128" height="43"/>
+    </elements>
+</model>
