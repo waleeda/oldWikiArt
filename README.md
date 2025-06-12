@@ -16,3 +16,7 @@ share or buy prints of a painting. Images can also be viewed full screen with
 pinch‑to‑zoom and a Support screen lets you send feedback or donate via
 Google Play in‑app purchases. Section titles are localized using your device
 language with a fallback to English when needed.
+
+Paintings can be viewed in three layouts—list, grid and sheet—mirroring the
+iOS design. The list and grid layouts display the artist name, title and year
+beneath each image while the sheet layout shows only the artwork image.
