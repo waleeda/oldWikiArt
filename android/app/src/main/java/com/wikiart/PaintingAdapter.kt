@@ -35,10 +35,14 @@ class PaintingAdapter(
 
     inner class PaintingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleText: TextView = itemView.findViewById(R.id.titleText)
+        private val artistText: TextView? = itemView.findViewById(R.id.artistText)
+        private val yearText: TextView? = itemView.findViewById(R.id.yearText)
         private val paintingImage: ImageView = itemView.findViewById(R.id.paintingImage)
 
         fun bind(painting: Painting) {
             titleText.text = painting.title
+            artistText?.text = painting.artistName
+            yearText?.text = painting.year
             paintingImage.load(painting.image)
 
             itemView.setOnClickListener { onItemClick(painting) }
