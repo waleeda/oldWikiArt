@@ -14,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.paging.LoadState
+import com.google.android.material.snackbar.Snackbar
 import com.wikiart.model.ArtistCategory
 import com.wikiart.model.ArtistSection
 import kotlinx.coroutines.Job
@@ -42,6 +44,20 @@ class ArtistsFragment : Fragment() {
         val recycler: RecyclerView = view.findViewById(R.id.artistRecyclerView)
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = adapter
+
+        adapter.addLoadStateListener { state ->
+            val error = when {
+                state.refresh is LoadState.Error -> state.refresh as LoadState.Error
+                state.append is LoadState.Error -> state.append as LoadState.Error
+                state.prepend is LoadState.Error -> state.prepend as LoadState.Error
+                else -> null
+            }
+            error?.let {
+                Snackbar.make(view, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry) { adapter.retry() }
+                    .show()
+            }
+        }
 
         val spinner: Spinner = view.findViewById(R.id.artistCategorySpinner)
         val categories = ArtistCategory.values()

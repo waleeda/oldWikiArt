@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.paging.LoadState
+import com.google.android.material.snackbar.Snackbar
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -61,6 +63,20 @@ class PaintingsFragment : Fragment() {
         adapter = PaintingAdapter(layoutType, itemClick)
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         recyclerView.adapter = adapter
+
+        adapter.addLoadStateListener { state ->
+            val error = when {
+                state.refresh is LoadState.Error -> state.refresh as LoadState.Error
+                state.append is LoadState.Error -> state.append as LoadState.Error
+                state.prepend is LoadState.Error -> state.prepend as LoadState.Error
+                else -> null
+            }
+            error?.let {
+                Snackbar.make(view, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry) { adapter.retry() }
+                    .show()
+            }
+        }
 
         val spinner: Spinner = view.findViewById(R.id.categorySpinner)
         val categories = PaintingCategory.values()
