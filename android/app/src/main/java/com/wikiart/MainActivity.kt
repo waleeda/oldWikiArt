@@ -7,8 +7,10 @@ import android.app.ActivityOptions
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 import androidx.appcompat.app.AppCompatActivity
+
 import com.wikiart.SupportActivity
 import com.wikiart.FavoritesFragment
+
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -29,18 +31,10 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             val random = (1..5).random()
             if (random == SUPPORT_TRIGGER_VALUE) {
-                val intent = Intent(this, SupportActivity::class.java)
-                val options = ActivityOptions.makeSceneTransitionAnimation(this)
-                startActivity(intent, options.toBundle())
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                switchFragment(SupportFragment())
+            } else {
+                switchFragment(PaintingsFragment())
             }
-        }
-
-
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, PaintingsFragment())
-                .commit()
         }
 
         val nav: BottomNavigationView = findViewById(R.id.bottomNavigation)
