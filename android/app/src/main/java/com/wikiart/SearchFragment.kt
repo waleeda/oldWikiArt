@@ -14,6 +14,7 @@ import android.widget.AutoCompleteTextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.LoadState
@@ -21,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class SearchFragment : Fragment() {
     private val adapter = PaintingAdapter { painting ->
@@ -34,6 +36,7 @@ class SearchFragment : Fragment() {
 
     private val repository = PaintingRepository()
     private var searchJob: Job? = null
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_search, container, false)
@@ -42,9 +45,14 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val input: AutoCompleteTextView = view.findViewById(R.id.searchInput)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         val recyclerView: RecyclerView = view.findViewById(R.id.resultsRecyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
+        adapter.addLoadStateListener { loadState ->
+            swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
+        }
 
         adapter.addLoadStateListener { state ->
             val error = when {

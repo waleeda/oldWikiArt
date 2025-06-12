@@ -12,6 +12,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.LoadState
@@ -20,6 +21,7 @@ import com.wikiart.model.ArtistCategory
 import com.wikiart.model.ArtistSection
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 
 class ArtistsFragment : Fragment() {
     private val adapter = ArtistAdapter { artist ->
@@ -34,6 +36,7 @@ class ArtistsFragment : Fragment() {
     private val repository = PaintingRepository()
     private var pagingJob: Job? = null
     private var currentSection: String? = null
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_artists, container, false)
@@ -41,9 +44,14 @@ class ArtistsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         val recycler: RecyclerView = view.findViewById(R.id.artistRecyclerView)
         recycler.layoutManager = GridLayoutManager(requireContext(), 2)
         recycler.adapter = adapter
+        swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
+        adapter.addLoadStateListener { loadState ->
+            swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
+        }
 
         adapter.addLoadStateListener { state ->
             val error = when {
