@@ -116,10 +116,15 @@ class PaintingsFragment : Fragment() {
     }
 
     private fun loadCategory(category: PaintingCategory, sectionId: String? = null) {
+        // Fragment's view might be destroyed (e.g. after configuration change)
+        // when a category is selected. Guard against accessing viewLifecycleOwner
+        // in that case to avoid crashes.
+        val owner = viewLifecycleOwnerLiveData.value ?: return
+
         pagingJob?.cancel()
-        pagingJob = viewLifecycleOwner.lifecycleScope.launch {
+        pagingJob = owner.lifecycleScope.launch {
             repository.pagingFlow(category, sectionId)
-                .cachedIn(viewLifecycleOwner.lifecycleScope)
+                .cachedIn(owner.lifecycleScope)
                 .collect { pagingData ->
                     adapter.submitData(pagingData)
                 }
