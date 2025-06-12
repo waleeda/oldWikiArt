@@ -2,6 +2,8 @@ package com.wikiart
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 class WikiArtPagingSource(
     private val service: WikiArtService,
@@ -12,7 +14,9 @@ class WikiArtPagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Painting> {
         return try {
             val page = params.key ?: 1
-            val result = service.fetchPaintings(category, page, sectionId)
+            val result = withContext(Dispatchers.IO) {
+                service.fetchPaintings(category, page, sectionId)
+            }
             val paintings = result?.paintings ?: emptyList()
             val nextKey = if (page < (result?.pageCount ?: page)) page + 1 else null
             LoadResult.Page(
