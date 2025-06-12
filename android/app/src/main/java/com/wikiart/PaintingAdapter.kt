@@ -43,6 +43,16 @@ class PaintingAdapter(
             titleText.text = painting.title
             artistText?.text = painting.artistName
             yearText?.text = painting.year
+
+            if (layoutType == LayoutType.COLUMN) {
+                val dm = itemView.resources.displayMetrics
+                val itemWidth = dm.widthPixels / 2
+                val ratio = painting.height.toFloat() / painting.width.toFloat()
+                paintingImage.layoutParams = paintingImage.layoutParams.apply {
+                    height = (itemWidth * ratio).toInt()
+                }
+            }
+
             paintingImage.load(painting.image)
 
             itemView.setOnClickListener { onItemClick(painting) }
