@@ -35,10 +35,14 @@ class ArtistDetailActivity : AppCompatActivity() {
         recycler.adapter = adapter
 
         val bioView: TextView = findViewById(R.id.artistBio)
+        val birthView: TextView = findViewById(R.id.artistBirth)
+        val deathView: TextView = findViewById(R.id.artistDeath)
         val bioToggle: TextView = findViewById(R.id.bioToggle)
         bioToggle.setOnClickListener {
             bioExpanded = !bioExpanded
             bioView.maxLines = if (bioExpanded) Int.MAX_VALUE else 3
+            birthView.visibility = if (bioExpanded && birthView.text.isNotBlank()) View.VISIBLE else View.GONE
+            deathView.visibility = if (bioExpanded && deathView.text.isNotBlank()) View.VISIBLE else View.GONE
             bioToggle.text = getString(if (bioExpanded) R.string.show_less else R.string.show_more)
         }
 
@@ -52,9 +56,13 @@ class ArtistDetailActivity : AppCompatActivity() {
             if (details != null) {
                 findViewById<TextView>(R.id.artistName).text = details.artistName
                 bioView.text = details.biography
+                birthView.text = details.birth?.let { getString(R.string.born, it) } ?: ""
+                deathView.text = details.death?.let { getString(R.string.died, it) } ?: ""
+                birthView.visibility = if (bioExpanded && birthView.text.isNotBlank()) View.VISIBLE else View.GONE
+                deathView.visibility = if (bioExpanded && deathView.text.isNotBlank()) View.VISIBLE else View.GONE
                 findViewById<ImageView>(R.id.artistImage).load(details.image)
                 bioView.post {
-                    if (bioView.lineCount <= 3) {
+                    if (bioView.lineCount <= 3 && birthView.text.isBlank() && deathView.text.isBlank()) {
                         bioToggle.visibility = View.GONE
                     }
                 }
