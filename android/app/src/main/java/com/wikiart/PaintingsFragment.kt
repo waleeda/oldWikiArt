@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 class PaintingsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PaintingAdapter
-    private var layoutType: LayoutType = LayoutType.LIST
+    private var layoutType: LayoutType = LayoutType.COLUMN
 
     private val itemClick: (Painting) -> Unit = { painting ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
@@ -54,8 +54,8 @@ class PaintingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        val name = prefs.getString("layout_type", LayoutType.LIST.name) ?: LayoutType.LIST.name
-        layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.LIST)
+        val name = prefs.getString("layout_type", LayoutType.COLUMN.name) ?: LayoutType.COLUMN.name
+        layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.COLUMN)
 
         recyclerView = view.findViewById(R.id.paintingRecyclerView)
         adapter = PaintingAdapter(layoutType, itemClick)
