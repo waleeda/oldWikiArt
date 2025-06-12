@@ -18,6 +18,9 @@
 
     <!-- Custom text styles using Material typography -->
     <style name="HeadingText" parent="TextAppearance.Material3.TitleLarge" />
+    <style name="PaintingTitleText" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:fontFamily">serif</item>
+    </style>
     <style name="BodyText" parent="TextAppearance.Material3.BodyLarge" />
     <style name="CaptionText" parent="TextAppearance.Material3.BodySmall" />
 
