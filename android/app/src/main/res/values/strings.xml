@@ -47,6 +47,14 @@
     <string name="artist_category_recent">Recent</string>
     <string name="artist_category_institution">Art Institution</string>
 
+    <string name="sort_by_date">By Date</string>
+    <string name="sort_by_name">By Name</string>
+
+    <string-array name="artist_painting_sort_names">
+        <item>@string/sort_by_date</item>
+        <item>@string/sort_by_name</item>
+    </string-array>
+
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
     <string name="see_all_paintings">See all paintings</string>
