@@ -5,6 +5,7 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import android.util.Log
+import com.wikiart.BuildConfig
 import com.wikiart.model.PaintingSection
 import com.wikiart.model.Artist
 import com.wikiart.model.ArtistCategory
@@ -16,11 +17,21 @@ class WikiArtService(
     private val serverConfig: ServerConfigType = ServerConfig.production,
     private val language: String = java.util.Locale.getDefault().language
 ) {
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().apply {
-            level = HttpLoggingInterceptor.Level.BODY
-        })
-        .build()
+    companion object {
+        private val sharedClient: OkHttpClient by lazy {
+            OkHttpClient.Builder()
+                .addInterceptor(HttpLoggingInterceptor().apply {
+                    level = if (BuildConfig.DEBUG) {
+                        HttpLoggingInterceptor.Level.BODY
+                    } else {
+                        HttpLoggingInterceptor.Level.NONE
+                    }
+                })
+                .build()
+        }
+    }
+
+    private val client = sharedClient
     private val gson = Gson()
     private val TAG = "WikiArtService"
 
