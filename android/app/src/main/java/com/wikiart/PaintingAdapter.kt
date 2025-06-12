@@ -53,7 +53,7 @@ class PaintingAdapter(
                 }
             }
 
-            paintingImage.load(painting.image)
+            paintingImage.load(painting.thumbUrl)
 
             itemView.setOnClickListener { onItemClick(painting) }
         }

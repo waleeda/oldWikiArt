@@ -29,14 +29,15 @@ class PaintingDetailActivity : AppCompatActivity() {
         val painting = intent.getSerializableExtra(EXTRA_PAINTING) as? Painting
 
         val title = painting?.title ?: intent.getStringExtra(EXTRA_TITLE) ?: ""
-        val imageUrl = painting?.image ?: intent.getStringExtra(EXTRA_IMAGE) ?: ""
+        val imageUrl = painting?.detailUrl ?: intent.getStringExtra(EXTRA_IMAGE) ?: ""
+        val fullUrl = painting?.fullUrl ?: painting?.image ?: imageUrl
 
         findViewById<TextView>(R.id.detailTitle).text = title
         val detailImage: ImageView = findViewById(R.id.detailImage)
         detailImage.load(imageUrl)
         detailImage.setOnClickListener {
             val intent = Intent(this, ImageDetailActivity::class.java)
-            intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_URL, imageUrl)
+            intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_URL, fullUrl)
             val options = ActivityOptions.makeSceneTransitionAnimation(
                 this,
                 detailImage,
@@ -131,7 +132,7 @@ class PaintingDetailActivity : AppCompatActivity() {
         buyButton.setOnClickListener {
             painting ?: return@setOnClickListener
             val intent = Intent(this, StoreActivity::class.java)
-            intent.putExtra(StoreActivity.EXTRA_IMAGE_URL, painting.image)
+            intent.putExtra(StoreActivity.EXTRA_IMAGE_URL, painting.fullUrl)
             val options = ActivityOptions.makeSceneTransitionAnimation(this)
             startActivity(intent, options.toBundle())
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

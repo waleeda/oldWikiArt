@@ -24,7 +24,7 @@ class SearchFragment : Fragment() {
     private val adapter = PaintingAdapter { painting ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
-        intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.image)
+        intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
         val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
         startActivity(intent, options.toBundle())
         requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)

@@ -18,4 +18,26 @@ data class Painting(
     @SerializedName("paintingUrl") val paintingUrl: String,
     @SerializedName("artistUrl") val artistUrl: String?,
     @SerializedName("flags") val flags: Int
-) : Serializable
+) : Serializable {
+
+    private val extension: String
+        get() = image.substringAfterLast('.', "")
+
+    /**
+     * URL for a smaller thumbnail used in list views.
+     */
+    val thumbUrl: String
+        get() = "${image}!PinterestSmall.$extension"
+
+    /**
+     * URL for a larger image used in detail views.
+     */
+    val detailUrl: String
+        get() = "${image}!Blog.$extension"
+
+    /**
+     * URL for the original full size image.
+     */
+    val fullUrl: String
+        get() = image
+}
