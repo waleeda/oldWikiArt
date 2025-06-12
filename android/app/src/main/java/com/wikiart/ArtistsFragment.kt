@@ -47,6 +47,7 @@ class ArtistsFragment : Fragment() {
         val categories = ArtistCategory.values()
         val categoryNames = resources.getStringArray(R.array.artist_category_names)
         spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categoryNames)
+        spinner.setSelection(categories.indexOf(ArtistCategory.POPULAR))
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
