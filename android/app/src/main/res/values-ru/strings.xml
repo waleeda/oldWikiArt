@@ -38,4 +38,7 @@
     <string name="artist_category_female">Женщины</string>
     <string name="artist_category_recent">Недавно добавленные</string>
     <string name="artist_category_institution">Художественные институты</string>
+
+    <string name="show_more">Показать больше</string>
+    <string name="show_less">Показать меньше</string>
 </resources>
