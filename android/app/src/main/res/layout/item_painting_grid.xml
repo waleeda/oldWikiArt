@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="4dp"
-    android:gravity="center_horizontal">
+    android:padding="8dp"
+    android:gravity="center_horizontal"
+    android:background="@color/cardBackground">
 
     <ImageView
         android:id="@+id/paintingImage"
@@ -13,7 +14,8 @@
         android:layout_margin="@dimen/painting_grid_image_padding"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:minHeight="@dimen/image_min_height_small" />
+        android:minHeight="@dimen/image_min_height_small"
+        android:background="@color/imagePlaceholder" />
 
     <TextView
         android:id="@+id/titleText"
