@@ -23,6 +23,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.content.Context
+import androidx.appcompat.widget.PopupMenu
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.wikiart.model.LayoutType
 import com.wikiart.model.PaintingSection
@@ -33,6 +34,7 @@ class PaintingsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PaintingAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private lateinit var layoutButton: View
     private var layoutType: LayoutType = LayoutType.COLUMN
 
     private val itemClick: (Painting) -> Unit = { painting ->
@@ -67,6 +69,8 @@ class PaintingsFragment : Fragment() {
         adapter = PaintingAdapter(layoutType, itemClick)
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         recyclerView.adapter = adapter
+        layoutButton = view.findViewById(R.id.layoutButton)
+        layoutButton.setOnClickListener { showLayoutMenu(it) }
         swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
         adapter.addLoadStateListener { loadState ->
             swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
@@ -140,6 +144,16 @@ class PaintingsFragment : Fragment() {
         adapter.notifyDataSetChanged()
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         return true
+    }
+
+    private fun showLayoutMenu(anchor: View) {
+        PopupMenu(requireContext(), anchor).apply {
+            menuInflater.inflate(R.menu.layout_menu, menu)
+            setOnMenuItemClickListener { item ->
+                onOptionsItemSelected(item)
+            }
+            show()
+        }
     }
 
     private fun loadCategory(category: PaintingCategory, sectionId: String? = null) {

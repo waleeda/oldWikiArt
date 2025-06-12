@@ -60,6 +60,7 @@
     <string name="see_all_paintings">See all paintings</string>
     <string name="born">Born: %1$s</string>
     <string name="died">Died: %1$s</string>
+    <string name="change_layout">Change layout</string>
 
     <string-array name="painting_category_names">
         <item>@string/painting_category_media</item>

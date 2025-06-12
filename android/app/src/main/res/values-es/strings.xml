@@ -44,4 +44,5 @@
     <string name="see_all_paintings">Ver todas las pinturas</string>
     <string name="born">Nacimiento: %1$s</string>
     <string name="died">Fallecimiento: %1$s</string>
+    <string name="change_layout">Cambiar diseño</string>
 </resources>

@@ -6,7 +6,7 @@ Scrolling now loads additional pages automatically using the
 Paging library. Each item displays the painting image using Coil and tapping a
 painting opens a detail screen showing a larger image and the title. A spinner
 at the top allows choosing a painting category and the list updates accordingly.
-A menu in Paintings lets you switch between list, grid and sheet layouts; your choice is saved.
+A menu or new layout button on the Painting list lets you switch between list, grid and sheet layouts; your choice is saved.
 Additional screens let you search with autocomplete, manage favourites and view
 artist information. You can share or buy prints of a painting, view the image in
 full screen and visit a Support screen to send feedback or make a donation using
