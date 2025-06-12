@@ -14,8 +14,19 @@ data class ServerConfig(
     override val environment: EnvironmentType = EnvironmentType.PRODUCTION
 ) : ServerConfigType {
     companion object {
-        val production: ServerConfigType = ServerConfig(URL("https://${Secrets.Api.Endpoint.PRODUCTION}"), EnvironmentType.PRODUCTION)
-        val staging: ServerConfigType = ServerConfig(URL("https://${Secrets.Api.Endpoint.STAGING}"), EnvironmentType.STAGING)
+        private const val DEFAULT_API_ENDPOINT = "www.wikiart.org"
+
+        val production: ServerConfigType =
+            ServerConfig(
+                URL("https://${Secrets.Api.Endpoint.PRODUCTION.ifBlank { DEFAULT_API_ENDPOINT }}"),
+                EnvironmentType.PRODUCTION
+            )
+
+        val staging: ServerConfigType =
+            ServerConfig(
+                URL("https://${Secrets.Api.Endpoint.STAGING.ifBlank { DEFAULT_API_ENDPOINT }}"),
+                EnvironmentType.STAGING
+            )
 
         fun config(environment: EnvironmentType) = when(environment) {
             EnvironmentType.PRODUCTION -> production

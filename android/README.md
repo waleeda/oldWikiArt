@@ -43,4 +43,5 @@ KITE_PUBLIC_KEY=<kite public key>
 ```
 
 Values from `local.properties` take precedence, falling back to the environment
-when not present.
+when not present. If the API endpoint values are blank the app defaults to
+`www.wikiart.org`.
