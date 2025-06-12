@@ -81,7 +81,9 @@ class PaintingsFragment : Fragment() {
         val spinner: Spinner = view.findViewById(R.id.categorySpinner)
         val categories = PaintingCategory.values()
         val categoryNames = resources.getStringArray(R.array.painting_category_names)
-        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categoryNames)
+        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.spinner_category_item, categoryNames)
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinner.adapter = spinnerAdapter
         spinner.setSelection(categories.indexOf(PaintingCategory.FEATURED))
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
