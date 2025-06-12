@@ -10,6 +10,7 @@
         android:id="@+id/paintingImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/painting_grid_image_padding"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:minHeight="@dimen/image_min_height_small" />
