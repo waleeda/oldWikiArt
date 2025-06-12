@@ -26,7 +26,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="253" verticalHuggingPriority="253" verticalCompressionResistancePriority="753" text="Label" lineBreakMode="tailTruncation" numberOfLines="99" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tED-Mn-drb">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="253" verticalHuggingPriority="253" verticalCompressionResistancePriority="753" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="99" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tED-Mn-drb">
                                 <rect key="frame" x="0.0" y="16.5" width="34" height="19.5"/>
                                 <fontDescription key="fontDescription" name="BodoniSvtyTwoITCTT-Book" family="Bodoni 72" pointSize="16"/>
                                 <nil key="textColor"/>
