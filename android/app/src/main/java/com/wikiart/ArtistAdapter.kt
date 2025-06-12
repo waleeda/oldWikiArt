@@ -27,10 +27,14 @@ class ArtistAdapter(
 
     inner class ArtistViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nameText: TextView = itemView.findViewById(R.id.artistName)
+        private val worksText: TextView = itemView.findViewById(R.id.artistWorks)
+        private val nationText: TextView = itemView.findViewById(R.id.artistNation)
         private val artistImage: ImageView = itemView.findViewById(R.id.artistImage)
 
         fun bind(artist: Artist) {
             nameText.text = artist.title
+            worksText.text = artist.totalWorksTitle?.capitalize()
+            nationText.text = listOfNotNull(artist.nation, artist.year).joinToString(", ")
             artistImage.load(artist.image)
             itemView.setOnClickListener { onItemClick(artist) }
         }
