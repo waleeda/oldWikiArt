@@ -17,14 +17,27 @@
 
 
     <!-- Custom text styles using Material typography -->
-    <style name="HeadingText" parent="TextAppearance.Material3.TitleLarge" />
+    <style name="HeadingText" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/textDark</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="PaintingTitleText" parent="TextAppearance.Material3.DisplaySmall">
         <item name="android:fontFamily">serif</item>
-        <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">22sp</item>
+
+        <item name="android:textColor">@color/textDark</item>
+        <item name="android:textSize">24sp</item>
+
     </style>
-    <style name="BodyText" parent="TextAppearance.Material3.BodyLarge" />
-    <style name="CaptionText" parent="TextAppearance.Material3.BodySmall" />
+    <style name="BodyText" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/textDark</item>
+    </style>
+    <style name="CaptionText" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/textDark</item>
+        <item name="android:textStyle">italic</item>
+    </style>
 
     <style name="TextAppearance.BodyLarge" parent="TextAppearance.Material3.BodyLarge" />
 

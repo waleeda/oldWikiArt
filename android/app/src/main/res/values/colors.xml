@@ -1,4 +1,7 @@
 <resources>
     <color name="colorPrimary">#6200EE</color>
     <color name="colorSecondary">#03DAC5</color>
+    <!-- Text colors aligned with iOS design -->
+    <color name="textDark">#000000</color>
+    <color name="textLight">#888888</color>
 </resources>
