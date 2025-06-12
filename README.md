@@ -1,9 +1,9 @@
 # WikiArt Mobile
 
-This repository contains the original iOS project and an Android port.
+This repository originally contained both an iOS project and an Android port.
+The iOS project has been removed, leaving only the Android source code.
 
-* `WikiArt3.0` – iOS application written in Swift.
-* `android` – Android port written in Kotlin.
+* `android` – Android application written in Kotlin.
 
 The Android port now displays paintings retrieved from the WikiArt API with
 endless scrolling support powered by the Paging library. A category spinner
