@@ -21,6 +21,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.content.Context
 import com.wikiart.model.LayoutType
+import com.wikiart.model.PaintingSection
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -126,7 +127,7 @@ class PaintingsFragment : Fragment() {
     }
 
     private fun showSectionDialog(category: PaintingCategory, sections: List<PaintingSection>) {
-        val names = sections.map { it.titleForLanguage("en") }.toTypedArray()
+        val names = sections.map { it.titleForLanguage("en") as CharSequence }.toTypedArray()
         val categoryNames = resources.getStringArray(R.array.painting_category_names)
         val title = categoryNames[PaintingCategory.values().indexOf(category)]
         androidx.appcompat.app.AlertDialog.Builder(requireContext())
