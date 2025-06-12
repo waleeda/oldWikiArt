@@ -47,6 +47,8 @@
 
     <string name="show_more">Show more</string>
     <string name="show_less">Show less</string>
+    <string name="born">Born: %1$s</string>
+    <string name="died">Died: %1$s</string>
 
     <string-array name="painting_category_names">
         <item>@string/painting_category_media</item>

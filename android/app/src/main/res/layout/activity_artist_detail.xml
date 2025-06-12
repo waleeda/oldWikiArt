@@ -25,6 +25,21 @@
             android:textAppearance="@style/HeadingText" />
 
         <TextView
+            android:id="@+id/artistBirth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAppearance="@style/BodyText"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/artistDeath"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/BodyText"
+            android:visibility="gone" />
+
+        <TextView
             android:id="@+id/artistBio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
