@@ -1,6 +1,0 @@
-framework module PopUpLib {
-  umbrella header "PopUpLib.h"
-
-  export *
-  module * { export * }
-}

@@ -1,9 +1,0 @@
-${PODS_ROOT}/Target Support Files/Pods-WikiArt3.0/Pods-WikiArt3.0-frameworks.sh
-${BUILT_PRODUCTS_DIR}/Analytics/Analytics.framework
-${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework
-${BUILT_PRODUCTS_DIR}/Kite-Print-SDK/KiteSDK.framework
-${BUILT_PRODUCTS_DIR}/PayPal-iOS-Dynamic-Loader/PayPalDynamicLoader.framework
-${BUILT_PRODUCTS_DIR}/Photobook/Photobook.framework
-${PODS_ROOT}/PopUpLib/PopUpLib.framework
-${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
-${BUILT_PRODUCTS_DIR}/Stripe/Stripe.framework
