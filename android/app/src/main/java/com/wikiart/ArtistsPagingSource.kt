@@ -2,8 +2,6 @@ package com.wikiart
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import com.wikiart.model.Artist
 import com.wikiart.model.ArtistCategory
 import kotlinx.coroutines.Dispatchers
