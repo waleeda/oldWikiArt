@@ -12,6 +12,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.content.Context
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.wikiart.model.LayoutType
 import com.wikiart.model.PaintingSection
 import kotlinx.coroutines.Job
@@ -28,6 +30,7 @@ import kotlinx.coroutines.launch
 class PaintingsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PaintingAdapter
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var layoutType: LayoutType = LayoutType.COLUMN
 
     private val itemClick: (Painting) -> Unit = { painting ->
@@ -57,10 +60,15 @@ class PaintingsFragment : Fragment() {
         val name = prefs.getString("layout_type", LayoutType.COLUMN.name) ?: LayoutType.COLUMN.name
         layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.COLUMN)
 
+        swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         recyclerView = view.findViewById(R.id.paintingRecyclerView)
         adapter = PaintingAdapter(layoutType, itemClick)
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         recyclerView.adapter = adapter
+        swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
+        adapter.addLoadStateListener { loadState ->
+            swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
+        }
 
         val spinner: Spinner = view.findViewById(R.id.categorySpinner)
         val categories = PaintingCategory.values()
