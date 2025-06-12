@@ -47,9 +47,10 @@ class PaintingAdapter(
             if (layoutType == LayoutType.COLUMN) {
                 val dm = itemView.resources.displayMetrics
                 val itemWidth = dm.widthPixels / 2
-                val ratio = painting.height.toFloat() / painting.width.toFloat()
                 paintingImage.layoutParams = paintingImage.layoutParams.apply {
-                    height = (itemWidth * ratio).toInt()
+                    // use a fixed 1:1 ratio so all grid items occupy
+                    // the same rectangular area
+                    height = itemWidth
                 }
             }
 
