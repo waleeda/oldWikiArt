@@ -2,6 +2,7 @@ import androidx.paging.PagingSource
 import com.wikiart.ArtistPaintingsPagingSource
 import com.wikiart.WikiArtService
 import com.wikiart.PaintingList
+import com.wikiart.model.ArtistPaintingSort
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking
@@ -16,7 +17,7 @@ class ArtistPaintingsPagingSourceTest {
         coEvery { service.fetchAllPaintingsByDate("/foo", 1) } returns
             PaintingList(emptyList(), 0, 20)
 
-        val source = ArtistPaintingsPagingSource(service, "/foo")
+        val source = ArtistPaintingsPagingSource(service, "/foo", ArtistPaintingSort.DATE)
         val params = PagingSource.LoadParams.Refresh<Int>(null, 20, false)
         val result = source.load(params)
 
@@ -32,7 +33,7 @@ class ArtistPaintingsPagingSourceTest {
         val service = mockk<WikiArtService>()
         coEvery { service.fetchAllPaintingsByDate("/foo", 1) } throws RuntimeException("boom")
 
-        val source = ArtistPaintingsPagingSource(service, "/foo")
+        val source = ArtistPaintingsPagingSource(service, "/foo", ArtistPaintingSort.DATE)
         val params = PagingSource.LoadParams.Refresh<Int>(null, 20, false)
         val result = source.load(params)
 

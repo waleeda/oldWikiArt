@@ -7,14 +7,19 @@ import kotlinx.coroutines.withContext
 
 class ArtistPaintingsPagingSource(
     private val service: WikiArtService,
-    private val path: String
+    private val path: String,
+    private val sort: com.wikiart.model.ArtistPaintingSort = com.wikiart.model.ArtistPaintingSort.DATE
 ) : PagingSource<Int, Painting>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Painting> {
         return try {
             val page = params.key ?: 1
             val result = withContext(Dispatchers.IO) {
-                service.fetchAllPaintingsByDate(path, page)
+                when (sort) {
+                    com.wikiart.model.ArtistPaintingSort.NAME ->
+                        service.fetchAllPaintingsByAlphabet(path, page)
+                    else -> service.fetchAllPaintingsByDate(path, page)
+                }
             }
             val paintings = result?.paintings ?: emptyList()
             val nextKey = if (page < (result?.pageCount ?: page)) page + 1 else null

@@ -155,6 +155,20 @@ class WikiArtService(
         }
     }
 
+    fun fetchAllPaintingsByAlphabet(path: String, page: Int = 1): PaintingList? {
+        val cleanPath = if (path.startsWith("http")) path else "${serverConfig.apiBaseUrl}$path"
+        val url = "$cleanPath/mode/all-paintings-by-alphabet?page=$page&json=2"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            Log.d(TAG, "fetchAllPaintingsByAlphabet response: $body")
+            val result = gson.fromJson(body, PaintingList::class.java)
+            Log.d(TAG, "fetchAllPaintingsByAlphabet decoded: $result")
+            return result
+        }
+    }
+
 
 
     fun fetchSections(category: PaintingCategory): List<PaintingSection>? {
