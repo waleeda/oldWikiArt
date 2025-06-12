@@ -2,13 +2,10 @@ package com.wikiart
 
 import android.os.Bundle
 
-import android.content.Intent
-import android.app.ActivityOptions
 import com.google.android.material.transition.platform.MaterialFadeThrough
 
 import androidx.appcompat.app.AppCompatActivity
 
-import com.wikiart.SupportActivity
 import com.wikiart.FavoritesFragment
 
 import androidx.fragment.app.Fragment
