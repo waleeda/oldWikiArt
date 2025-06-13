@@ -2,6 +2,7 @@ package com.wikiart
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.wikiart.model.Artist
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
