@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class PaintingDetailActivity : AppCompatActivity() {
 
-    private val repository = PaintingRepository()
+    private val repository = PaintingRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

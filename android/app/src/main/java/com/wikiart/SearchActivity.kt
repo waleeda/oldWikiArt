@@ -35,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
-    private val repository = PaintingRepository()
+    private val repository = PaintingRepository(this)
     private var searchJob: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
