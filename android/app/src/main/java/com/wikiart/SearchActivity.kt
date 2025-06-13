@@ -3,12 +3,7 @@ package com.wikiart
 import android.os.Bundle
 import android.content.Intent
 import android.app.ActivityOptions
-import android.view.inputmethod.EditorInfo
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.ImageView
-import android.text.TextWatcher
-import android.text.Editable
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -19,15 +14,17 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ConcatAdapter
 import androidx.paging.cachedIn
 import android.content.Context
-import androidx.appcompat.widget.PopupMenu
 import com.wikiart.model.LayoutType
+import com.wikiart.OptionsBottomSheet
+import com.wikiart.PaintingCategory
+import android.view.Menu
+import android.view.MenuItem
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class SearchActivity : AppCompatActivity() {
     private var layoutType: LayoutType = LayoutType.COLUMN
-    private lateinit var layoutButton: View
     private lateinit var recyclerView: RecyclerView
     private val paintingAdapter = PaintingAdapter(layoutType) { painting, image ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
@@ -61,9 +58,7 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
-        val input: AutoCompleteTextView = findViewById(R.id.searchInput)
         recyclerView = findViewById(R.id.resultsRecyclerView)
-        layoutButton = findViewById<View>(R.id.layoutButton)
 
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val name = prefs.getString("layout_type", LayoutType.COLUMN.name) ?: LayoutType.COLUMN.name
@@ -72,42 +67,21 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         paintingAdapter.layoutType = layoutType
         recyclerView.adapter = concatAdapter
-        layoutButton.setOnClickListener { view ->
-            showLayoutMenu(view)
-        }
+    }
 
-        val suggestions = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line)
-        input.setAdapter(suggestions)
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.options_menu, menu)
+        return true
+    }
 
-        input.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                performSearch(input.text.toString())
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_options -> {
+                showOptionsSheet()
                 true
-            } else {
-                false
             }
+            else -> super.onOptionsItemSelected(item)
         }
-
-        input.setOnItemClickListener { _, _, position, _ ->
-            val term = suggestions.getItem(position) ?: return@setOnItemClickListener
-            performSearch(term)
-        }
-
-        input.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                val text = s?.toString() ?: return
-                if (text.length >= 2) {
-                    lifecycleScope.launch {
-                        val autos = repository.autoComplete(text)
-                        suggestions.clear()
-                        suggestions.addAll(autos.map { it.label })
-                        suggestions.notifyDataSetChanged()
-                    }
-                }
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
     }
 
     private fun performSearch(term: String) {
@@ -136,24 +110,16 @@ class SearchActivity : AppCompatActivity() {
         else -> LinearLayoutManager(this)
     }
 
-    private fun showLayoutMenu(anchor: View) {
-        PopupMenu(this, anchor).apply {
-            menuInflater.inflate(R.menu.layout_menu, menu)
-            setOnMenuItemClickListener { item ->
+    private fun showOptionsSheet() {
+        OptionsBottomSheet<PaintingCategory>(null, null, layoutType) { _, layout ->
+            if (layout != layoutType) {
                 val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
-                layoutType = when (item.itemId) {
-                    R.id.layout_list -> LayoutType.LIST
-                    R.id.layout_grid -> LayoutType.COLUMN
-                    R.id.layout_sheet -> LayoutType.SHEET
-                    else -> return@setOnMenuItemClickListener false
-                }
+                layoutType = layout
                 prefs.edit().putString("layout_type", layoutType.name).apply()
                 paintingAdapter.layoutType = layoutType
                 paintingAdapter.notifyDataSetChanged()
                 recyclerView.layoutManager = layoutManagerFor(layoutType)
-                true
             }
-            show()
-        }
+        }.show(supportFragmentManager, "options")
     }
 }
