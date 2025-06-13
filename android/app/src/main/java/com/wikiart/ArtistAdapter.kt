@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.app.Activity
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -37,14 +38,17 @@ class ArtistAdapter(
 
         init {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                val root = itemView.rootView.findViewById<ViewGroup>(android.R.id.content)
-                val attrs = itemView.context.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
-                val windowBackground = attrs.getDrawable(0)
-                attrs.recycle()
-                blurView.setupWith(root, RenderEffectBlur())
-                    .setFrameClearDrawable(windowBackground)
-                    .setBlurRadius(itemView.resources.getDimension(R.dimen.detail_blur_radius))
-                    .setHasFixedTransformationMatrix(true)
+                val activity = itemView.context as? Activity
+                val root = activity?.findViewById<ViewGroup>(android.R.id.content)
+                if (root != null) {
+                    val attrs = activity.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+                    val windowBackground = attrs.getDrawable(0)
+                    attrs.recycle()
+                    blurView.setupWith(root, RenderEffectBlur())
+                        .setFrameClearDrawable(windowBackground)
+                        .setBlurRadius(itemView.resources.getDimension(R.dimen.detail_blur_radius))
+                        .setHasFixedTransformationMatrix(true)
+                }
             }
         }
 
