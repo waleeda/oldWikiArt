@@ -11,8 +11,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.ModalBottomSheetState
-import androidx.compose.material3.ModalBottomSheetValue
+import androidx.compose.material3.SheetState
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -20,15 +20,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.wikiart.model.LayoutType
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun <T : CategoryItem> OptionsBottomSheet(
-    state: ModalBottomSheetState = rememberModalBottomSheetState(
+    state: SheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
-        confirmValueChange = { it != ModalBottomSheetValue.Hidden }
+        confirmValueChange = { it != SheetValue.Hidden }
     ),
     categories: Array<T>? = null,
     selectedCategory: T? = null,
@@ -61,7 +63,10 @@ fun <T : CategoryItem> OptionsBottomSheet(
                                 selected = cat == selected,
                                 onClick = { selected = cat }
                             )
-                            Text(text = cat.title, modifier = Modifier.padding(start = 8.dp))
+                            Text(
+                                text = stringResource(id = cat.nameRes()),
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
                         }
                     }
                 }
