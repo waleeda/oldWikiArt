@@ -16,6 +16,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="@string/search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
             android:textAppearance="@style/BodyText" />
 
         <ImageButton
