@@ -41,9 +41,8 @@ class ArtistAdapter(
                 val attrs = itemView.context.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
                 val windowBackground = attrs.getDrawable(0)
                 attrs.recycle()
-                blurView.setupWith(root)
+                blurView.setupWith(root, RenderEffectBlur())
                     .setFrameClearDrawable(windowBackground)
-                    .setBlurAlgorithm(RenderEffectBlur())
                     .setBlurRadius(itemView.resources.getDimension(R.dimen.detail_blur_radius))
                     .setHasFixedTransformationMatrix(true)
             }
