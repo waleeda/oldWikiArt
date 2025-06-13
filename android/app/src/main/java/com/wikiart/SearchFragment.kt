@@ -16,15 +16,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import android.content.Context
+import androidx.appcompat.widget.PopupMenu
+import com.wikiart.model.LayoutType
 
 class SearchFragment : Fragment() {
-    private val adapter = PaintingAdapter { painting ->
+    private var layoutType: LayoutType = LayoutType.COLUMN
+    private lateinit var layoutButton: View
+    private lateinit var recyclerView: RecyclerView
+    private val adapter = PaintingAdapter(layoutType) { painting ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
@@ -45,9 +53,17 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val input: AutoCompleteTextView = view.findViewById(R.id.searchInput)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
-        val recyclerView: RecyclerView = view.findViewById(R.id.resultsRecyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView = view.findViewById(R.id.resultsRecyclerView)
+        layoutButton = view.findViewById(R.id.layoutButton)
+
+        val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        val name = prefs.getString("layout_type", LayoutType.COLUMN.name) ?: LayoutType.COLUMN.name
+        layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.COLUMN)
+
+        recyclerView.layoutManager = layoutManagerFor(layoutType)
+        adapter.layoutType = layoutType
         recyclerView.adapter = adapter
+        layoutButton.setOnClickListener { showLayoutMenu(it) }
         swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
         adapter.addLoadStateListener { loadState ->
             swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
@@ -109,6 +125,33 @@ class SearchFragment : Fragment() {
                 .collectLatest { pagingData ->
                     adapter.submitData(pagingData)
                 }
+        }
+    }
+
+    private fun layoutManagerFor(type: LayoutType): RecyclerView.LayoutManager = when (type) {
+        LayoutType.COLUMN -> GridLayoutManager(requireContext(), 2)
+        LayoutType.SHEET -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        else -> LinearLayoutManager(requireContext())
+    }
+
+    private fun showLayoutMenu(anchor: View) {
+        PopupMenu(requireContext(), anchor).apply {
+            menuInflater.inflate(R.menu.layout_menu, menu)
+            setOnMenuItemClickListener { item ->
+                val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+                layoutType = when (item.itemId) {
+                    R.id.layout_list -> LayoutType.LIST
+                    R.id.layout_grid -> LayoutType.COLUMN
+                    R.id.layout_sheet -> LayoutType.SHEET
+                    else -> return@setOnMenuItemClickListener false
+                }
+                prefs.edit().putString("layout_type", layoutType.name).apply()
+                adapter.layoutType = layoutType
+                adapter.notifyDataSetChanged()
+                recyclerView.layoutManager = layoutManagerFor(layoutType)
+                true
+            }
+            show()
         }
     }
 }
