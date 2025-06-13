@@ -50,6 +50,11 @@ class PaintingRepository(
             SearchPagingSource(service, term)
         }.flow
 
+    fun searchArtistsPagingFlow(term: String): Flow<PagingData<Artist>> =
+        Pager(pagingConfig) {
+            ArtistSearchPagingSource(service, term)
+        }.flow
+
 
     suspend fun getRelatedPaintings(path: String): List<Painting> =
         withContext(Dispatchers.IO) {

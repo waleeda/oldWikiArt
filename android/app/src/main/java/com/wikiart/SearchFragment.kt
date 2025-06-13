@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ConcatAdapter
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
@@ -33,7 +34,7 @@ class SearchFragment : Fragment() {
     private var layoutType: LayoutType = LayoutType.COLUMN
     private lateinit var layoutButton: View
     private lateinit var recyclerView: RecyclerView
-    private val adapter = PaintingAdapter(layoutType) { painting, image ->
+    private val paintingAdapter = PaintingAdapter(layoutType) { painting, image ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
@@ -44,6 +45,19 @@ class SearchFragment : Fragment() {
         )
         startActivity(intent, options.toBundle())
     }
+
+    private val artistAdapter = ArtistAdapter { artist ->
+        val intent = Intent(requireContext(), ArtistDetailActivity::class.java)
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, artist.artistUrl)
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artist.title)
+        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        startActivity(intent, options.toBundle())
+        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    private val headerArtists = HeaderAdapter(R.string.artists)
+    private val headerPaintings = HeaderAdapter(R.string.paintings)
+    private val concatAdapter = ConcatAdapter(headerArtists, artistAdapter, headerPaintings, paintingAdapter)
 
     private val repository by lazy { PaintingRepository(requireContext()) }
     private var searchJob: Job? = null
@@ -65,15 +79,25 @@ class SearchFragment : Fragment() {
         layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.COLUMN)
 
         recyclerView.layoutManager = layoutManagerFor(layoutType)
-        adapter.layoutType = layoutType
-        recyclerView.adapter = adapter
+        paintingAdapter.layoutType = layoutType
+        recyclerView.adapter = concatAdapter
         layoutButton.setOnClickListener { showLayoutMenu(it) }
-        swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
-        adapter.addLoadStateListener { loadState ->
+        swipeRefreshLayout.setOnRefreshListener {
+            paintingAdapter.refresh()
+            artistAdapter.refresh()
+        }
+        paintingAdapter.addLoadStateListener { loadState ->
             swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
         }
+        artistAdapter.addLoadStateListener { loadState ->
+            if (loadState.source.refresh is LoadState.Error) {
+                Snackbar.make(view, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
+                    .setAction(R.string.retry) { artistAdapter.retry() }
+                    .show()
+            }
+        }
 
-        adapter.addLoadStateListener { state ->
+        paintingAdapter.addLoadStateListener { state ->
             val error = when {
                 state.refresh is LoadState.Error -> state.refresh as LoadState.Error
                 state.append is LoadState.Error -> state.append as LoadState.Error
@@ -82,7 +106,7 @@ class SearchFragment : Fragment() {
             }
             error?.let {
                 Snackbar.make(view, R.string.load_error, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(R.string.retry) { adapter.retry() }
+                    .setAction(R.string.retry) { paintingAdapter.retry() }
                     .show()
             }
         }
@@ -124,11 +148,20 @@ class SearchFragment : Fragment() {
     private fun performSearch(term: String) {
         searchJob?.cancel()
         searchJob = viewLifecycleOwner.lifecycleScope.launch {
-            repository.searchPagingFlow(term)
-                .cachedIn(viewLifecycleOwner.lifecycleScope)
-                .collectLatest { pagingData ->
-                    adapter.submitData(pagingData)
-                }
+            launch {
+                repository.searchArtistsPagingFlow(term)
+                    .cachedIn(viewLifecycleOwner.lifecycleScope)
+                    .collectLatest { pagingData ->
+                        artistAdapter.submitData(pagingData)
+                    }
+            }
+            launch {
+                repository.searchPagingFlow(term)
+                    .cachedIn(viewLifecycleOwner.lifecycleScope)
+                    .collectLatest { pagingData ->
+                        paintingAdapter.submitData(pagingData)
+                    }
+            }
         }
     }
 
@@ -150,8 +183,8 @@ class SearchFragment : Fragment() {
                     else -> return@setOnMenuItemClickListener false
                 }
                 prefs.edit().putString("layout_type", layoutType.name).apply()
-                adapter.layoutType = layoutType
-                adapter.notifyDataSetChanged()
+                paintingAdapter.layoutType = layoutType
+                paintingAdapter.notifyDataSetChanged()
                 recyclerView.layoutManager = layoutManagerFor(layoutType)
                 true
             }
