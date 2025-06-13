@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.paging.cachedIn
 import android.content.Context
 import androidx.appcompat.widget.PopupMenu
@@ -28,7 +29,7 @@ class SearchActivity : AppCompatActivity() {
     private var layoutType: LayoutType = LayoutType.COLUMN
     private lateinit var layoutButton: View
     private lateinit var recyclerView: RecyclerView
-    private val adapter = PaintingAdapter(layoutType) { painting, image ->
+    private val paintingAdapter = PaintingAdapter(layoutType) { painting, image ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
@@ -39,6 +40,19 @@ class SearchActivity : AppCompatActivity() {
         )
         startActivity(intent, options.toBundle())
     }
+
+    private val artistAdapter = ArtistAdapter { artist ->
+        val intent = Intent(this, ArtistDetailActivity::class.java)
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, artist.artistUrl)
+        intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artist.title)
+        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        startActivity(intent, options.toBundle())
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+    }
+
+    private val headerArtists = HeaderAdapter(R.string.artists)
+    private val headerPaintings = HeaderAdapter(R.string.paintings)
+    private val concatAdapter = ConcatAdapter(headerArtists, artistAdapter, headerPaintings, paintingAdapter)
 
     private val repository by lazy { PaintingRepository(this) }
     private var searchJob: Job? = null
@@ -56,8 +70,8 @@ class SearchActivity : AppCompatActivity() {
         layoutType = runCatching { LayoutType.valueOf(name) }.getOrDefault(LayoutType.COLUMN)
 
         recyclerView.layoutManager = layoutManagerFor(layoutType)
-        adapter.layoutType = layoutType
-        recyclerView.adapter = adapter
+        paintingAdapter.layoutType = layoutType
+        recyclerView.adapter = concatAdapter
         layoutButton.setOnClickListener { view ->
             showLayoutMenu(view)
         }
@@ -99,11 +113,20 @@ class SearchActivity : AppCompatActivity() {
     private fun performSearch(term: String) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
-            repository.searchPagingFlow(term)
-                .cachedIn(lifecycleScope)
-                .collectLatest { pagingData ->
-                    adapter.submitData(pagingData)
-                }
+            launch {
+                repository.searchArtistsPagingFlow(term)
+                    .cachedIn(lifecycleScope)
+                    .collectLatest { pagingData ->
+                        artistAdapter.submitData(pagingData)
+                    }
+            }
+            launch {
+                repository.searchPagingFlow(term)
+                    .cachedIn(lifecycleScope)
+                    .collectLatest { pagingData ->
+                        paintingAdapter.submitData(pagingData)
+                    }
+            }
         }
     }
 
@@ -125,8 +148,8 @@ class SearchActivity : AppCompatActivity() {
                     else -> return@setOnMenuItemClickListener false
                 }
                 prefs.edit().putString("layout_type", layoutType.name).apply()
-                adapter.layoutType = layoutType
-                adapter.notifyDataSetChanged()
+                paintingAdapter.layoutType = layoutType
+                paintingAdapter.notifyDataSetChanged()
                 recyclerView.layoutManager = layoutManagerFor(layoutType)
                 true
             }

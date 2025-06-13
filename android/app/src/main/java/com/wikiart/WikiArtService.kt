@@ -93,6 +93,20 @@ class WikiArtService(
         }
     }
 
+    fun searchArtists(term: String, page: Int = 1): ArtistsList? {
+        val cleaned = java.net.URLEncoder.encode(term, "UTF-8")
+        val url = serverConfig.apiBaseUrl.toString() + "/" + language + "/Search/" + cleaned + "?json=3&layout=new&resultType=masonry&page=" + page
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            Log.d(TAG, "searchArtists response: $body")
+            val result = gson.fromJson(body, ArtistsList::class.java)
+            Log.d(TAG, "searchArtists decoded: $result")
+            return result
+        }
+    }
+
     fun searchAutoComplete(term: String): List<SearchAutoComplete>? {
         val url = serverConfig.apiBaseUrl.toString() + "/" + language + "/app/search/autocomplete/?term=" + java.net.URLEncoder.encode(term, "UTF-8")
         val request = Request.Builder().url(url).build()
