@@ -9,7 +9,9 @@
     <ImageView
         android:id="@+id/paintingImage"
         android:layout_width="wrap_content"
+
         android:layout_height="@dimen/related_image_height"
+
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:background="@color/imagePlaceholder"
