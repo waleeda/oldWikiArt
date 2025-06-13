@@ -19,4 +19,6 @@ language with a fallback to English when needed.
 
 Paintings can be viewed in three layouts—list, grid and sheet—mirroring the
 iOS design. The list and grid layouts display the artist name, title and year
-beneath each image while the sheet layout shows only the artwork image.
+beneath each image while the sheet layout shows only the artwork image. The
+grid layout now uses a staggered grid so images keep their original aspect
+ratio just like on iOS.
