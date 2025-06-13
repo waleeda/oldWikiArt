@@ -41,7 +41,7 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
         INSTITUTIONS -> "Art Institution"
     }
 
-    override fun nameRes(): Int = when (this) {
+     fun nameRes(): Int = when (this) {
         ALPHABETICAL -> R.string.artist_category_alphabet
         ART_MOVEMENT -> R.string.artist_category_art_movement
         SCHOOL -> R.string.artist_category_school
@@ -56,5 +56,5 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
         INSTITUTIONS -> R.string.artist_category_institution
     }
 
-    override  fun iconRes(): Int = R.drawable.ic_artists
+      fun iconRes(): Int = R.drawable.ic_artists
 }
