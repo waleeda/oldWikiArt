@@ -7,8 +7,14 @@ import com.wikiart.CategoryItem
  * Categories for browsing artists.
  * Mirrors the iOS ArtistCategory enum.
  */
-enum class ArtistCategory(val path: String, private val hasSections: Boolean) : CategoryItem {
+
+enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
+    POPULAR("popular-artists", false),
+    FEMALE("female-artists", false),
+    RECENT("recently-added-artists", false),
+
     ALPHABETICAL("Alphabet", false),
+
     ART_MOVEMENT("artists-by-Art-Movement", true),
     SCHOOL("artists-by-painting-school", true),
     GENRE("artists-by-genre", true),
@@ -16,10 +22,8 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) : 
     NATION("artists-by-nation", true),
     CENTURIES("artists-by-century", true),
     CHRONOLOGY("chronological-artists", false),
-    POPULAR("popular-artists", false),
-    FEMALE("female-artists", false),
-    RECENT("recently-added-artists", false),
-    INSTITUTIONS("artists-by-art-institution", true);
+    INSTITUTIONS("artists-by-art-institution", true),
+    ALPHABETICAL("Alphabet", false);
 
     fun hasSections(): Boolean = hasSections
 

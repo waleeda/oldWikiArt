@@ -63,17 +63,19 @@
     <string name="change_layout">Change layout</string>
 
     <string-array name="painting_category_names">
+        <item>@string/painting_category_favorites</item>
+        <item>@string/painting_category_featured</item>
+        <item>@string/painting_category_popular</item>
         <item>@string/painting_category_media</item>
         <item>@string/painting_category_style</item>
         <item>@string/painting_category_genre</item>
         <item>@string/painting_category_high_res</item>
-        <item>@string/painting_category_popular</item>
-        <item>@string/painting_category_featured</item>
-        <item>@string/painting_category_favorites</item>
     </string-array>
 
     <string-array name="artist_category_names">
-        <item>@string/artist_category_alphabet</item>
+        <item>@string/artist_category_popular</item>
+        <item>@string/artist_category_female</item>
+        <item>@string/artist_category_recent</item>
         <item>@string/artist_category_art_movement</item>
         <item>@string/artist_category_school</item>
         <item>@string/artist_category_genre</item>
@@ -81,10 +83,8 @@
         <item>@string/artist_category_nation</item>
         <item>@string/artist_category_century</item>
         <item>@string/artist_category_chronology</item>
-        <item>@string/artist_category_popular</item>
-        <item>@string/artist_category_female</item>
-        <item>@string/artist_category_recent</item>
         <item>@string/artist_category_institution</item>
+        <item>@string/artist_category_alphabet</item>
     </string-array>
 
 </resources>

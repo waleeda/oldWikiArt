@@ -1,15 +1,13 @@
 package com.wikiart
 
-import com.wikiart.R
-
 enum class PaintingCategory : CategoryItem {
+    FAVORITES,
+    FEATURED,
+    POPULAR
     MEDIA,
     STYLE,
     GENRE,
-    HIGH_RES,
-    POPULAR,
-    FEATURED,
-    FAVORITES;
+    HIGH_RES;
 
     fun hasSections(): Boolean = when (this) {
         MEDIA, STYLE, GENRE -> true
