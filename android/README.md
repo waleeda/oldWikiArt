@@ -53,4 +53,4 @@ when not present. If the API endpoint values are blank the app defaults to
 
 - Cache API responses locally to allow browsing offline
 - Add push notifications for featured paintings
-- Begin migrating views to Jetpack Compose for a modern interface
+- The interface has been completely rewritten using Jetpack Compose
