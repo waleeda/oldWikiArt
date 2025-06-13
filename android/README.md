@@ -4,15 +4,16 @@ This is an Android port of WikiArt. The `PaintingsFragment` hosts a RecyclerView
 that fetches paintings from the WikiArt API using OkHttp and coroutines.
 Scrolling now loads additional pages automatically using the
 Paging library. Each item displays the painting image using Coil and tapping a
-painting opens a detail screen showing a larger image and the title. A spinner
-at the top allows choosing a painting category and the list updates accordingly.
-A menu or new layout button on the Painting list lets you switch between list, grid and sheet layouts; your choice is saved.
+painting opens a detail screen showing a larger image and the title. Categories
+and layout options are now presented in a bottom sheet launched from the main
+screen, letting you filter paintings or switch between list, grid and sheet
+layouts. Your selection is saved for next time.
 Additional screens let you search with autocomplete, manage favourites and view
 artist information. You can share or buy prints of a painting, view the image in
 full screen and visit a Support screen to send feedback or make a donation using
 Google Play Billing. The bottom navigation bar handles switching between the
-Paintings, Artists, Search and Support fragments, replacing the old options
-menu.
+Paintings, Artists, Search, Favourites and Support fragments, replacing the old
+options menu.
 Material You dynamic colors are applied on Android 12 and above so the app theme
 matches your wallpaper.
 Section titles in category dialogs are shown in your device language when
