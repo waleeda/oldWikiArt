@@ -118,7 +118,7 @@ class PaintingsFragment : Fragment() {
     }
 
     private fun layoutManagerFor(type: LayoutType): RecyclerView.LayoutManager = when (type) {
-        LayoutType.COLUMN -> GridLayoutManager(requireContext(), 2)
+        LayoutType.COLUMN -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         LayoutType.SHEET -> StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         else -> LinearLayoutManager(requireContext())
     }

@@ -50,10 +50,10 @@ class PaintingAdapter(
                 val padding = itemView.resources.getDimensionPixelSize(
                     R.dimen.painting_grid_image_padding
                 ) * 2
+                val width = itemWidth - padding
+                val ratio = painting.height.toFloat() / painting.width
                 paintingImage.layoutParams = paintingImage.layoutParams.apply {
-                    // use a fixed 1:1 ratio so all grid items occupy
-                    // the same rectangular area, accounting for padding
-                    height = itemWidth - padding
+                    height = (width * ratio).toInt()
                 }
             }
 
