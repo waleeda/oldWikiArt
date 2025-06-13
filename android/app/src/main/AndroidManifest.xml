@@ -29,6 +29,7 @@
             android:theme="@style/TranslucentDetailTheme" />
         <activity android:name=".ArtistsActivity" />
         <activity android:name=".ArtistPaintingsActivity" />
+        <activity android:name=".ComposeSupportActivity" />
 
     </application>
 </manifest>

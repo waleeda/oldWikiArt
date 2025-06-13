@@ -54,4 +54,4 @@ screen.
 
 - Cache paintings for offline viewing
 - Port additional iOS features such as artwork collections
-- Explore a Jetpack Compose UI rewrite
+- Rewrite the Android interface using Jetpack Compose
