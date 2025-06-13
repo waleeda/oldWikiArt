@@ -1,9 +1,11 @@
 package com.wikiart
 
 import com.google.gson.Gson
+import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
+import java.io.File
 import android.util.Log
 import com.wikiart.BuildConfig
 import com.wikiart.model.PaintingSection
@@ -15,11 +17,12 @@ import com.wikiart.model.ArtistsList
 
 class WikiArtService(
     private val serverConfig: ServerConfigType = ServerConfig.production,
-    private val language: String = java.util.Locale.getDefault().language
+    private val language: String = java.util.Locale.getDefault().language,
+    cacheDir: File? = null
 ) {
     companion object {
-        private val sharedClient: OkHttpClient by lazy {
-            OkHttpClient.Builder()
+        private fun buildClient(cacheDir: File?): OkHttpClient {
+            val builder = OkHttpClient.Builder()
                 .addInterceptor(HttpLoggingInterceptor().apply {
                     level = if (BuildConfig.DEBUG) {
                         HttpLoggingInterceptor.Level.BODY
@@ -27,11 +30,14 @@ class WikiArtService(
                         HttpLoggingInterceptor.Level.NONE
                     }
                 })
-                .build()
+            cacheDir?.let {
+                builder.cache(Cache(File(it, "http_cache"), 10L * 1024 * 1024))
+            }
+            return builder.build()
         }
     }
 
-    private val client = sharedClient
+    private val client = buildClient(cacheDir)
     private val gson = Gson()
     private val TAG = "WikiArtService"
 

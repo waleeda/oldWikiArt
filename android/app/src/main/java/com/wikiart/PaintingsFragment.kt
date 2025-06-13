@@ -44,7 +44,7 @@ class PaintingsFragment : Fragment() {
         requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
-    private val repository = PaintingRepository()
+    private val repository by lazy { PaintingRepository(requireContext()) }
     private var pagingJob: Job? = null
     private var currentSectionId: String? = null
 

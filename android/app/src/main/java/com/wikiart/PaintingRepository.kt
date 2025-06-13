@@ -11,7 +11,12 @@ import com.wikiart.model.Artist
 import com.wikiart.model.ArtistCategory
 import com.wikiart.model.ArtistSection
 
-class PaintingRepository(private val service: WikiArtService = WikiArtService()) {
+import android.content.Context
+
+class PaintingRepository(
+    context: Context? = null,
+    private val service: WikiArtService = WikiArtService(cacheDir = context?.cacheDir)
+) {
 
     private val pageSize = 20
     private val prefetchDistance = 5
