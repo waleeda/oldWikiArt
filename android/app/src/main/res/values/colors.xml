@@ -7,6 +7,8 @@
     <color name="textLight">#888888</color>
     <!-- Backgrounds matching iOS list appearance -->
     <color name="groupBackground">#F2F2F7</color>
+    <!-- Semi transparent background for modal details -->
+    <color name="groupBackgroundTranslucent">#CCF2F2F7</color>
     <color name="cardBackground">#FFFFFF</color>
     <color name="imagePlaceholder">#C6C6C8</color>
 </resources>

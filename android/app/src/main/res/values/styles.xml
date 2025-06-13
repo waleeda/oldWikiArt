@@ -52,6 +52,13 @@
         <item name="android:textStyle">italic</item>
     </style>
 
+    <!-- Theme for translucent detail overlays -->
+    <style name="TranslucentDetailTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
     <style name="TextAppearance.BodyLarge" parent="TextAppearance.Material3.BodyLarge" />
 
 </resources>
