@@ -30,6 +30,7 @@
         <activity android:name=".ArtistsActivity" />
         <activity android:name=".ArtistPaintingsActivity" />
         <activity android:name=".ComposeSupportActivity" />
+        <activity android:name=".HelloComposeActivity" />
 
     </application>
 </manifest>
