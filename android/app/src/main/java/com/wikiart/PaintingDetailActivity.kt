@@ -32,12 +32,12 @@ class PaintingDetailActivity : AppCompatActivity() {
         setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_painting_detail)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.setBackgroundBlurRadius(
                 resources.getDimensionPixelSize(R.dimen.detail_blur_radius)
             )
         }
-        setContentView(R.layout.activity_painting_detail)
         window.sharedElementEnterTransition = MaterialContainerTransform().apply {
             addTarget(android.R.id.content)
             duration = 300
