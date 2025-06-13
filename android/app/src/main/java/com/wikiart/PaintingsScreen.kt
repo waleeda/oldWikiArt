@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.items as pagingItems
 import coil.compose.AsyncImage
 import com.wikiart.model.LayoutType
 
@@ -47,7 +47,7 @@ fun PaintingsScreen(
             when (layoutType) {
                 LayoutType.LIST -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(paintings, key = { it.id }) { painting ->
+                        pagingItems(paintings, key = { it.id }) { painting ->
                             painting?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
@@ -62,7 +62,7 @@ fun PaintingsScreen(
                         state = state,
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(paintings, key = { it.id }) { painting ->
+                        pagingItems(paintings, key = { it.id }) { painting ->
                             painting?.let { PaintingGridItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
@@ -75,7 +75,7 @@ fun PaintingsScreen(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(paintings, key = { it.id }) { painting ->
+                        pagingItems(paintings, key = { it.id }) { painting ->
                             painting?.let { PaintingSheetItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
@@ -85,7 +85,7 @@ fun PaintingsScreen(
                 }
                 else -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        items(paintings, key = { it.id }) { painting ->
+                        pagingItems(paintings, key = { it.id }) { painting ->
                             painting?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
