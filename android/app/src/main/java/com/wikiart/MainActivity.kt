@@ -43,7 +43,16 @@ class MainActivity : ComponentActivity() {
                 ) { inner ->
                     when (selected) {
                         NavItem.Paintings -> PaintingsPlaceholderScreen(Modifier.padding(inner))
-                        NavItem.Artists -> ArtistsPlaceholderScreen(Modifier.padding(inner))
+                        NavItem.Artists -> ArtistsScreen(
+                            modifier = Modifier.padding(inner),
+                            onArtistClick = { artist ->
+                                val intent = Intent(this, ArtistDetailActivity::class.java)
+                                intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_URL, artist.artistUrl)
+                                intent.putExtra(ArtistDetailActivity.EXTRA_ARTIST_NAME, artist.title)
+                                startActivity(intent)
+                                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
+                            }
+                        )
                         NavItem.Search -> SearchScreen(
                             modifier = Modifier.padding(inner),
                             onPaintingClick = { painting ->
