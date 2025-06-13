@@ -48,6 +48,10 @@ class MainActivity : AppCompatActivity() {
             }
 
         }
+        // Display the Paintings fragment on launch
+        if (savedInstanceState == null) {
+            nav.selectedItemId = R.id.nav_paintings
+        }
     }
 
     private fun switchFragment(fragment: Fragment) {
