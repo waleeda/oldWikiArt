@@ -5,28 +5,28 @@ import android.os.Bundle
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowInsetsController
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.ui.Modifier
 import coil.load
 import com.github.chrisbanes.photoview.PhotoView
 
-class ImageDetailActivity : AppCompatActivity() {
+class ImageDetailActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_detail)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.setBackgroundBlurRadius(
                 resources.getDimensionPixelSize(R.dimen.detail_blur_radius)
             )
         }
-
-        enterImmersiveMode()
-
         val url = intent.getStringExtra(EXTRA_IMAGE_URL) ?: ""
-        val imageView: PhotoView = findViewById(R.id.fullImageView)
-        imageView.load(url) {
-            allowHardware(false)
+        enterImmersiveMode()
+        setContent {
+            ImageDetailScreen(imageUrl = url, onClose = { finish() })
         }
-        imageView.setOnClickListener { finish() }
     }
 
     override fun finish() {
@@ -57,6 +57,23 @@ class ImageDetailActivity : AppCompatActivity() {
             @Suppress("DEPRECATION")
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
         }
+    }
+
+    @Composable
+    private fun ImageDetailScreen(imageUrl: String, onClose: () -> Unit) {
+        AndroidView(
+            factory = { context ->
+                PhotoView(context).apply {
+                    layoutParams = android.view.ViewGroup.LayoutParams(
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                        android.view.ViewGroup.LayoutParams.MATCH_PARENT
+                    )
+                    load(imageUrl) { allowHardware(false) }
+                    setOnClickListener { onClose() }
+                }
+            },
+            modifier = Modifier.fillMaxSize()
+        )
     }
 
     companion object {
