@@ -9,8 +9,27 @@ reference.
 The Android port now displays paintings retrieved from the WikiArt API with
 endless scrolling support powered by the Paging library. Only one page of
 results is fetched at a time and the next page loads after most of the current
-items have been scrolled through. A category spinner
-lets you filter paintings (e.g. Featured or Popular). List items load images
+items have been scrolled through. Categories and layout settings are now
+presented in a bottom sheet invoked from the main screen, replacing the old
+spinner. A simplified mockup is shown below:
+
+```
+Main screen
+-----------
+[filter ⌄] [layout ⌄]
+
+┌ bottom sheet ┐
+│ Featured     │
+│ Popular      │
+│ ...          │
+│ Layout:      │
+│  • List      │
+│  • Grid      │
+│  • Sheet     │
+└──────────────┘
+```
+
+List items load images
 using Coil, and tapping an item opens a detail screen. You can search with
 autocomplete suggestions, mark paintings as favourites, view artist details and
 share or buy prints of a painting. Images can also be viewed full screen with
@@ -26,6 +45,10 @@ ratio just like on iOS.
 
 The latest update adds Material You dynamic color support on Android 12+
 devices, automatically adapting the app theme to the user's wallpaper.
+
+Navigation between Paintings, Artists, Search, Favourites and Support
+continues to be handled by the bottom navigation bar at the bottom of the
+screen.
 
 ## Future improvements
 
