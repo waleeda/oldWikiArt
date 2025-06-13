@@ -55,6 +55,11 @@ class PaintingRepository(
         withContext(Dispatchers.IO) {
             service.fetchRelatedPaintings(path)?.paintings ?: emptyList()
         }
+
+    suspend fun getPaintingDetails(id: String): PaintingDetails? =
+        withContext(Dispatchers.IO) {
+            service.fetchPaintingDetails(id)
+        }
     suspend fun sections(category: PaintingCategory): List<PaintingSection> =
         withContext(Dispatchers.IO) {
             service.fetchSections(category) ?: emptyList()

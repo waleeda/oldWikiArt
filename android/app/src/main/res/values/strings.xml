@@ -10,6 +10,15 @@
     <string name="buy">Buy</string>
     <string name="year">Year: %1$s</string>
     <string name="dimensions">Dimensions: %1$dx%2$d</string>
+    <string name="location_label">Location:</string>
+    <string name="period_label">Period:</string>
+    <string name="series_label">Series:</string>
+    <string name="genres_label">Genres:</string>
+    <string name="styles_label">Styles:</string>
+    <string name="media_label">Media:</string>
+    <string name="galleries_label">Galleries:</string>
+    <string name="tags_label">Tags:</string>
+    <string name="description_label">Description:</string>
     <string name="related_paintings">Related Paintings</string>
 
     <string name="famous_works">Famous Works</string>

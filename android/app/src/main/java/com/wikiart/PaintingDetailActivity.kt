@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.Toast
 import android.view.View
 import android.app.ActivityOptions
@@ -178,6 +179,12 @@ class PaintingDetailActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             painting?.let {
+                val detailsContainer: LinearLayout = findViewById(R.id.detailsContainer)
+                val details = repository.getPaintingDetails(it.id)
+                details?.let { d ->
+                    addDetails(detailsContainer, d)
+                    detailsContainer.visibility = View.VISIBLE
+                }
                 val related = repository.getRelatedPaintings(it.paintingUrl)
                 if (related.isNotEmpty()) {
                     relatedAdapter.submitList(related)
@@ -188,6 +195,43 @@ class PaintingDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun addDetails(container: LinearLayout, details: PaintingDetails) {
+        details.location?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.location_label), it)
+        }
+        details.period?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.period_label), it)
+        }
+        details.series?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.series_label), it)
+        }
+        details.genres?.takeIf { it.isNotEmpty() }?.let {
+            addDetail(container, getString(R.string.genres_label), it.joinToString(", "))
+        }
+        details.styles?.takeIf { it.isNotEmpty() }?.let {
+            addDetail(container, getString(R.string.styles_label), it.joinToString(", "))
+        }
+        details.media?.takeIf { it.isNotEmpty() }?.let {
+            addDetail(container, getString(R.string.media_label), it.joinToString(", "))
+        }
+        details.galleries?.takeIf { it.isNotEmpty() }?.let {
+            addDetail(container, getString(R.string.galleries_label), it.joinToString(", "))
+        }
+        details.tags?.takeIf { it.isNotEmpty() }?.let {
+            addDetail(container, getString(R.string.tags_label), it.joinToString(", "))
+        }
+        details.description?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.description_label), it)
+        }
+    }
+
+    private fun addDetail(container: LinearLayout, label: String, value: String) {
+        val view = layoutInflater.inflate(R.layout.item_painting_detail_field, container, false)
+        view.findViewById<TextView>(R.id.detailLabel).text = label
+        view.findViewById<TextView>(R.id.detailValue).text = value
+        container.addView(view)
     }
 
     companion object {

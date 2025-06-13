@@ -40,6 +40,7 @@
             android:visibility="gone"
             android:textAppearance="@style/BodyText" />
 
+
         <TextView
             android:id="@+id/detailDimensions"
             android:layout_width="wrap_content"
@@ -47,6 +48,14 @@
             android:layout_marginTop="2dp"
             android:visibility="gone"
             android:textAppearance="@style/BodyText" />
+
+        <LinearLayout
+            android:id="@+id/detailsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/detailArtist"
