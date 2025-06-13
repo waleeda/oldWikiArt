@@ -58,7 +58,7 @@ struct PadLayoutService: LayoutService {
         let layout = RowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 4
-        layout.sectionInset = .init(top: 0, left: 20, bottom: 0, right: 20)
+        layout.sectionInset = .zero
         return layout
     }
 }
@@ -83,7 +83,7 @@ struct PhoneLayoutService: LayoutService {
     func paintingRowFlow() -> UICollectionViewLayout {
         let layout = RowLayout()
         layout.scrollDirection = .horizontal
-        layout.sectionInset = .init(top: 0, left: 20, bottom: 0, right: 20)
+        layout.sectionInset = .zero
         return layout
     }
 }
