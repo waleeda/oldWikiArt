@@ -2,6 +2,8 @@
     <dimen name="image_min_height_standard">200dp</dimen>
     <dimen name="image_min_height_small">150dp</dimen>
     <dimen name="image_min_height_large">300dp</dimen>
+    <!-- Height for related painting thumbnails on the detail screen -->
+    <dimen name="related_image_height">240dp</dimen>
     <!-- Taller artist cell height to match iOS aspect ratio -->
     <dimen name="artist_image_min_height">320dp</dimen>
     <!-- Padding around painting images in the two-column grid layout -->

@@ -25,9 +25,25 @@ class RelatedPaintingAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val image: ImageView = itemView.findViewById(R.id.paintingImage)
         private val title: TextView = itemView.findViewById(R.id.titleText)
+        private val artist: TextView? = itemView.findViewById(R.id.artistText)
+        private val year: TextView? = itemView.findViewById(R.id.yearText)
 
         fun bind(painting: Painting) {
             title.text = painting.title
+            artist?.text = painting.artistName
+            year?.text = painting.year
+
+            val height = itemView.resources.getDimensionPixelSize(R.dimen.related_image_height)
+            val width = if (painting.height > 0) {
+                height * painting.width / painting.height
+            } else {
+                height
+            }
+            image.layoutParams = image.layoutParams.apply {
+                this.height = height
+                this.width = width
+            }
+
             image.load(painting.thumbUrl)
             itemView.setOnClickListener { onItemClick(painting, image) }
         }
