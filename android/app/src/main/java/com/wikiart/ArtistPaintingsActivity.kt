@@ -35,7 +35,7 @@ class ArtistPaintingsActivity : AppCompatActivity() {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
-    private val repository = PaintingRepository(this)
+    private val repository by lazy { PaintingRepository(this) }
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
     private var pagingJob: Job? = null
 
