@@ -13,6 +13,8 @@ full screen and visit a Support screen to send feedback or make a donation using
 Google Play Billing. The bottom navigation bar handles switching between the
 Paintings, Artists, Search and Support fragments, replacing the old options
 menu.
+Material You dynamic colors are applied on Android 12 and above so the app theme
+matches your wallpaper.
 Section titles in category dialogs are shown in your device language when
 available, defaulting to English otherwise.
 
@@ -45,3 +47,9 @@ KITE_PUBLIC_KEY=<kite public key>
 Values from `local.properties` take precedence, falling back to the environment
 when not present. If the API endpoint values are blank the app defaults to
 `www.wikiart.org`.
+
+## Future work
+
+- Cache API responses locally to allow browsing offline
+- Add push notifications for featured paintings
+- Consider migrating views to Jetpack Compose
