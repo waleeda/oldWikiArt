@@ -29,6 +29,9 @@ Main screen
 └──────────────┘
 ```
 
+The iOS project now contains a similar implementation in `View Controller/OptionsBottomSheet.swift` so both platforms share the bottom sheet UI.
+A Compose-based `OptionsBottomSheet` in `ComposeOptionsBottomSheet.kt` allows Compose screens to reuse the same interface on Android.
+
 List items load images
 using Coil, and tapping an item opens a detail screen. You can search with
 autocomplete suggestions, mark paintings as favourites, view artist details and
