@@ -1,6 +1,8 @@
 package com.wikiart
 
-enum class PaintingCategory {
+import com.wikiart.R
+
+enum class PaintingCategory : CategoryItem {
     MEDIA,
     STYLE,
     GENRE,
@@ -22,5 +24,25 @@ enum class PaintingCategory {
         POPULAR -> "Popular"
         FEATURED -> "Featured"
         FAVORITES -> "Favorites"
+    }
+
+    fun nameRes(): Int = when (this) {
+        MEDIA -> R.string.painting_category_media
+        STYLE -> R.string.painting_category_style
+        GENRE -> R.string.painting_category_genre
+        HIGH_RES -> R.string.painting_category_high_res
+        POPULAR -> R.string.painting_category_popular
+        FEATURED -> R.string.painting_category_featured
+        FAVORITES -> R.string.painting_category_favorites
+    }
+
+    fun iconRes(): Int = when (this) {
+        MEDIA -> R.drawable.ic_painting_media
+        STYLE -> R.drawable.ic_painting_style
+        GENRE -> R.drawable.ic_painting_genre
+        HIGH_RES -> R.drawable.ic_painting_high_res
+        POPULAR -> R.drawable.ic_painting_popular
+        FEATURED -> R.drawable.ic_painting_featured
+        FAVORITES -> R.drawable.ic_favorite_filled
     }
 }
