@@ -14,7 +14,7 @@ class PaintingRepositoryTest {
     @Test
     fun pagingFlowCreatesWikiArtPagingSource() {
         val service = mockk<WikiArtService>(relaxed = true)
-        val repo = PaintingRepository(service)
+        val repo = PaintingRepository(service = service)
         val flow = repo.pagingFlow(PaintingCategory.FEATURED, "section")
 
         val field = flow.javaClass.getDeclaredField("this$0")
@@ -36,7 +36,7 @@ class PaintingRepositoryTest {
     @Test
     fun artistPaintingsPagingFlowCreatesSource() {
         val service = mockk<WikiArtService>(relaxed = true)
-        val repo = PaintingRepository(service)
+        val repo = PaintingRepository(service = service)
         val flow = repo.artistPaintingsPagingFlow("/foo", ArtistPaintingSort.DATE)
 
         val field = flow.javaClass.getDeclaredField("this$0")
