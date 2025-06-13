@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items as staggeredItems
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -75,8 +74,8 @@ fun ArtistsScreen(
                             columns = StaggeredGridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            staggeredItems(artists.itemCount) { index ->
-                                artists[index]?.let { ArtistGridItem(it, onArtistClick) }
+                            pagingItems(artists, key = { it.id }) { artist ->
+                                artist?.let { ArtistGridItem(it, onArtistClick) }
                             }
                             if (artists.loadState.append is LoadState.Loading) {
                                 item { LoadingRow() }
