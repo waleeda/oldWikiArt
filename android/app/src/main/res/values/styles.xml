@@ -7,6 +7,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="textAppearanceBodyLarge">@style/TextAppearance.BodyLarge</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <!-- Full screen theme without an action bar. -->
@@ -57,6 +58,7 @@
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="TextAppearance.BodyLarge" parent="TextAppearance.Material3.BodyLarge" />

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.cachedIn
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.ImageView
 import android.view.Menu
 import android.view.MenuItem
 import android.content.Context
@@ -27,12 +28,15 @@ import kotlinx.coroutines.launch
 class ArtistPaintingsActivity : AppCompatActivity() {
     private var layoutType: LayoutType = LayoutType.SHEET
     private var sort: ArtistPaintingSort = ArtistPaintingSort.DATE
-    private val adapter = PaintingAdapter(layoutType) { painting ->
+    private val adapter = PaintingAdapter(layoutType) { painting, image ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository by lazy { PaintingRepository(this) }

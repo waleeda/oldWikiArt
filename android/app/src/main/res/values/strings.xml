@@ -62,6 +62,9 @@
     <string name="died">Died: %1$s</string>
     <string name="change_layout">Change layout</string>
 
+    <!-- Transition name used for shared element animations -->
+    <string name="transition_detail_image">detailImage</string>
+
     <string-array name="painting_category_names">
         <item>@string/painting_category_favorites</item>
         <item>@string/painting_category_featured</item>

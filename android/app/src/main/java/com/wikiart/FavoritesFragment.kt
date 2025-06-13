@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.PagingData
@@ -17,12 +18,15 @@ import com.wikiart.data.FavoritesRepository
 import kotlinx.coroutines.launch
 
 class FavoritesFragment : Fragment() {
-    private val adapter = PaintingAdapter { painting ->
+    private val adapter = PaintingAdapter { painting, image ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            requireActivity(),
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 

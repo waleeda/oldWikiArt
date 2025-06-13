@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
@@ -32,13 +33,16 @@ class SearchFragment : Fragment() {
     private var layoutType: LayoutType = LayoutType.COLUMN
     private lateinit var layoutButton: View
     private lateinit var recyclerView: RecyclerView
-    private val adapter = PaintingAdapter(layoutType) { painting ->
+    private val adapter = PaintingAdapter(layoutType) { painting, image ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
-        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            requireActivity(),
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository by lazy { PaintingRepository(requireContext()) }

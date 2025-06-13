@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 
 class RelatedPaintingAdapter(
-    private val onItemClick: (Painting) -> Unit = {}
+    private val onItemClick: (Painting, ImageView) -> Unit = { _, _ -> }
 ) : androidx.recyclerview.widget.ListAdapter<Painting, RelatedPaintingAdapter.ViewHolder>(Diff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -29,7 +29,7 @@ class RelatedPaintingAdapter(
         fun bind(painting: Painting) {
             title.text = painting.title
             image.load(painting.thumbUrl)
-            itemView.setOnClickListener { onItemClick(painting) }
+            itemView.setOnClickListener { onItemClick(painting, image) }
         }
     }
 

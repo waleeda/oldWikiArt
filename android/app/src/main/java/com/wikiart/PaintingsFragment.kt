@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Spinner
+import android.widget.ImageView
 import com.wikiart.CategorySpinnerAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -36,12 +37,15 @@ class PaintingsFragment : Fragment() {
     private lateinit var layoutButton: View
     private var layoutType: LayoutType = LayoutType.COLUMN
 
-    private val itemClick: (Painting) -> Unit = { painting ->
+    private val itemClick: (Painting, ImageView) -> Unit = { painting, image ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        val options = ActivityOptions.makeSceneTransitionAnimation(requireActivity())
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            requireActivity(),
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        requireActivity().overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository by lazy { PaintingRepository(requireContext()) }

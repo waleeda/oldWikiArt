@@ -6,6 +6,7 @@ import android.app.ActivityOptions
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.ImageView
 import android.text.TextWatcher
 import android.text.Editable
 import android.view.View
@@ -27,13 +28,16 @@ class SearchActivity : AppCompatActivity() {
     private var layoutType: LayoutType = LayoutType.COLUMN
     private lateinit var layoutButton: View
     private lateinit var recyclerView: RecyclerView
-    private val adapter = PaintingAdapter(layoutType) { painting ->
+    private val adapter = PaintingAdapter(layoutType) { painting, image ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_TITLE, painting.title)
         intent.putExtra(PaintingDetailActivity.EXTRA_IMAGE, painting.detailUrl)
-        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private val repository by lazy { PaintingRepository(this) }
