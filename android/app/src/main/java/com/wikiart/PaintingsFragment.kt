@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.wikiart.CategorySpinnerAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
@@ -91,9 +91,7 @@ class PaintingsFragment : Fragment() {
 
         val spinner: Spinner = view.findViewById(R.id.categorySpinner)
         val categories = PaintingCategory.values()
-        val categoryNames = resources.getStringArray(R.array.painting_category_names)
-        val spinnerAdapter = ArrayAdapter(requireContext(), R.layout.spinner_category_item, categoryNames)
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val spinnerAdapter = CategorySpinnerAdapter(requireContext(), categories)
         spinner.adapter = spinnerAdapter
         spinner.setSelection(categories.indexOf(PaintingCategory.FEATURED))
 

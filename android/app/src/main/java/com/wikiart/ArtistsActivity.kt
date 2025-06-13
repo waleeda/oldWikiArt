@@ -5,8 +5,8 @@ import android.app.ActivityOptions
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.wikiart.CategorySpinnerAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -42,8 +42,8 @@ class ArtistsActivity : AppCompatActivity() {
 
         val spinner: Spinner = findViewById(R.id.artistCategorySpinner)
         val categories = ArtistCategory.values()
-        val categoryNames = resources.getStringArray(R.array.artist_category_names)
-        spinner.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, categoryNames)
+        val spinnerAdapter = CategorySpinnerAdapter(this, categories)
+        spinner.adapter = spinnerAdapter
         spinner.setSelection(categories.indexOf(ArtistCategory.POPULAR))
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

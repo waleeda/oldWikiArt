@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Spinner
+import com.wikiart.CategorySpinnerAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
@@ -68,8 +68,8 @@ class ArtistsFragment : Fragment() {
 
         val spinner: Spinner = view.findViewById(R.id.artistCategorySpinner)
         val categories = ArtistCategory.values()
-        val categoryNames = resources.getStringArray(R.array.artist_category_names)
-        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, categoryNames)
+        val spinnerAdapter = CategorySpinnerAdapter(requireContext(), categories)
+        spinner.adapter = spinnerAdapter
         spinner.setSelection(categories.indexOf(ArtistCategory.POPULAR))
 
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
