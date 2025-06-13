@@ -9,7 +9,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items as staggeredItems
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -63,8 +62,8 @@ fun ArtistPaintingsScreen(
                             columns = StaggeredGridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            staggeredItems(paintings.itemCount) { index ->
-                                paintings[index]?.let { PaintingGridItem(it, onPaintingClick) }
+                            pagingItems(paintings, key = { it.id }) { painting ->
+                                painting?.let { PaintingGridItem(it, onPaintingClick) }
                             }
                             if (paintings.loadState.append is LoadState.Loading) {
                                 item { LoadingRow() }
