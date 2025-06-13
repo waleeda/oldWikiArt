@@ -42,7 +42,14 @@ class MainActivity : ComponentActivity() {
                     }
                 ) { inner ->
                     when (selected) {
-                        NavItem.Paintings -> PaintingsPlaceholderScreen(Modifier.padding(inner))
+                        NavItem.Paintings -> PaintingsScreen(
+                            modifier = Modifier.padding(inner),
+                            onPaintingClick = { painting ->
+                                val intent = Intent(this, PaintingDetailActivity::class.java)
+                                intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
+                                startActivity(intent)
+                            }
+                        )
                         NavItem.Artists -> ArtistsScreen(
                             modifier = Modifier.padding(inner),
                             onArtistClick = { artist ->
