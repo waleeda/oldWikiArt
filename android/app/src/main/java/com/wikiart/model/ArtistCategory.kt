@@ -8,7 +8,7 @@ import com.wikiart.CategoryItem
  * Mirrors the iOS ArtistCategory enum.
  */
 
-enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
+enum class ArtistCategory(val path: String, private val hasSections: Boolean) : CategoryItem {
     POPULAR("popular-artists", false),
     FEMALE("female-artists", false),
     RECENT("recently-added-artists", false),
@@ -41,7 +41,7 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
         INSTITUTIONS -> "Art Institution"
     }
 
-     fun nameRes(): Int = when (this) {
+    override fun nameRes(): Int = when (this) {
         ALPHABETICAL -> R.string.artist_category_alphabet
         ART_MOVEMENT -> R.string.artist_category_art_movement
         SCHOOL -> R.string.artist_category_school
@@ -56,5 +56,5 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
         INSTITUTIONS -> R.string.artist_category_institution
     }
 
-      fun iconRes(): Int = R.drawable.ic_artists
+    override fun iconRes(): Int = R.drawable.ic_artists
 }
