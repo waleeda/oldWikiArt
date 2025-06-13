@@ -32,12 +32,12 @@ class ArtistDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_artist_detail)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.setBackgroundBlurRadius(
                 resources.getDimensionPixelSize(R.dimen.detail_blur_radius)
             )
         }
-        setContentView(R.layout.activity_artist_detail)
 
         val recycler: RecyclerView = findViewById(R.id.famousRecyclerView)
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)

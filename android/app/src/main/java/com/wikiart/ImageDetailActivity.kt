@@ -12,12 +12,12 @@ import com.github.chrisbanes.photoview.PhotoView
 class ImageDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_image_detail)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.setBackgroundBlurRadius(
                 resources.getDimensionPixelSize(R.dimen.detail_blur_radius)
             )
         }
-        setContentView(R.layout.activity_image_detail)
 
         enterImmersiveMode()
 
