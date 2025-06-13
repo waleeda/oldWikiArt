@@ -31,6 +31,7 @@ Main screen
 
 The iOS project now contains a similar implementation in `View Controller/OptionsBottomSheet.swift` so both platforms share the bottom sheet UI.
 A Compose-based `OptionsBottomSheet` in `ComposeOptionsBottomSheet.kt` allows Compose screens to reuse the same interface on Android.
+Search results are also rendered with Compose, featuring a simple search bar and paginated artist and painting lists.
 
 List items load images
 using Coil, and tapping an item opens a detail screen. You can search with
