@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.text.TextWatcher
 import android.text.Editable
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +45,7 @@ class SearchActivity : AppCompatActivity() {
 
         val input: AutoCompleteTextView = findViewById(R.id.searchInput)
         recyclerView = findViewById(R.id.resultsRecyclerView)
-        layoutButton = findViewById(R.id.layoutButton)
+        layoutButton = findViewById<View>(R.id.layoutButton)
 
         val prefs = getSharedPreferences("prefs", Context.MODE_PRIVATE)
         val name = prefs.getString("layout_type", LayoutType.COLUMN.name) ?: LayoutType.COLUMN.name
@@ -53,7 +54,9 @@ class SearchActivity : AppCompatActivity() {
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         adapter.layoutType = layoutType
         recyclerView.adapter = adapter
-        layoutButton.setOnClickListener { showLayoutMenu(it) }
+        layoutButton.setOnClickListener { view ->
+            showLayoutMenu(view)
+        }
 
         val suggestions = ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line)
         input.setAdapter(suggestions)
