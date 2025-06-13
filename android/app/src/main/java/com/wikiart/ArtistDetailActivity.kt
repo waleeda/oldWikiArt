@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.TextView
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.wikiart.RelatedPaintingAdapter
 import coil.load
 import kotlinx.coroutines.launch
@@ -26,8 +27,6 @@ class ArtistDetailActivity : AppCompatActivity() {
         startActivity(intent, options.toBundle())
     }
 
-    private var bioExpanded = false
-
     private val repository by lazy { PaintingRepository(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,17 +42,7 @@ class ArtistDetailActivity : AppCompatActivity() {
         recycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recycler.adapter = adapter
 
-        val bioView: TextView = findViewById(R.id.artistBio)
-        val birthView: TextView = findViewById(R.id.artistBirth)
-        val deathView: TextView = findViewById(R.id.artistDeath)
-        val bioToggle: TextView = findViewById(R.id.bioToggle)
-        bioToggle.setOnClickListener {
-            bioExpanded = !bioExpanded
-            bioView.maxLines = if (bioExpanded) Int.MAX_VALUE else 3
-            birthView.visibility = if (bioExpanded && birthView.text.isNotBlank()) View.VISIBLE else View.GONE
-            deathView.visibility = if (bioExpanded && deathView.text.isNotBlank()) View.VISIBLE else View.GONE
-            bioToggle.text = getString(if (bioExpanded) R.string.show_less else R.string.show_more)
-        }
+        val detailsContainer: LinearLayout = findViewById(R.id.detailsContainer)
 
         val artistUrl = intent.getStringExtra(EXTRA_ARTIST_URL) ?: return
         val artistName = intent.getStringExtra(EXTRA_ARTIST_NAME) ?: ""
@@ -72,21 +61,43 @@ class ArtistDetailActivity : AppCompatActivity() {
             val details = repository.getArtistDetails(artistUrl)
             if (details != null) {
                 findViewById<TextView>(R.id.artistName).text = details.artistName
-                bioView.text = details.biography
-                birthView.text = details.birth?.let { getString(R.string.born, it) } ?: ""
-                deathView.text = details.death?.let { getString(R.string.died, it) } ?: ""
-                birthView.visibility = if (bioExpanded && birthView.text.isNotBlank()) View.VISIBLE else View.GONE
-                deathView.visibility = if (bioExpanded && deathView.text.isNotBlank()) View.VISIBLE else View.GONE
                 findViewById<ImageView>(R.id.artistImage).load(details.image)
-                bioView.post {
-                    if (bioView.lineCount <= 3 && birthView.text.isBlank() && deathView.text.isBlank()) {
-                        bioToggle.visibility = View.GONE
-                    }
-                }
+                addDetails(detailsContainer, details)
             }
             val paintings = repository.getFamousPaintings(artistUrl)
             adapter.submitList(paintings)
         }
+    }
+
+    private fun addDetails(container: LinearLayout, details: ArtistDetails) {
+        details.biography?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.biography_label), it)
+        }
+        details.gender?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.gender_label), it)
+        }
+        details.series?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.series_label), it)
+        }
+        details.themes?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.themes_label), it)
+        }
+        details.periods?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.periods_label), it)
+        }
+        details.birth?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.birth_label), it)
+        }
+        details.death?.takeIf { it.isNotBlank() }?.let {
+            addDetail(container, getString(R.string.death_label), it)
+        }
+    }
+
+    private fun addDetail(container: LinearLayout, label: String, value: String) {
+        val view = layoutInflater.inflate(R.layout.item_painting_detail_field, container, false)
+        view.findViewById<TextView>(R.id.detailLabel).text = label
+        view.findViewById<TextView>(R.id.detailValue).text = value
+        container.addView(view)
     }
 
     companion object {
