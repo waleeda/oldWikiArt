@@ -1,7 +1,8 @@
 # WikiArt Mobile
 
 This repository originally contained both an iOS project and an Android port.
-The iOS project has been removed, leaving only the Android source code.
+The Android app is actively maintained while the iOS sources remain for
+reference.
 
 * `android` – Android application written in Kotlin.
 
@@ -22,3 +23,12 @@ iOS design. The list and grid layouts display the artist name, title and year
 beneath each image while the sheet layout shows only the artwork image. The
 grid layout now uses a staggered grid so images keep their original aspect
 ratio just like on iOS.
+
+The latest update adds Material You dynamic color support on Android 12+
+devices, automatically adapting the app theme to the user's wallpaper.
+
+## Future improvements
+
+- Cache paintings for offline viewing
+- Port additional iOS features such as artwork collections
+- Explore a Jetpack Compose UI rewrite
