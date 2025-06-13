@@ -44,7 +44,6 @@ class ArtistAdapter(
                 blurView.setupWith(root, RenderEffectBlur())
                     .setFrameClearDrawable(windowBackground)
                     .setBlurRadius(itemView.resources.getDimension(R.dimen.detail_blur_radius))
-                    .setHasFixedTransformationMatrix(true)
             }
         }
 
