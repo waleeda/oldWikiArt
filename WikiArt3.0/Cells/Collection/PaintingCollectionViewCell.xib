@@ -46,7 +46,7 @@
                     </imageView>
                 </subviews>
             </view>
-            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="X7X-vm-fgi" secondAttribute="trailing" id="5rO-RC-5LA"/>
                 <constraint firstItem="X7X-vm-fgi" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="IQn-0A-byK"/>
