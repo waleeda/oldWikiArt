@@ -10,11 +10,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -27,7 +29,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items as pagingItems
 import coil.compose.AsyncImage
 import com.wikiart.model.Artist
 import com.wikiart.model.ArtistCategory
@@ -61,8 +62,11 @@ fun ArtistsScreen(
                 when (layoutType) {
                     LayoutType.LIST -> {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            pagingItems(artists, key = { it.id }) { artist ->
-                                artist?.let { ArtistRow(it, onArtistClick) }
+                            items(
+                                count = artists.itemCount,
+                                key = { index -> artists[index]?.id }
+                            ) { index ->
+                                artists[index]?.let { ArtistRow(it, onArtistClick) }
                             }
                             if (artists.loadState.append is LoadState.Loading) {
                                 item { LoadingRow() }
@@ -74,8 +78,11 @@ fun ArtistsScreen(
                             columns = StaggeredGridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            pagingItems(artists, key = { it.id }) { artist ->
-                                artist?.let { ArtistGridItem(it, onArtistClick) }
+                            items(
+                                count = artists.itemCount,
+                                key = { index -> artists[index]?.id }
+                            ) { index ->
+                                artists[index]?.let { ArtistGridItem(it, onArtistClick) }
                             }
                             if (artists.loadState.append is LoadState.Loading) {
                                 item { LoadingRow() }
@@ -96,14 +103,17 @@ fun ArtistsScreen(
                         }
                     }
                     else -> {
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            pagingItems(artists, key = { it.id }) { artist ->
-                                artist?.let { ArtistRow(it, onArtistClick) }
-                            }
-                            if (artists.loadState.append is LoadState.Loading) {
-                                item { LoadingRow() }
-                            }
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(
+                            count = artists.itemCount,
+                            key = { index -> artists[index]?.id }
+                        ) { index ->
+                            artists[index]?.let { ArtistRow(it, onArtistClick) }
                         }
+                        if (artists.loadState.append is LoadState.Loading) {
+                            item { LoadingRow() }
+                        }
+                    }
                     }
                 }
             }
