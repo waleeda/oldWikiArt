@@ -44,7 +44,9 @@ class RelatedPaintingAdapter(
                 this.width = width
             }
 
-            image.load(painting.thumbUrl)
+            image.load(painting.thumbUrl) {
+                allowHardware(false)
+            }
             itemView.setOnClickListener { onItemClick(painting, image) }
         }
     }

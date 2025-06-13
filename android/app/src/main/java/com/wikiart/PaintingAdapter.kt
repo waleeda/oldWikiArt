@@ -57,7 +57,9 @@ class PaintingAdapter(
                 }
             }
 
-            paintingImage.load(painting.thumbUrl)
+            paintingImage.load(painting.thumbUrl) {
+                allowHardware(false)
+            }
 
             itemView.setOnClickListener { onItemClick(painting, paintingImage) }
         }

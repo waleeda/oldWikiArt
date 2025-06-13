@@ -23,7 +23,9 @@ class ImageDetailActivity : AppCompatActivity() {
 
         val url = intent.getStringExtra(EXTRA_IMAGE_URL) ?: ""
         val imageView: PhotoView = findViewById(R.id.fullImageView)
-        imageView.load(url)
+        imageView.load(url) {
+            allowHardware(false)
+        }
         imageView.setOnClickListener { finish() }
     }
 

@@ -61,7 +61,9 @@ class ArtistDetailActivity : AppCompatActivity() {
             val details = repository.getArtistDetails(artistUrl)
             if (details != null) {
                 findViewById<TextView>(R.id.artistName).text = details.artistName
-                findViewById<ImageView>(R.id.artistImage).load(details.image)
+                findViewById<ImageView>(R.id.artistImage).load(details.image) {
+                    allowHardware(false)
+                }
                 addDetails(detailsContainer, details)
             }
             val paintings = repository.getFamousPaintings(artistUrl)
