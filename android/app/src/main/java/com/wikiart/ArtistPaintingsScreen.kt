@@ -4,11 +4,13 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -21,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items as pagingItems
 import coil.compose.AsyncImage
 import com.wikiart.model.ArtistPaintingSort
 import com.wikiart.model.LayoutType
@@ -49,8 +50,11 @@ fun ArtistPaintingsScreen(
                 when (layoutType) {
                     LayoutType.LIST -> {
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            pagingItems(paintings, key = { it.id }) { painting ->
-                                painting?.let { PaintingColumnItem(it, onPaintingClick) }
+                            items(
+                                count = paintings.itemCount,
+                                key = { index -> paintings[index]?.id }
+                            ) { index ->
+                                paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                             }
                             if (paintings.loadState.append is LoadState.Loading) {
                                 item { LoadingRow() }
@@ -62,8 +66,11 @@ fun ArtistPaintingsScreen(
                             columns = StaggeredGridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            pagingItems(paintings, key = { it.id }) { painting ->
-                                painting?.let { PaintingGridItem(it, onPaintingClick) }
+                            items(
+                                count = paintings.itemCount,
+                                key = { index -> paintings[index]?.id }
+                            ) { index ->
+                                paintings[index]?.let { PaintingGridItem(it, onPaintingClick) }
                             }
                             if (paintings.loadState.append is LoadState.Loading) {
                                 item { LoadingRow() }
@@ -84,14 +91,17 @@ fun ArtistPaintingsScreen(
                         }
                     }
                     else -> {
-                        LazyColumn(modifier = Modifier.fillMaxSize()) {
-                            pagingItems(paintings, key = { it.id }) { painting ->
-                                painting?.let { PaintingColumnItem(it, onPaintingClick) }
-                            }
-                            if (paintings.loadState.append is LoadState.Loading) {
-                                item { LoadingRow() }
-                            }
+                    LazyColumn(modifier = Modifier.fillMaxSize()) {
+                        items(
+                            count = paintings.itemCount,
+                            key = { index -> paintings[index]?.id }
+                        ) { index ->
+                            paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
+                        if (paintings.loadState.append is LoadState.Loading) {
+                            item { LoadingRow() }
+                        }
+                    }
                     }
                 }
             }

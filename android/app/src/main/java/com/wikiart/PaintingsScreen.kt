@@ -22,7 +22,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items as pagingItems
 import coil.compose.AsyncImage
 import com.wikiart.model.LayoutType
 
@@ -47,8 +46,11 @@ fun PaintingsScreen(
             when (layoutType) {
                 LayoutType.LIST -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        pagingItems(paintings, key = { it.id }) { painting ->
-                            painting?.let { PaintingColumnItem(it, onPaintingClick) }
+                        items(
+                            count = paintings.itemCount,
+                            key = { index -> paintings[index]?.id }
+                        ) { index ->
+                            paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
                             item { LoadingRow() }
@@ -62,8 +64,11 @@ fun PaintingsScreen(
                         state = state,
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        pagingItems(paintings, key = { it.id }) { painting ->
-                            painting?.let { PaintingGridItem(it, onPaintingClick) }
+                        items(
+                            count = paintings.itemCount,
+                            key = { index -> paintings[index]?.id }
+                        ) { index ->
+                            paintings[index]?.let { PaintingGridItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
                             item { LoadingRow() }
@@ -75,8 +80,11 @@ fun PaintingsScreen(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        pagingItems(paintings, key = { it.id }) { painting ->
-                            painting?.let { PaintingSheetItem(it, onPaintingClick) }
+                        items(
+                            count = paintings.itemCount,
+                            key = { index -> paintings[index]?.id }
+                        ) { index ->
+                            paintings[index]?.let { PaintingSheetItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
                             item(span = { GridItemSpan(maxLineSpan) }) { LoadingRow() }
@@ -85,8 +93,11 @@ fun PaintingsScreen(
                 }
                 else -> {
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
-                        pagingItems(paintings, key = { it.id }) { painting ->
-                            painting?.let { PaintingColumnItem(it, onPaintingClick) }
+                        items(
+                            count = paintings.itemCount,
+                            key = { index -> paintings[index]?.id }
+                        ) { index ->
+                            paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
                         if (paintings.loadState.append is LoadState.Loading) {
                             item { LoadingRow() }
