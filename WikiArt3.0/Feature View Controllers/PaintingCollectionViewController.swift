@@ -83,7 +83,18 @@ final class PaintingCollectionViewController: CollectionViewController, ResultVi
     }
        
     @objc func show(_ sender: Any) {
-       showCategories(delegate: self, dataSource: self)
+        if #available(iOS 15.0, *) {
+            let sheet = OptionsBottomSheet(categories: PaintingCategory.all,
+                                          selectedCategory: selectedCategory,
+                                          layout: Layout(rawValue: segment.selectedSegmentIndex) ?? .sheet)
+            sheet.delegate = self
+            if let presentation = sheet.sheetPresentationController {
+                presentation.detents = [.medium()]
+            }
+            present(sheet, animated: true)
+        } else {
+            showCategories(delegate: self, dataSource: self)
+        }
     }
     
     // MARK: UICollectionViewDelegate
@@ -221,6 +232,23 @@ extension PaintingCollectionViewController: FormControllerDelegate, FormControll
             }
             _ = self.categoriesDataSource.set(category: self.selectedCategory, sections: sections)
             loadNextForm(self.categoriesDataSource)
+        }
+    }
+}
+
+extension PaintingCollectionViewController: OptionsBottomSheetDelegate {
+    func optionsBottomSheet(_ sheet: OptionsBottomSheet, didSelect category: PaintingCategory?, layout: Layout) {
+        if layout.rawValue != segment.selectedSegmentIndex {
+            segment.selectedSegmentIndex = layout.rawValue
+            segmentChanged(segment)
+        }
+        if let cat = category, cat != selectedCategory {
+            selectedCategory = cat
+            fetcher = .init(category: selectedCategory)
+            navigationItem.title = selectedCategory.title
+            dataSource.removeAll()
+            collectionView.reloadData()
+            getNextPage()
         }
     }
 }
