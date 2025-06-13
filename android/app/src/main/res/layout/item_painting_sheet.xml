@@ -13,7 +13,8 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
         android:minHeight="@dimen/image_min_height_standard"
-        android:background="@color/imagePlaceholder" />
+        android:background="@color/imagePlaceholder"
+        android:transitionName="@string/transition_detail_image" />
 
     <TextView
         android:id="@+id/titleText"

@@ -11,6 +11,10 @@ import android.widget.ImageButton
 import android.widget.Toast
 import android.view.View
 import android.app.ActivityOptions
+import android.graphics.Color
+import android.view.Window
+import com.google.android.material.transition.platform.MaterialContainerTransform
+import com.google.android.material.transition.platform.MaterialContainerTransformSharedElementCallback
 import com.wikiart.ImageDetailActivity
 import coil.load
 import androidx.lifecycle.lifecycleScope
@@ -24,6 +28,9 @@ class PaintingDetailActivity : AppCompatActivity() {
     private val repository by lazy { PaintingRepository(this) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.requestFeature(Window.FEATURE_ACTIVITY_TRANSITIONS)
+        setEnterSharedElementCallback(MaterialContainerTransformSharedElementCallback())
+        setExitSharedElementCallback(MaterialContainerTransformSharedElementCallback())
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.setBackgroundBlurRadius(
@@ -31,6 +38,16 @@ class PaintingDetailActivity : AppCompatActivity() {
             )
         }
         setContentView(R.layout.activity_painting_detail)
+        window.sharedElementEnterTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = 300
+            scrimColor = Color.TRANSPARENT
+        }
+        window.sharedElementReturnTransition = MaterialContainerTransform().apply {
+            addTarget(android.R.id.content)
+            duration = 300
+            scrimColor = Color.TRANSPARENT
+        }
 
         val painting = intent.getSerializableExtra(EXTRA_PAINTING) as? Painting
 
@@ -146,12 +163,15 @@ class PaintingDetailActivity : AppCompatActivity() {
 
         val relatedRecycler: RecyclerView = findViewById(R.id.relatedRecyclerView)
         val relatedTitle: TextView = findViewById(R.id.relatedTitle)
-        val relatedAdapter = RelatedPaintingAdapter { selected ->
+        val relatedAdapter = RelatedPaintingAdapter { selected, image ->
             val intent = Intent(this, PaintingDetailActivity::class.java)
             intent.putExtra(EXTRA_PAINTING, selected)
-            val options = ActivityOptions.makeSceneTransitionAnimation(this)
+            val options = ActivityOptions.makeSceneTransitionAnimation(
+                this,
+                image,
+                image.transitionName
+            )
             startActivity(intent, options.toBundle())
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
         }
         relatedRecycler.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         relatedRecycler.adapter = relatedAdapter

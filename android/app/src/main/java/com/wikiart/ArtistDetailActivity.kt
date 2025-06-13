@@ -15,12 +15,15 @@ import kotlinx.coroutines.launch
 import android.view.View
 
 class ArtistDetailActivity : AppCompatActivity() {
-    private val adapter = RelatedPaintingAdapter { painting ->
+    private val adapter = RelatedPaintingAdapter { painting, image ->
         val intent = android.content.Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
 
     private var bioExpanded = false

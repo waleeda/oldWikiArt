@@ -13,7 +13,7 @@ import com.wikiart.model.LayoutType
 
 class PaintingAdapter(
     var layoutType: LayoutType = LayoutType.LIST,
-    private val onItemClick: (Painting) -> Unit = {}
+    private val onItemClick: (Painting, ImageView) -> Unit = { _, _ -> }
 ) : PagingDataAdapter<Painting, PaintingAdapter.PaintingViewHolder>(DIFF_CALLBACK) {
 
     override fun getItemViewType(position: Int): Int = layoutType.ordinal
@@ -59,7 +59,7 @@ class PaintingAdapter(
 
             paintingImage.load(painting.thumbUrl)
 
-            itemView.setOnClickListener { onItemClick(painting) }
+            itemView.setOnClickListener { onItemClick(painting, paintingImage) }
         }
     }
 

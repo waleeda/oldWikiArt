@@ -10,17 +10,21 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.paging.PagingData
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import androidx.paging.LoadState
+import android.widget.ImageView
 import com.wikiart.data.FavoritesRepository
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class FavoritesActivity : AppCompatActivity() {
-    private val adapter = PaintingAdapter { painting ->
+    private val adapter = PaintingAdapter { painting, image ->
         val intent = Intent(this, PaintingDetailActivity::class.java)
         intent.putExtra(PaintingDetailActivity.EXTRA_PAINTING, painting)
-        val options = ActivityOptions.makeSceneTransitionAnimation(this)
+        val options = ActivityOptions.makeSceneTransitionAnimation(
+            this,
+            image,
+            image.transitionName
+        )
         startActivity(intent, options.toBundle())
-        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
     }
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
