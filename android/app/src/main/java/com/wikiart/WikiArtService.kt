@@ -120,6 +120,19 @@ class WikiArtService(
             return result
         }
     }
+
+    fun fetchPaintingDetails(id: String): PaintingDetails? {
+        val url = "${serverConfig.apiBaseUrl}/$language/api/2/Painting?id=$id"
+        val request = Request.Builder().url(url).build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) return null
+            val body = response.body?.string() ?: return null
+            Log.d(TAG, "fetchPaintingDetails response: $body")
+            val result = gson.fromJson(body, PaintingDetails::class.java)
+            Log.d(TAG, "fetchPaintingDetails decoded: $result")
+            return result
+        }
+    }
     fun fetchArtistDetails(path: String): ArtistDetails? {
         val url = "${serverConfig.apiBaseUrl}$path?json=2"
         val request = Request.Builder().url(url).build()
