@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp">
@@ -12,14 +13,19 @@
         android:scaleType="centerCrop"
         android:minHeight="@dimen/artist_image_min_height" />
 
-    <LinearLayout
-        android:id="@+id/infoContainer"
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/infoBlur"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:orientation="vertical"
-        android:background="@drawable/artist_info_background"
-        android:padding="8dp">
+        app:blurOverlayColor="@color/artist_info_overlay">
+
+        <LinearLayout
+            android:id="@+id/infoContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
 
         <TextView
             android:id="@+id/artistName"
@@ -38,6 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/CaptionTextLight" />
-    </LinearLayout>
+        </LinearLayout>
+    </eightbitlab.com.blurview.BlurView>
 
 </FrameLayout>

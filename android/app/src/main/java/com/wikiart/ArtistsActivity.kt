@@ -37,7 +37,8 @@ class ArtistsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_artists)
 
         val recycler: RecyclerView = findViewById(R.id.artistRecyclerView)
-        recycler.layoutManager = GridLayoutManager(this, 2)
+        val columns = if (resources.getBoolean(R.bool.isTablet)) 4 else 2
+        recycler.layoutManager = GridLayoutManager(this, columns)
         recycler.adapter = adapter
 
         val spinner: Spinner = findViewById(R.id.artistCategorySpinner)

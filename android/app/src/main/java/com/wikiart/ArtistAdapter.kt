@@ -9,6 +9,9 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import android.os.Build
+import eightbitlab.com.blurview.BlurView
+import eightbitlab.com.blurview.RenderEffectBlur
 import com.wikiart.model.Artist
 
 class ArtistAdapter(
@@ -30,6 +33,21 @@ class ArtistAdapter(
         private val worksText: TextView = itemView.findViewById(R.id.artistWorks)
         private val nationText: TextView = itemView.findViewById(R.id.artistNation)
         private val artistImage: ImageView = itemView.findViewById(R.id.artistImage)
+        private val blurView: BlurView = itemView.findViewById(R.id.infoBlur)
+
+        init {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                val root = itemView.rootView.findViewById<ViewGroup>(android.R.id.content)
+                val attrs = itemView.context.obtainStyledAttributes(intArrayOf(android.R.attr.windowBackground))
+                val windowBackground = attrs.getDrawable(0)
+                attrs.recycle()
+                blurView.setupWith(root)
+                    .setFrameClearDrawable(windowBackground)
+                    .setBlurAlgorithm(RenderEffectBlur())
+                    .setBlurRadius(itemView.resources.getDimension(R.dimen.detail_blur_radius))
+                    .setHasFixedTransformationMatrix(true)
+            }
+        }
 
         fun bind(artist: Artist) {
             nameText.text = artist.title

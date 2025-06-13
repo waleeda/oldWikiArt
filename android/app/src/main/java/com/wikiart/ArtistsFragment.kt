@@ -45,7 +45,8 @@ class ArtistsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout)
         val recycler: RecyclerView = view.findViewById(R.id.artistRecyclerView)
-        recycler.layoutManager = GridLayoutManager(requireContext(), 2)
+        val columns = if (resources.getBoolean(R.bool.isTablet)) 4 else 2
+        recycler.layoutManager = GridLayoutManager(requireContext(), columns)
         recycler.adapter = adapter
         swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
         adapter.addLoadStateListener { loadState ->
