@@ -69,6 +69,12 @@
     <string name="see_all_paintings">See all paintings</string>
     <string name="born">Born: %1$s</string>
     <string name="died">Died: %1$s</string>
+    <string name="biography_label">Biography:</string>
+    <string name="gender_label">Gender:</string>
+    <string name="themes_label">Themes:</string>
+    <string name="periods_label">Periods:</string>
+    <string name="birth_label">Born:</string>
+    <string name="death_label">Died:</string>
     <string name="change_layout">Change layout</string>
 
     <!-- Transition name used for shared element animations -->
