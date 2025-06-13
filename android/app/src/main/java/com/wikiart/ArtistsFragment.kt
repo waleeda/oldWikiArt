@@ -15,7 +15,6 @@ import androidx.paging.cachedIn
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.paging.LoadState
 import com.google.android.material.snackbar.Snackbar
 import com.wikiart.model.ArtistCategory
 import com.wikiart.model.ArtistSection
