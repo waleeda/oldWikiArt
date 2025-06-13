@@ -6,9 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.compose.ui.platform.ComposeView
 import com.android.billingclient.api.AcknowledgePurchaseParams
 import com.android.billingclient.api.BillingClient
 import com.android.billingclient.api.BillingClientStateListener
@@ -30,7 +30,19 @@ class SupportFragment : Fragment(), PurchasesUpdatedListener {
     )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_support, container, false)
+        return ComposeView(requireContext()).apply {
+            setContent {
+                SupportScreen(
+                    onSendFeedback = {
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = Uri.parse("mailto:wikiartfeedback@icloud.com")
+                        }
+                        startActivity(intent)
+                    },
+                    onDonate = { queryProductsAndShowDialog() }
+                )
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,16 +56,7 @@ class SupportFragment : Fragment(), PurchasesUpdatedListener {
             override fun onBillingServiceDisconnected() {}
         })
 
-        view.findViewById<Button>(R.id.feedbackButton).setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:wikiartfeedback@icloud.com")
-            }
-            startActivity(intent)
-        }
-
-        view.findViewById<Button>(R.id.donateButton).setOnClickListener {
-            queryProductsAndShowDialog()
-        }
+        // No view IDs to initialize when using Compose UI
     }
 
     override fun onDestroyView() {
