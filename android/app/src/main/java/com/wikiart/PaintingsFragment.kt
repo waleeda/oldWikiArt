@@ -6,10 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Spinner
 import android.widget.ImageView
-import com.wikiart.CategorySpinnerAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
@@ -23,10 +20,10 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.content.Context
-import androidx.appcompat.widget.PopupMenu
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.wikiart.model.LayoutType
 import com.wikiart.model.PaintingSection
+import com.wikiart.OptionsBottomSheet
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -34,8 +31,8 @@ class PaintingsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PaintingAdapter
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
-    private lateinit var layoutButton: View
     private var layoutType: LayoutType = LayoutType.COLUMN
+    private var category: PaintingCategory = PaintingCategory.FEATURED
 
     private val itemClick: (Painting, ImageView) -> Unit = { painting, image ->
         val intent = Intent(requireContext(), PaintingDetailActivity::class.java)
@@ -72,8 +69,6 @@ class PaintingsFragment : Fragment() {
         adapter = PaintingAdapter(layoutType, itemClick)
         recyclerView.layoutManager = layoutManagerFor(layoutType)
         recyclerView.adapter = adapter
-        layoutButton = view.findViewById(R.id.layoutButton)
-        layoutButton.setOnClickListener { showLayoutMenu(it) }
         swipeRefreshLayout.setOnRefreshListener { adapter.refresh() }
         adapter.addLoadStateListener { loadState ->
             swipeRefreshLayout.isRefreshing = loadState.source.refresh is LoadState.Loading
@@ -93,32 +88,7 @@ class PaintingsFragment : Fragment() {
             }
         }
 
-        val spinner: Spinner = view.findViewById(R.id.categorySpinner)
-        val categories = PaintingCategory.values()
-        val spinnerAdapter = CategorySpinnerAdapter(requireContext(), categories)
-        spinner.adapter = spinnerAdapter
-        spinner.setSelection(categories.indexOf(PaintingCategory.FEATURED))
-
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val category = categories[position]
-                if (category.hasSections()) {
-                    lifecycleScope.launch {
-                        val sections = repository.sections(category)
-                        if (sections.isNotEmpty()) {
-                            showSectionDialog(category, sections)
-                        }
-                    }
-                } else {
-                    currentSectionId = null
-                    loadCategory(category)
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-
-        loadCategory(PaintingCategory.FEATURED)
+        loadCategory(category)
     }
 
     private fun layoutManagerFor(type: LayoutType): RecyclerView.LayoutManager = when (type) {
@@ -128,33 +98,47 @@ class PaintingsFragment : Fragment() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.layout_menu, menu)
+        inflater.inflate(R.menu.options_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
-        layoutType = when (item.itemId) {
-            R.id.layout_list -> LayoutType.LIST
-            R.id.layout_grid -> LayoutType.COLUMN
-            R.id.layout_sheet -> LayoutType.SHEET
-            else -> return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_options -> {
+                showOptionsSheet()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
-        prefs.edit().putString("layout_type", layoutType.name).apply()
-        adapter.layoutType = layoutType
-        adapter.notifyDataSetChanged()
-        recyclerView.layoutManager = layoutManagerFor(layoutType)
-        return true
     }
 
-    private fun showLayoutMenu(anchor: View) {
-        PopupMenu(requireContext(), anchor).apply {
-            menuInflater.inflate(R.menu.layout_menu, menu)
-            setOnMenuItemClickListener { item ->
-                onOptionsItemSelected(item)
+    private fun showOptionsSheet() {
+        OptionsBottomSheet(PaintingCategory.values(), category, layoutType) { cat, layout ->
+            val prefs = requireContext().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+            if (layout != layoutType) {
+                layoutType = layout
+                prefs.edit().putString("layout_type", layoutType.name).apply()
+                adapter.layoutType = layoutType
+                adapter.notifyDataSetChanged()
+                recyclerView.layoutManager = layoutManagerFor(layoutType)
             }
-            show()
-        }
+            cat?.let { selected ->
+                if (selected != category) {
+                    category = selected
+                    if (selected.hasSections()) {
+                        lifecycleScope.launch {
+                            val sections = repository.sections(selected)
+                            if (sections.isNotEmpty()) {
+                                showSectionDialog(selected, sections)
+                            }
+                        }
+                    } else {
+                        currentSectionId = null
+                        loadCategory(selected)
+                    }
+                }
+            }
+        }.show(parentFragmentManager, "options")
     }
 
     private fun loadCategory(category: PaintingCategory, sectionId: String? = null) {

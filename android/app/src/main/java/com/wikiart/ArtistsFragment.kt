@@ -6,9 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.Spinner
-import com.wikiart.CategorySpinnerAdapter
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.cachedIn
@@ -18,6 +15,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.wikiart.model.ArtistCategory
 import com.wikiart.model.ArtistSection
+import com.wikiart.OptionsBottomSheet
+import com.wikiart.model.LayoutType
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -36,8 +38,10 @@ class ArtistsFragment : Fragment() {
     private var pagingJob: Job? = null
     private var currentSection: String? = null
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    private var category: ArtistCategory = ArtistCategory.POPULAR
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.fragment_artists, container, false)
     }
 
@@ -67,32 +71,43 @@ class ArtistsFragment : Fragment() {
             }
         }
 
-        val spinner: Spinner = view.findViewById(R.id.artistCategorySpinner)
-        val categories = ArtistCategory.values()
-        val spinnerAdapter = CategorySpinnerAdapter(requireContext(), categories)
-        spinner.adapter = spinnerAdapter
-        spinner.setSelection(categories.indexOf(ArtistCategory.POPULAR))
+        loadCategory(category)
+    }
 
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val category = categories[position]
-                if (category.hasSections()) {
-                    lifecycleScope.launch {
-                        val sections = repository.artistSections(category)
-                        if (sections.isNotEmpty()) {
-                            showSectionDialog(category, sections)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.options_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_options -> {
+                showOptionsSheet()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showOptionsSheet() {
+        OptionsBottomSheet(ArtistCategory.values(), category, LayoutType.COLUMN) { cat, _ ->
+            cat?.let { selected ->
+                if (selected != category) {
+                    category = selected
+                    if (selected.hasSections()) {
+                        lifecycleScope.launch {
+                            val sections = repository.artistSections(selected)
+                            if (sections.isNotEmpty()) {
+                                showSectionDialog(selected, sections)
+                            }
                         }
+                    } else {
+                        currentSection = null
+                        loadCategory(selected)
                     }
-                } else {
-                    currentSection = null
-                    loadCategory(category)
                 }
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
-
-        loadCategory(ArtistCategory.POPULAR)
+        }.show(parentFragmentManager, "options")
     }
 
     private fun loadCategory(category: ArtistCategory) {
