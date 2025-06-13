@@ -38,6 +38,7 @@ class ArtistAdapter(
 
         init {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+
                 val activity = itemView.context as? Activity
                 val root = activity?.findViewById<ViewGroup>(android.R.id.content)
                 if (root != null) {
@@ -47,7 +48,7 @@ class ArtistAdapter(
                     blurView.setupWith(root, RenderEffectBlur())
                         .setFrameClearDrawable(windowBackground)
                         .setBlurRadius(itemView.resources.getDimension(R.dimen.detail_blur_radius))
-                        .setHasFixedTransformationMatrix(true)
+                    
                 }
             }
         }
