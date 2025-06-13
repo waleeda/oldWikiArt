@@ -57,7 +57,9 @@ class ArtistAdapter(
             nameText.text = artist.title
             worksText.text = artist.totalWorksTitle?.capitalize()
             nationText.text = listOfNotNull(artist.nation, artist.year).joinToString(", ")
-            artistImage.load(artist.image)
+            artistImage.load(artist.image) {
+                allowHardware(false)
+            }
             itemView.setOnClickListener { onItemClick(artist) }
         }
     }

@@ -58,7 +58,9 @@ class PaintingDetailActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.detailTitle).text = title
         val detailImage: ImageView = findViewById(R.id.detailImage)
-        detailImage.load(imageUrl)
+        detailImage.load(imageUrl) {
+            allowHardware(false)
+        }
         detailImage.setOnClickListener {
             val intent = Intent(this, ImageDetailActivity::class.java)
             intent.putExtra(ImageDetailActivity.EXTRA_IMAGE_URL, fullUrl)
