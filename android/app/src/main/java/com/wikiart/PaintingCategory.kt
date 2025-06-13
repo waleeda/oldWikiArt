@@ -3,7 +3,7 @@ package com.wikiart
 enum class PaintingCategory : CategoryItem {
     FAVORITES,
     FEATURED,
-    POPULAR
+    POPULAR,
     MEDIA,
     STYLE,
     GENRE,
@@ -24,7 +24,7 @@ enum class PaintingCategory : CategoryItem {
         FAVORITES -> "Favorites"
     }
 
-    fun nameRes(): Int = when (this) {
+    override fun nameRes(): Int = when (this) {
         MEDIA -> R.string.painting_category_media
         STYLE -> R.string.painting_category_style
         GENRE -> R.string.painting_category_genre
@@ -34,7 +34,7 @@ enum class PaintingCategory : CategoryItem {
         FAVORITES -> R.string.painting_category_favorites
     }
 
-    fun iconRes(): Int = when (this) {
+   override fun iconRes(): Int = when (this) {
         MEDIA -> R.drawable.ic_painting_media
         STYLE -> R.drawable.ic_painting_style
         GENRE -> R.drawable.ic_painting_genre

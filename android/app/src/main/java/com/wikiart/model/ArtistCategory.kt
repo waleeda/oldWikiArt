@@ -13,7 +13,6 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
     FEMALE("female-artists", false),
     RECENT("recently-added-artists", false),
 
-    ALPHABETICAL("Alphabet", false),
 
     ART_MOVEMENT("artists-by-Art-Movement", true),
     SCHOOL("artists-by-painting-school", true),
@@ -42,7 +41,7 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
         INSTITUTIONS -> "Art Institution"
     }
 
-    fun nameRes(): Int = when (this) {
+    override fun nameRes(): Int = when (this) {
         ALPHABETICAL -> R.string.artist_category_alphabet
         ART_MOVEMENT -> R.string.artist_category_art_movement
         SCHOOL -> R.string.artist_category_school
@@ -57,5 +56,5 @@ enum class ArtistCategory(val path: String, private val hasSections: Boolean) {
         INSTITUTIONS -> R.string.artist_category_institution
     }
 
-    fun iconRes(): Int = R.drawable.ic_artists
+    override  fun iconRes(): Int = R.drawable.ic_artists
 }
