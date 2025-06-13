@@ -1,5 +1,6 @@
 package com.wikiart
 
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.app.ActivityOptions
@@ -28,6 +29,11 @@ class ArtistDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            window.setBackgroundBlurRadius(
+                resources.getDimensionPixelSize(R.dimen.detail_blur_radius)
+            )
+        }
         setContentView(R.layout.activity_artist_detail)
 
         val recycler: RecyclerView = findViewById(R.id.famousRecyclerView)
