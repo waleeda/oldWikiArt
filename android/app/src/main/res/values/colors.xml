@@ -11,4 +11,6 @@
     <color name="groupBackgroundTranslucent">#CCF2F2F7</color>
     <color name="cardBackground">#FFFFFF</color>
     <color name="imagePlaceholder">#C6C6C8</color>
+    <!-- Overlay color for artist info blur view -->
+    <color name="artist_info_overlay">#66000000</color>
 </resources>
