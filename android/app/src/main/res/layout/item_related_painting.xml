@@ -8,11 +8,10 @@
 
     <ImageView
         android:id="@+id/paintingImage"
-        android:layout_width="@dimen/image_min_height_small"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/related_painting_image_height"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter"
-        android:minHeight="@dimen/image_min_height_small"
         android:background="@color/imagePlaceholder"
         android:transitionName="@string/transition_detail_image" />
 

@@ -8,4 +8,6 @@
     <dimen name="painting_grid_image_padding">16dp</dimen>
     <!-- Blur radius applied to translucent detail overlays -->
     <dimen name="detail_blur_radius">30dp</dimen>
+    <!-- Height for paintings in the horizontal list on the detail screen -->
+    <dimen name="related_painting_image_height">240dp</dimen>
 </resources>
