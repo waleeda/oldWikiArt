@@ -77,6 +77,9 @@
     <string name="birth_label">Born:</string>
     <string name="death_label">Died:</string>
     <string name="change_layout">Change layout</string>
+    <string name="layout_list">List layout</string>
+    <string name="layout_grid">Grid layout</string>
+    <string name="layout_sheet">Sheet layout</string>
 
     <!-- Transition name used for shared element animations -->
     <string name="transition_detail_image">detailImage</string>

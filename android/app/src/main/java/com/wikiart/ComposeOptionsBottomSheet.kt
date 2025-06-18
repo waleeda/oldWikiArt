@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.SheetValue
@@ -20,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.wikiart.model.LayoutType
@@ -76,12 +78,30 @@ fun <T : CategoryItem> OptionsBottomSheet(
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                RadioButton(selected = layout == LayoutType.LIST, onClick = { layout = LayoutType.LIST })
-                Text(text = "List")
-                RadioButton(selected = layout == LayoutType.COLUMN, onClick = { layout = LayoutType.COLUMN })
-                Text(text = "Grid")
-                RadioButton(selected = layout == LayoutType.SHEET, onClick = { layout = LayoutType.SHEET })
-                Text(text = "Sheet")
+                RadioButton(
+                    selected = layout == LayoutType.LIST,
+                    onClick = { layout = LayoutType.LIST }
+                )
+                Icon(
+                    painter = painterResource(R.drawable.ic_layout_list),
+                    contentDescription = stringResource(R.string.layout_list)
+                )
+                RadioButton(
+                    selected = layout == LayoutType.COLUMN,
+                    onClick = { layout = LayoutType.COLUMN }
+                )
+                Icon(
+                    painter = painterResource(R.drawable.ic_layout_grid),
+                    contentDescription = stringResource(R.string.layout_grid)
+                )
+                RadioButton(
+                    selected = layout == LayoutType.SHEET,
+                    onClick = { layout = LayoutType.SHEET }
+                )
+                Icon(
+                    painter = painterResource(R.drawable.ic_layout_sheet),
+                    contentDescription = stringResource(R.string.layout_sheet)
+                )
             }
             Button(
                 onClick = {
