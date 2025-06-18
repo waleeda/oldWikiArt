@@ -1,8 +1,9 @@
 <resources>
     <string name="app_name">WikiArt</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_paintings">Paintings</string>
+    <string name="title_artists">Artists</string>
+    <string name="title_search">Search</string>
+    <string name="title_support">Support</string>
     <string name="category_featured">Featured</string>
     <string name="category_popular">Popular</string>
     <string name="category_high_res">High Resolution</string>

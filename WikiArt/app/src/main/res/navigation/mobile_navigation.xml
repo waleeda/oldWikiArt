@@ -3,23 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@+id/navigation_paintings">
 
     <fragment
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_paintings"
         android:name="com.example.wikiart.ui.paintings.PaintingListFragment"
-        android:label="@string/title_home"
+        android:label="@string/title_paintings"
         tools:layout="@layout/fragment_painting_list" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.wikiart.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_artists"
+        android:name="com.example.wikiart.ui.artists.ArtistsFragment"
+        android:label="@string/title_artists"
+        tools:layout="@layout/fragment_artists" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.wikiart.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_search"
+        android:name="com.example.wikiart.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+
+    <fragment
+        android:id="@+id/navigation_support"
+        android:name="com.example.wikiart.ui.support.SupportFragment"
+        android:label="@string/title_support"
+        tools:layout="@layout/fragment_support" />
 </navigation>
