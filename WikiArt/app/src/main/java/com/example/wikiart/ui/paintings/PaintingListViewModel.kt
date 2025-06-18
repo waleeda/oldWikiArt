@@ -25,6 +25,12 @@ class PaintingListViewModel : ViewModel() {
         loading = true
         viewModelScope.launch {
             try {
+                if (category == PaintingCategory.FAVORITES) {
+                    // TODO: load favourites from local storage when implemented
+                    loading = false
+                    return@launch
+                }
+
                 val result = ApiClient.service.paintingsByCategory(
                     language = "en",
                     param = category.param,
