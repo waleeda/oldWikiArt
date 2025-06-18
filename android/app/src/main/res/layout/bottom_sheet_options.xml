@@ -21,19 +21,22 @@
             android:id="@+id/layoutList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="List" />
+            android:drawableStart="@drawable/ic_layout_list"
+            android:text="@string/layout_list" />
 
         <RadioButton
             android:id="@+id/layoutGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Grid" />
+            android:drawableStart="@drawable/ic_layout_grid"
+            android:text="@string/layout_grid" />
 
         <RadioButton
             android:id="@+id/layoutSheet"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sheet" />
+            android:drawableStart="@drawable/ic_layout_sheet"
+            android:text="@string/layout_sheet" />
     </RadioGroup>
 
     <Button
