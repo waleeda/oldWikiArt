@@ -15,6 +15,14 @@ interface WikiArtService {
         @Query("json") json: Int = 2
     ): PaintingList
 
+    @GET("/{lang}")
+    suspend fun paintingsByCategory(
+        @Path("lang") language: String,
+        @Query("param") param: String,
+        @Query("page") page: Int,
+        @Query("json") json: Int = 2
+    ): PaintingList
+
     @GET("/{lang}/api/2/Painting")
     suspend fun paintingDetails(
         @Path("lang") language: String,
