@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -64,7 +63,7 @@ fun ArtistsScreen(
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             items(
                                 count = artists.itemCount,
-                                key = { index -> artists[index]?.id }
+                                key = { index -> artists[index]?.id ?: index }
                             ) { index ->
                                 artists[index]?.let { ArtistRow(it, onArtistClick) }
                             }
@@ -80,7 +79,7 @@ fun ArtistsScreen(
                         ) {
                             items(
                                 count = artists.itemCount,
-                                key = { index -> artists[index]?.id }
+                                key = { index -> artists[index]?.id ?: index }
                             ) { index ->
                                 artists[index]?.let { ArtistGridItem(it, onArtistClick) }
                             }
@@ -94,7 +93,7 @@ fun ArtistsScreen(
                             columns = GridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            gridItems(artists.itemCount) { index ->
+                            androidx.compose.foundation.lazy.grid.items(artists.itemCount) { index ->
                                 artists[index]?.let { ArtistSheetItem(it, onArtistClick) }
                             }
                             if (artists.loadState.append is LoadState.Loading) {
@@ -106,7 +105,7 @@ fun ArtistsScreen(
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(
                             count = artists.itemCount,
-                            key = { index -> artists[index]?.id }
+                            key = { index -> artists[index]?.id ?: index }
                         ) { index ->
                             artists[index]?.let { ArtistRow(it, onArtistClick) }
                         }
