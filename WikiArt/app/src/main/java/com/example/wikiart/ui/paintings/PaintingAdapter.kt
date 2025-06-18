@@ -10,7 +10,10 @@ import coil.load
 import com.example.wikiart.R
 import com.example.wikiart.model.Painting
 
-class PaintingAdapter(private var layout: Layout) : RecyclerView.Adapter<PaintingAdapter.VH>() {
+class PaintingAdapter(layout: Layout) : RecyclerView.Adapter<PaintingAdapter.VH>() {
+
+    var layout: Layout = layout
+        private set
 
     enum class Layout { LIST, GRID, SHEET }
 
