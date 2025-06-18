@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items as gridItems
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
@@ -52,7 +51,7 @@ fun ArtistPaintingsScreen(
                         LazyColumn(modifier = Modifier.fillMaxSize()) {
                             items(
                                 count = paintings.itemCount,
-                                key = { index -> paintings[index]?.id }
+                                key = { index -> paintings[index]?.id ?: index }
                             ) { index ->
                                 paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                             }
@@ -68,7 +67,7 @@ fun ArtistPaintingsScreen(
                         ) {
                             items(
                                 count = paintings.itemCount,
-                                key = { index -> paintings[index]?.id }
+                                key = { index -> paintings[index]?.id ?: index }
                             ) { index ->
                                 paintings[index]?.let { PaintingGridItem(it, onPaintingClick) }
                             }
@@ -82,7 +81,7 @@ fun ArtistPaintingsScreen(
                             columns = GridCells.Fixed(2),
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            gridItems(paintings.itemCount) { index ->
+                            androidx.compose.foundation.lazy.grid.items(paintings.itemCount) { index ->
                                 paintings[index]?.let { PaintingSheetItem(it, onPaintingClick) }
                             }
                             if (paintings.loadState.append is LoadState.Loading) {
@@ -94,7 +93,7 @@ fun ArtistPaintingsScreen(
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(
                             count = paintings.itemCount,
-                            key = { index -> paintings[index]?.id }
+                            key = { index -> paintings[index]?.id ?: index }
                         ) { index ->
                             paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                         }

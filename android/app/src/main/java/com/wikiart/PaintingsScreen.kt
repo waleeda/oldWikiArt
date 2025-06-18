@@ -48,7 +48,7 @@ fun PaintingsScreen(
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(
                             count = paintings.itemCount,
-                            key = { index -> paintings[index]?.id }
+                            key = { index -> paintings[index]?.id ?: index }
                         ) { index ->
                             paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
@@ -66,7 +66,7 @@ fun PaintingsScreen(
                     ) {
                         items(
                             count = paintings.itemCount,
-                            key = { index -> paintings[index]?.id }
+                            key = { index -> paintings[index]?.id ?: index }
                         ) { index ->
                             paintings[index]?.let { PaintingGridItem(it, onPaintingClick) }
                         }
@@ -82,7 +82,7 @@ fun PaintingsScreen(
                     ) {
                         items(
                             count = paintings.itemCount,
-                            key = { index -> paintings[index]?.id }
+                            key = { index -> paintings[index]?.id ?: index }
                         ) { index ->
                             paintings[index]?.let { PaintingSheetItem(it, onPaintingClick) }
                         }
@@ -95,7 +95,7 @@ fun PaintingsScreen(
                     LazyColumn(modifier = Modifier.fillMaxSize()) {
                         items(
                             count = paintings.itemCount,
-                            key = { index -> paintings[index]?.id }
+                            key = { index -> paintings[index]?.id ?: index }
                         ) { index ->
                             paintings[index]?.let { PaintingColumnItem(it, onPaintingClick) }
                         }
