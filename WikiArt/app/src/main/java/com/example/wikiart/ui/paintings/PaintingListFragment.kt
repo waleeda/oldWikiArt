@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageButton
-import android.widget.Spinner
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,6 +24,11 @@ class PaintingListFragment : Fragment() {
     private val viewModel: PaintingListViewModel by viewModels()
     private lateinit var adapter: PaintingAdapter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,12 +41,9 @@ class PaintingListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PaintingAdapter(PaintingAdapter.Layout.LIST)
+        adapter = PaintingAdapter(viewModel.layout)
         binding.paintingRecyclerView.adapter = adapter
-        binding.paintingRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        setupCategorySpinner(binding.categorySpinner)
-        binding.layoutButton.setOnClickListener { toggleLayout() }
+        binding.paintingRecyclerView.layoutManager = layoutManagerFor(viewModel.layout)
 
         viewModel.paintings.observe(viewLifecycleOwner) { adapter.submitList(it) }
 
@@ -58,35 +60,43 @@ class PaintingListFragment : Fragment() {
         })
     }
 
-    private fun setupCategorySpinner(spinner: Spinner) {
-        val items = PaintingCategory.values().map { getString(it.titleRes) }
-        spinner.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, items)
-        spinner.setSelection(PaintingCategory.values().indexOf(viewModel.category))
-        spinner.setOnItemSelectedListener(object : android.widget.AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: android.widget.AdapterView<*>, view: View?, position: Int, id: Long) {
-                val cat = PaintingCategory.values()[position]
-                viewModel.setCategory(cat)
-            }
-
-            override fun onNothingSelected(parent: android.widget.AdapterView<*>) {}
-        })
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_painting_list, menu)
     }
 
-    private fun toggleLayout() {
-        val next = when(adapter.layout) {
-            PaintingAdapter.Layout.LIST -> PaintingAdapter.Layout.GRID
-            PaintingAdapter.Layout.GRID -> PaintingAdapter.Layout.SHEET
-            PaintingAdapter.Layout.SHEET -> PaintingAdapter.Layout.LIST
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == R.id.action_options) {
+            openOptions()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
         }
-        adapter.setLayout(next)
-        val manager = when(next) {
-            PaintingAdapter.Layout.LIST -> LinearLayoutManager(requireContext())
-            PaintingAdapter.Layout.GRID -> GridLayoutManager(requireContext(), 2)
-            PaintingAdapter.Layout.SHEET -> GridLayoutManager(requireContext(), 2)
-        }
-        binding.paintingRecyclerView.layoutManager = manager
-        binding.paintingRecyclerView.scrollToPosition(0)
     }
+
+    private fun openOptions() {
+        OptionsBottomSheetFragment.newInstance(viewModel.category, viewModel.layout).apply {
+            setListener(object : OptionsBottomSheetFragment.Listener {
+                override fun onOptionsSelected(category: PaintingCategory, layout: PaintingAdapter.Layout) {
+                    if (viewModel.category != category) {
+                        viewModel.setCategory(category)
+                    }
+                    if (viewModel.layout != layout) {
+                        viewModel.setLayout(layout)
+                        adapter.setLayout(layout)
+                        binding.paintingRecyclerView.layoutManager = layoutManagerFor(layout)
+                        binding.paintingRecyclerView.scrollToPosition(0)
+                    }
+                }
+            })
+        }.show(parentFragmentManager, "options")
+    }
+
+    private fun layoutManagerFor(layout: PaintingAdapter.Layout): RecyclerView.LayoutManager = when(layout) {
+        PaintingAdapter.Layout.LIST -> LinearLayoutManager(requireContext())
+        PaintingAdapter.Layout.GRID -> GridLayoutManager(requireContext(), 2)
+        PaintingAdapter.Layout.SHEET -> GridLayoutManager(requireContext(), 2)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

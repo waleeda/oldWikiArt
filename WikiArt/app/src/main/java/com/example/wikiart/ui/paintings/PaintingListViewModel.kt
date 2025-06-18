@@ -17,6 +17,8 @@ class PaintingListViewModel : ViewModel() {
     private var loading = false
     var category: PaintingCategory = PaintingCategory.POPULAR
         private set
+    var layout: PaintingAdapter.Layout = PaintingAdapter.Layout.LIST
+        private set
 
     fun loadNext() {
         if (loading) return
@@ -42,5 +44,9 @@ class PaintingListViewModel : ViewModel() {
         page = 1
         _paintings.value = emptyList()
         loadNext()
+    }
+
+    fun setLayout(l: PaintingAdapter.Layout) {
+        layout = l
     }
 }
