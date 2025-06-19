@@ -1,15 +1,18 @@
 # WikiArt Mobile
 
 This repository contains the legacy iOS project (`WikiArt3.0`) and a new Android app.
-The Android code lives under the `WikiArt/` directory and currently provides only
-an initial skeleton while the iOS implementation is feature complete.
+The Android code lives under the `WikiArt/` directory and now implements the
+paintings list with category selection and multiple layouts. The iOS project
+remains feature complete and serves as a reference for the Android port.
 
 ## Current Android status
 
-- Basic bottom navigation with three placeholder screens (Home, Dashboard and
-  Notifications).
-- Retrofit based API layer with calls for popular paintings and painting details.
-- View binding is enabled but no UI logic beyond the template screens.
+- Bottom navigation with Paintings, Artists, Search and Support sections.
+- Painting list screen with infinite scrolling and categories such as Featured,
+  Popular and more.
+- Layout selector supporting list, grid and sheet presentations via a bottom
+  sheet.
+- Retrofit based API layer and ViewModel driven UI using LiveData.
 
 See `docs/android_design_guidelines.md` for the design approach that will bring
 parity with the iOS interface.
@@ -31,3 +34,6 @@ iOS:
 The iOS sources remain for guidance when porting features. A summary of the
 existing iOS screens and fetchers is available in
 [`docs/ios_features.md`](docs/ios_features.md).
+
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.

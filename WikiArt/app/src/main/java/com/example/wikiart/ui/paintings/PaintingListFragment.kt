@@ -12,6 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.Toast
 import com.example.wikiart.R
 import com.example.wikiart.databinding.FragmentPaintingListBinding
 import com.example.wikiart.model.PaintingCategory
@@ -45,7 +46,13 @@ class PaintingListFragment : Fragment() {
         binding.paintingRecyclerView.adapter = adapter
         binding.paintingRecyclerView.layoutManager = layoutManagerFor(viewModel.layout)
 
+        binding.categoryButton.setOnClickListener { openOptions() }
+
         viewModel.paintings.observe(viewLifecycleOwner) { adapter.submitList(it) }
+        viewModel.loading.observe(viewLifecycleOwner) { binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE }
+        viewModel.error.observe(viewLifecycleOwner) { err ->
+            err?.let { Toast.makeText(requireContext(), it.localizedMessage ?: "Load failed", Toast.LENGTH_SHORT).show() }
+        }
 
         viewModel.loadNext()
 
