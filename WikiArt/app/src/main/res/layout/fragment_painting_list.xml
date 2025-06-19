@@ -16,6 +16,13 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
+    <Spinner
+        android:id="@+id/categorySelector"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        android:layout_margin="16dp" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/categoryButton"
         android:layout_width="wrap_content"

@@ -16,7 +16,20 @@ class PaintingListViewModelTest {
     private class FakeService : WikiArtService {
         var lastPageRequested = 0
         override suspend fun popularPaintings(language: String, page: Int, json: Int): PaintingList {
-            throw NotImplementedError()
+            lastPageRequested = page
+            val p = Painting(
+                id = "popular_$page",
+                title = "Title$page",
+                year = "",
+                width = 0,
+                height = 0,
+                artistName = "Artist",
+                image = "url",
+                paintingUrl = "",
+                artistUrl = null,
+                flags = 0
+            )
+            return PaintingList(listOf(p), 1, 1)
         }
         override suspend fun paintingsByCategory(language: String, param: String, page: Int, json: Int): PaintingList {
             lastPageRequested = page

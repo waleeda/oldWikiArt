@@ -37,11 +37,18 @@ class PaintingListViewModel : ViewModel() {
                     return@launch
                 }
 
-                val result = ApiClient.service.paintingsByCategory(
-                    language = "en",
-                    param = category.param,
-                    page = page
-                )
+                val result = if (category == PaintingCategory.POPULAR) {
+                    ApiClient.service.popularPaintings(
+                        language = "en",
+                        page = page
+                    )
+                } else {
+                    ApiClient.service.paintingsByCategory(
+                        language = "en",
+                        param = category.param,
+                        page = page
+                    )
+                }
                 _paintings.value = _paintings.value!! + result.Paintings
                 page++
             } catch (e: Exception) {

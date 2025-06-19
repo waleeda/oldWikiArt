@@ -12,6 +12,8 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.widget.ArrayAdapter
+import android.widget.AdapterView
 import android.widget.Toast
 import com.example.wikiart.R
 import com.example.wikiart.databinding.FragmentPaintingListBinding
@@ -45,6 +47,21 @@ class PaintingListFragment : Fragment() {
         adapter = PaintingAdapter(viewModel.layout)
         binding.paintingRecyclerView.adapter = adapter
         binding.paintingRecyclerView.layoutManager = layoutManagerFor(viewModel.layout)
+
+        val categories = PaintingCategory.values()
+        val titles = categories.map { getString(it.titleRes) }
+        binding.categorySelector.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, titles)
+        binding.categorySelector.setSelection(categories.indexOf(viewModel.category))
+        binding.categorySelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val selected = categories[position]
+                if (selected != viewModel.category) {
+                    viewModel.setCategory(selected)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
 
         binding.categoryButton.setOnClickListener { openOptions() }
 
