@@ -46,6 +46,9 @@ class PaintingListFragment : Fragment() {
         binding.paintingRecyclerView.layoutManager = layoutManagerFor(viewModel.layout)
 
         viewModel.paintings.observe(viewLifecycleOwner) { adapter.submitList(it) }
+        viewModel.loading.observe(viewLifecycleOwner) { isLoading ->
+            binding.loadingProgressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
 
         viewModel.loadNext()
 

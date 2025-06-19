@@ -13,21 +13,23 @@ class PaintingListViewModel : ViewModel() {
     private val _paintings = MutableLiveData<List<Painting>>(emptyList())
     val paintings: LiveData<List<Painting>> = _paintings
 
+    private val _loading = MutableLiveData(false)
+    val loading: LiveData<Boolean> = _loading
+
     private var page = 1
-    private var loading = false
     var category: PaintingCategory = PaintingCategory.POPULAR
         private set
     var layout: PaintingAdapter.Layout = PaintingAdapter.Layout.LIST
         private set
 
     fun loadNext() {
-        if (loading) return
-        loading = true
+        if (_loading.value == true) return
+        _loading.value = true
         viewModelScope.launch {
             try {
                 if (category == PaintingCategory.FAVORITES) {
                     // TODO: load favourites from local storage when implemented
-                    loading = false
+                    _loading.value = false
                     return@launch
                 }
 
@@ -40,7 +42,7 @@ class PaintingListViewModel : ViewModel() {
                 page++
             } catch (_: Exception) {
             }
-            loading = false
+            _loading.value = false
         }
     }
 
