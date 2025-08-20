@@ -18,6 +18,7 @@ import android.widget.Toast
 import com.example.wikiart.R
 import com.example.wikiart.databinding.FragmentPaintingListBinding
 import com.example.wikiart.model.PaintingCategory
+import androidx.navigation.fragment.findNavController
 
 class PaintingListFragment : Fragment() {
 
@@ -44,7 +45,10 @@ class PaintingListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = PaintingAdapter(viewModel.layout)
+        adapter = PaintingAdapter(viewModel.layout) { painting ->
+            val bundle = Bundle().apply { putString(PaintingDetailFragment.ARG_PAINTING_ID, painting.id) }
+            findNavController().navigate(R.id.action_paintingListFragment_to_paintingDetailFragment, bundle)
+        }
         binding.paintingRecyclerView.adapter = adapter
         binding.paintingRecyclerView.layoutManager = layoutManagerFor(viewModel.layout)
 
