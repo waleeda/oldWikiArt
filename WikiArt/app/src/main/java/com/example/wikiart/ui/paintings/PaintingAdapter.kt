@@ -10,7 +10,7 @@ import coil.load
 import com.example.wikiart.R
 import com.example.wikiart.model.Painting
 
-class PaintingAdapter(layout: Layout) : RecyclerView.Adapter<PaintingAdapter.VH>() {
+class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)? = null) : RecyclerView.Adapter<PaintingAdapter.VH>() {
 
     var layout: Layout = layout
         private set
@@ -43,7 +43,7 @@ class PaintingAdapter(layout: Layout) : RecyclerView.Adapter<PaintingAdapter.VH>
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(items[position])
+        holder.bind(items[position], listener)
     }
 
     override fun getItemCount(): Int = items.size
@@ -53,10 +53,11 @@ class PaintingAdapter(layout: Layout) : RecyclerView.Adapter<PaintingAdapter.VH>
         private val title: TextView? = view.findViewById(R.id.paintingTitle)
         private val artist: TextView? = view.findViewById(R.id.paintingArtist)
 
-        fun bind(p: Painting) {
+        fun bind(p: Painting, listener: ((Painting) -> Unit)?) {
             image.load(p.imageUrl())
             title?.text = p.title
             artist?.text = p.artistName
+            itemView.setOnClickListener { listener?.invoke(p) }
         }
     }
 }

@@ -9,7 +9,11 @@
         android:id="@+id/navigation_paintings"
         android:name="com.example.wikiart.ui.paintings.PaintingListFragment"
         android:label="@string/title_paintings"
-        tools:layout="@layout/fragment_painting_list" />
+        tools:layout="@layout/fragment_painting_list" >
+        <action
+            android:id="@+id/action_paintingListFragment_to_paintingDetailFragment"
+            app:destination="@id/paintingDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_artists"
@@ -28,4 +32,14 @@
         android:name="com.example.wikiart.ui.support.SupportFragment"
         android:label="@string/title_support"
         tools:layout="@layout/fragment_support" />
+
+    <fragment
+        android:id="@+id/paintingDetailFragment"
+        android:name="com.example.wikiart.ui.paintings.PaintingDetailFragment"
+        android:label="@string/title_painting_detail"
+        tools:layout="@layout/fragment_painting_detail" >
+        <action
+            android:id="@+id/action_paintingDetailFragment_self"
+            app:destination="@id/paintingDetailFragment" />
+    </fragment>
 </navigation>

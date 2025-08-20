@@ -15,4 +15,5 @@
     <string name="layout_grid">Grid</string>
     <string name="layout_sheet">Sheet</string>
     <string name="action_options">Options</string>
+    <string name="title_painting_detail">Painting</string>
 </resources>
