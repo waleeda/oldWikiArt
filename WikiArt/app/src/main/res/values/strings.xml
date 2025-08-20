@@ -11,6 +11,8 @@
     <string name="category_style">Style</string>
     <string name="category_genre">Genre</string>
     <string name="category_favorites">Favorites</string>
+    <string name="category_female">Female</string>
+    <string name="category_recent">Recent</string>
     <string name="layout_list">List</string>
     <string name="layout_grid">Grid</string>
     <string name="layout_sheet">Sheet</string>
