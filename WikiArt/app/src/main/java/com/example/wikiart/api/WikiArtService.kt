@@ -1,6 +1,7 @@
 package com.example.wikiart.api
 
 import com.example.wikiart.model.Artist
+import com.example.wikiart.model.ArtistList
 import com.example.wikiart.model.Painting
 import com.example.wikiart.model.PaintingList
 import retrofit2.http.GET
@@ -28,4 +29,14 @@ interface WikiArtService {
         @Path("lang") language: String,
         @Query("id") id: String
     ): Painting
+
+    /**
+     * Retrieve a page of artists from the WikiArt API.
+     */
+    @GET("/{lang}/api/2/Artists")
+    suspend fun artists(
+        @Path("lang") language: String,
+        @Query("page") page: Int,
+        @Query("json") json: Int = 2
+    ): ArtistList
 }
