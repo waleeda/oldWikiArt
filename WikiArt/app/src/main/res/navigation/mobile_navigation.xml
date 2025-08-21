@@ -62,5 +62,18 @@
         <action
             android:id="@+id/action_artistDetailFragment_to_paintingDetailFragment"
             app:destination="@id/paintingDetailFragment" />
+        <action
+            android:id="@+id/action_artistDetailFragment_to_artistPaintingsFragment"
+            app:destination="@id/artistPaintingsFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistPaintingsFragment"
+        android:name="com.example.wikiart.ui.artists.ArtistPaintingsFragment"
+        android:label="@string/title_artist_paintings"
+        tools:layout="@layout/fragment_artist_paintings" >
+        <action
+            android:id="@+id/action_artistPaintingsFragment_to_paintingDetailFragment"
+            app:destination="@id/paintingDetailFragment" />
     </fragment>
 </navigation>

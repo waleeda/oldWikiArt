@@ -28,4 +28,6 @@
     <string name="favorite">Favorite</string>
     <string name="unfavorite">Unfavorite</string>
     <string name="share_painting">Share painting</string>
+    <string name="see_all">See All</string>
+    <string name="title_artist_paintings">Paintings</string>
 </resources>
