@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +45,10 @@ class ArtistsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = ArtistAdapter(viewModel.layout)
+        adapter = ArtistAdapter(viewModel.layout) { artist ->
+            val bundle = Bundle().apply { putString(ArtistDetailFragment.ARG_ARTIST_ID, artist.id) }
+            findNavController().navigate(R.id.action_artistsFragment_to_artistDetailFragment, bundle)
+        }
         binding.artistRecyclerView.adapter = adapter
         binding.artistRecyclerView.layoutManager = layoutManagerFor(viewModel.layout)
 
