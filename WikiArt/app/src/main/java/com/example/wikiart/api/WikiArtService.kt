@@ -3,6 +3,7 @@ package com.example.wikiart.api
 import com.example.wikiart.model.Painting
 import com.example.wikiart.model.PaintingList
 import com.example.wikiart.model.ArtistList
+import com.example.wikiart.model.ArtistDetails
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -34,6 +35,19 @@ interface WikiArtService {
     suspend fun relatedPaintings(
         @Url path: String,
         @Query("json") json: Int = 2,
+    ): PaintingList
+
+    @GET
+    suspend fun artistDetails(
+        @Url path: String,
+        @Query("json") json: Int = 2,
+    ): ArtistDetails
+
+    @GET
+    suspend fun artistPaintings(
+        @Url path: String,
+        @Query("json") json: Int = 2,
+        @Query("page") page: Int = 1,
     ): PaintingList
 
     @GET("/{lang}/App/Search/{category}")

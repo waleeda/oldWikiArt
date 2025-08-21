@@ -19,7 +19,11 @@
         android:id="@+id/navigation_artists"
         android:name="com.example.wikiart.ui.artists.ArtistsFragment"
         android:label="@string/title_artists"
-        tools:layout="@layout/fragment_artists" />
+        tools:layout="@layout/fragment_artists" >
+        <action
+            android:id="@+id/action_navigation_artists_to_artistDetailFragment"
+            app:destination="@id/artistDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_search"
@@ -40,6 +44,16 @@
         tools:layout="@layout/fragment_painting_detail" >
         <action
             android:id="@+id/action_paintingDetailFragment_self"
+            app:destination="@id/paintingDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/artistDetailFragment"
+        android:name="com.example.wikiart.ui.artists.ArtistDetailFragment"
+        android:label="@string/title_artist_detail"
+        tools:layout="@layout/fragment_artist_detail" >
+        <action
+            android:id="@+id/action_artistDetailFragment_to_paintingDetailFragment"
             app:destination="@id/paintingDetailFragment" />
     </fragment>
 </navigation>
