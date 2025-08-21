@@ -93,8 +93,17 @@ class PaintingListFragment : Fragment() {
 
         binding.categoryButton.setOnClickListener { openOptions() }
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refresh()
+        }
+
         viewModel.paintings.observe(viewLifecycleOwner) { adapter.submitList(it) }
-        viewModel.loading.observe(viewLifecycleOwner) { binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE }
+        viewModel.loading.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
+            if (!it) {
+                binding.swipeRefresh.isRefreshing = false
+            }
+        }
         viewModel.error.observe(viewLifecycleOwner) { err ->
             err?.let { Toast.makeText(requireContext(), it.localizedMessage ?: "Load failed", Toast.LENGTH_SHORT).show() }
         }
