@@ -5,6 +5,7 @@ import com.example.wikiart.model.PaintingList
 import com.example.wikiart.model.ArtistList
 import com.example.wikiart.model.ArtistDetails
 import com.example.wikiart.model.AutocompleteResult
+import com.example.wikiart.model.ArtistSections
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -57,8 +58,16 @@ interface WikiArtService {
         @Path("category") category: String,
         @Query("page") page: Int,
         @Query("json") json: Int = 3,
-        @Query("layout") layout: String = "new"
+        @Query("layout") layout: String = "new",
+        @Query("searchterm") searchTerm: String? = null
     ): ArtistList
+
+    @GET("/{lang}/App/Search/{category}")
+    suspend fun artistSections(
+        @Path("lang") language: String,
+        @Path("category") category: String,
+        @Query("json") json: Int = 2
+    ): ArtistSections
 
     @GET("/{lang}/App/Search/Paintings")
     suspend fun searchPaintings(
