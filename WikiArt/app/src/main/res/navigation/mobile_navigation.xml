@@ -29,7 +29,14 @@
         android:id="@+id/navigation_search"
         android:name="com.example.wikiart.ui.search.SearchFragment"
         android:label="@string/title_search"
-        tools:layout="@layout/fragment_search" />
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_search_to_paintingDetailFragment"
+            app:destination="@id/paintingDetailFragment" />
+        <action
+            android:id="@+id/action_search_to_artistDetailFragment"
+            app:destination="@id/artistDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_support"
