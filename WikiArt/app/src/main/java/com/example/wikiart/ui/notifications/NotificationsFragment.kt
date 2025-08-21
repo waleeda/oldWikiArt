@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wikiart.databinding.FragmentNotificationsBinding
 
 class NotificationsFragment : Fragment() {
@@ -28,9 +28,13 @@ class NotificationsFragment : Fragment() {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textNotifications
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        val adapter = NotificationsAdapter()
+        binding.notificationsList.layoutManager = LinearLayoutManager(context)
+        binding.notificationsList.adapter = adapter
+
+        notificationsViewModel.notifications.observe(viewLifecycleOwner) { list ->
+            adapter.submitList(list)
+            binding.emptyView.visibility = if (list.isEmpty()) View.VISIBLE else View.GONE
         }
         return root
     }

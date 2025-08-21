@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_paintings,
                 R.id.navigation_artists,
                 R.id.navigation_search,
+                R.id.navigation_notifications,
                 R.id.navigation_support
             )
         )

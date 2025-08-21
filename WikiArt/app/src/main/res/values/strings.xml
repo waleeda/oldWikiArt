@@ -4,6 +4,7 @@
     <string name="title_artists">Artists</string>
     <string name="title_search">Search</string>
     <string name="title_support">Support</string>
+    <string name="title_notifications">Notifications</string>
     <string name="category_featured">Featured</string>
     <string name="category_popular">Popular</string>
     <string name="category_high_res">High Resolution</string>
@@ -40,7 +41,5 @@
     <string name="support_email_chooser">Send Email</string>
     <string name="support_no_email_app">No email app found</string>
     <string name="suggestions_header">Suggestions</string>
-    <string name="home_placeholder">This is home Fragment</string>
-    <string name="dashboard_placeholder">This is dashboard Fragment</string>
-    <string name="notifications_placeholder">This is notifications Fragment</string>
+    <string name="no_notifications">No notifications yet</string>
 </resources>
