@@ -9,6 +9,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.wikiart.api.FavoritesRepository
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +26,9 @@ class PaintingListFragment : Fragment() {
     private var _binding: FragmentPaintingListBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: PaintingListViewModel by viewModels()
+    private val viewModel: PaintingListViewModel by viewModels {
+        PaintingListViewModel.Factory(FavoritesRepository(requireContext()))
+    }
     private lateinit var adapter: PaintingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {

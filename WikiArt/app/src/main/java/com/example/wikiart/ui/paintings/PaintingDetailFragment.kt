@@ -12,8 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.wikiart.R
-import com.example.wikiart.data.FavoritesRepository
+import com.example.wikiart.api.FavoritesRepository
 import com.example.wikiart.databinding.FragmentPaintingDetailBinding
+import androidx.lifecycle.lifecycleScope
+import androidx.core.content.ContextCompat
+import kotlinx.coroutines.launch
 
 class PaintingDetailFragment : Fragment() {
 
@@ -50,7 +53,9 @@ class PaintingDetailFragment : Fragment() {
                 binding.paintingImage.load(it.imageUrl())
                 binding.paintingTitle.text = it.title
                 binding.paintingArtist.text = it.artistName
-                updateFavoriteButton(favoritesRepository.isFavorite(it.id))
+                viewLifecycleOwner.lifecycleScope.launch {
+                    updateFavoriteButton(favoritesRepository.isFavorite(it.id))
+                }
             }
         }
 
@@ -64,8 +69,10 @@ class PaintingDetailFragment : Fragment() {
 
         binding.favoriteButton.setOnClickListener {
             val painting = viewModel.painting.value ?: return@setOnClickListener
-            val isFav = favoritesRepository.toggleFavorite(painting.id)
-            updateFavoriteButton(isFav)
+            viewLifecycleOwner.lifecycleScope.launch {
+                val isFav = favoritesRepository.toggleFavorite(painting.id)
+                updateFavoriteButton(isFav)
+            }
         }
 
         binding.shareButton.setOnClickListener {
@@ -95,7 +102,12 @@ class PaintingDetailFragment : Fragment() {
     }
 
     private fun updateFavoriteButton(isFavorite: Boolean) {
-        binding.favoriteButton.text =
-            if (isFavorite) getString(R.string.unfavorite) else getString(R.string.favorite)
+        binding.favoriteButton.apply {
+            text = if (isFavorite) getString(R.string.unfavorite) else getString(R.string.favorite)
+            icon = ContextCompat.getDrawable(
+                requireContext(),
+                if (isFavorite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
+            )
+        }
     }
 }
