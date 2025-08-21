@@ -50,6 +50,7 @@ class ArtistAdapter(private var layout: Layout, private val listener: ((Artist) 
 
         fun bind(artist: Artist, listener: ((Artist) -> Unit)?) {
             image.load(artist.image)
+            image.contentDescription = artist.title
             name.text = artist.title
             itemView.setOnClickListener { listener?.invoke(artist) }
         }

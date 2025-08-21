@@ -53,6 +53,7 @@ class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)
                 image.layoutParams = params
             }
             image.load(p.imageUrl())
+            image.contentDescription = itemView.context.getString(R.string.content_description_painting, p.title, p.artistName)
             title?.text = p.title
             artist?.text = p.artistName
             itemView.setOnClickListener { listener?.invoke(p) }

@@ -43,4 +43,7 @@
     <string name="home_placeholder">Este es el fragmento de inicio</string>
     <string name="dashboard_placeholder">Este es el fragmento del tablero</string>
     <string name="notifications_placeholder">Este es el fragmento de notificaciones</string>
+    <string name="painting_image">Imagen de pintura</string>
+    <string name="artist_image">Imagen del artista</string>
+    <string name="content_description_painting">%1$s por %2$s</string>
 </resources>

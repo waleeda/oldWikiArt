@@ -15,7 +15,8 @@
                 android:id="@+id/paintingImage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true" />
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/painting_image" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/paintingTitle"
