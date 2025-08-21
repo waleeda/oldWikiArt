@@ -30,4 +30,6 @@
     <string name="share_painting">Share painting</string>
     <string name="see_all">See All</string>
     <string name="title_artist_paintings">Paintings</string>
+    <string name="no_results">No results</string>
+    <string name="error_generic">An error occurred</string>
 </resources>
