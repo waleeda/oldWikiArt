@@ -167,9 +167,7 @@ class PaintingListFragment : Fragment() {
     private fun layoutManagerFor(layout: PaintingAdapter.Layout): RecyclerView.LayoutManager = when(layout) {
         PaintingAdapter.Layout.LIST -> LinearLayoutManager(requireContext())
         PaintingAdapter.Layout.GRID -> GridLayoutManager(requireContext(), 2)
-        PaintingAdapter.Layout.SHEET -> StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL).apply {
-            gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
-        }
+        PaintingAdapter.Layout.SHEET -> SheetLayoutManager()
     }
 
 
