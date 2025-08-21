@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.wikiart.R
@@ -21,17 +23,9 @@ class SearchAdapter(
     private val onPainting: (Painting) -> Unit,
     private val onArtist: (Artist) -> Unit,
     private val onSuggestion: (String) -> Unit
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : ListAdapter<SearchItem, RecyclerView.ViewHolder>(DIFF) {
 
-    private val items = mutableListOf<SearchItem>()
-
-    fun submitList(data: List<SearchItem>) {
-        items.clear()
-        items.addAll(data)
-        notifyDataSetChanged()
-    }
-
-    override fun getItemViewType(position: Int): Int = when(items[position]) {
+    override fun getItemViewType(position: Int): Int = when(getItem(position)) {
         is SearchItem.Header -> 0
         is SearchItem.PaintingItem -> 1
         is SearchItem.ArtistItem -> 2
@@ -46,15 +40,13 @@ class SearchAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(val item = items[position]) {
+        when(val item = getItem(position)) {
             is SearchItem.Header -> (holder as HeaderVH).bind(item.title)
             is SearchItem.PaintingItem -> (holder as PaintingVH).bind(item.painting, onPainting)
             is SearchItem.ArtistItem -> (holder as ArtistVH).bind(item.artist, onArtist)
             is SearchItem.SuggestionItem -> (holder as SuggestionVH).bind(item.term, onSuggestion)
         }
     }
-
-    override fun getItemCount(): Int = items.size
 
     class HeaderVH(view: View) : RecyclerView.ViewHolder(view) {
         private val text: TextView = view.findViewById(android.R.id.text1)
@@ -88,6 +80,27 @@ class SearchAdapter(
             image.load(a.image)
             name.text = a.title
             itemView.setOnClickListener { listener(a) }
+        }
+    }
+
+    companion object {
+        private val DIFF = object : DiffUtil.ItemCallback<SearchItem>() {
+            override fun areItemsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean {
+                return when {
+                    oldItem is SearchItem.PaintingItem && newItem is SearchItem.PaintingItem ->
+                        oldItem.painting.id == newItem.painting.id
+                    oldItem is SearchItem.ArtistItem && newItem is SearchItem.ArtistItem ->
+                        oldItem.artist.artistUrl == newItem.artist.artistUrl
+                    oldItem is SearchItem.Header && newItem is SearchItem.Header ->
+                        oldItem.title == newItem.title
+                    oldItem is SearchItem.SuggestionItem && newItem is SearchItem.SuggestionItem ->
+                        oldItem.term == newItem.term
+                    else -> false
+                }
+            }
+
+            override fun areContentsTheSame(oldItem: SearchItem, newItem: SearchItem): Boolean =
+                oldItem == newItem
         }
     }
 }

@@ -5,25 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.wikiart.R
 import com.example.wikiart.model.Painting
 
-class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)? = null) : RecyclerView.Adapter<PaintingAdapter.VH>() {
+class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)? = null) : ListAdapter<Painting, PaintingAdapter.VH>(DIFF) {
 
     var layout: Layout = layout
         private set
 
     enum class Layout { LIST, GRID, SHEET }
-
-    private val items = mutableListOf<Painting>()
-
-    fun submitList(data: List<Painting>) {
-        items.clear()
-        items.addAll(data)
-        notifyDataSetChanged()
-    }
 
     fun setLayout(l: Layout) {
         layout = l
@@ -43,10 +37,8 @@ class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bind(items[position], listener)
+        holder.bind(getItem(position), listener)
     }
-
-    override fun getItemCount(): Int = items.size
 
     class VH(view: View, private val layout: Layout) : RecyclerView.ViewHolder(view) {
         private val image: ImageView = view.findViewById(R.id.paintingImage)
@@ -64,6 +56,16 @@ class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)
             title?.text = p.title
             artist?.text = p.artistName
             itemView.setOnClickListener { listener?.invoke(p) }
+        }
+    }
+
+    companion object {
+        private val DIFF = object : DiffUtil.ItemCallback<Painting>() {
+            override fun areItemsTheSame(oldItem: Painting, newItem: Painting): Boolean =
+                oldItem.id == newItem.id
+
+            override fun areContentsTheSame(oldItem: Painting, newItem: Painting): Boolean =
+                oldItem == newItem
         }
     }
 }
