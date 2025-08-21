@@ -53,6 +53,8 @@ class PaintingDetailFragment : Fragment() {
                 binding.paintingImage.load(it.imageUrl())
                 binding.paintingTitle.text = it.title
                 binding.paintingArtist.text = it.artistName
+                binding.paintingYear.text = it.year
+                binding.paintingSize.text = formatDimensions(it.width, it.height)
                 viewLifecycleOwner.lifecycleScope.launch {
                     updateFavoriteButton(favoritesRepository.isFavorite(it.id))
                 }
@@ -109,5 +111,9 @@ class PaintingDetailFragment : Fragment() {
                 if (isFavorite) R.drawable.baseline_favorite_24 else R.drawable.baseline_favorite_border_24
             )
         }
+    }
+
+    private fun formatDimensions(width: Int, height: Int): String {
+        return if (width > 0 && height > 0) "${width}×${height} cm" else ""
     }
 }
