@@ -2,7 +2,6 @@ package com.example.wikiart.ui.search
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.SearchRepository
 import com.example.wikiart.api.getLanguage
@@ -10,10 +9,16 @@ import com.example.wikiart.model.Artist
 import com.example.wikiart.model.Painting
 import kotlinx.coroutines.launch
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import com.example.wikiart.R
+
 class SearchViewModel(
+    application: Application,
     private val language: String = getLanguage(),
-) : ViewModel() {
+) : AndroidViewModel(application) {
     private val repository = SearchRepository(language)
+    private val resources = application.resources
 
     private val paintings = mutableListOf<Painting>()
     private val artists = mutableListOf<Artist>()
@@ -112,15 +117,15 @@ class SearchViewModel(
         val data = mutableListOf<SearchItem>()
         val sugg = suggestions.value ?: emptyList()
         if (sugg.isNotEmpty()) {
-            data.add(SearchItem.Header("Suggestions"))
+            data.add(SearchItem.Header(resources.getString(R.string.suggestions_header)))
             data.addAll(sugg.map { SearchItem.SuggestionItem(it) })
         }
         if (paintings.isNotEmpty()) {
-            data.add(SearchItem.Header("Paintings"))
+            data.add(SearchItem.Header(resources.getString(R.string.title_paintings)))
             data.addAll(paintings.map { SearchItem.PaintingItem(it) })
         }
         if (artists.isNotEmpty()) {
-            data.add(SearchItem.Header("Artists"))
+            data.add(SearchItem.Header(resources.getString(R.string.title_artists)))
             data.addAll(artists.map { SearchItem.ArtistItem(it) })
         }
         _items.postValue(data)

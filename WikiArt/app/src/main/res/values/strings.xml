@@ -32,4 +32,15 @@
     <string name="title_artist_paintings">Paintings</string>
     <string name="no_results">No results</string>
     <string name="error_generic">An error occurred</string>
+    <string name="share">Share</string>
+    <string name="buy">Buy</string>
+    <string name="related_artworks">Related artworks</string>
+    <string name="support_email_subject">App Feedback</string>
+    <string name="support_email_from">From:</string>
+    <string name="support_email_chooser">Send Email</string>
+    <string name="support_no_email_app">No email app found</string>
+    <string name="suggestions_header">Suggestions</string>
+    <string name="home_placeholder">This is home Fragment</string>
+    <string name="dashboard_placeholder">This is dashboard Fragment</string>
+    <string name="notifications_placeholder">This is notifications Fragment</string>
 </resources>

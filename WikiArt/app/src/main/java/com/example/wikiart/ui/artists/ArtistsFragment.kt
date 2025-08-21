@@ -103,7 +103,13 @@ class ArtistsFragment : Fragment() {
             }
         }
         viewModel.error.observe(viewLifecycleOwner) { err ->
-            err?.let { Toast.makeText(requireContext(), it.localizedMessage ?: "Load failed", Toast.LENGTH_SHORT).show() }
+            err?.let {
+                Toast.makeText(
+                    requireContext(),
+                    it.localizedMessage ?: getString(R.string.error_generic),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         viewModel.loadNext()
