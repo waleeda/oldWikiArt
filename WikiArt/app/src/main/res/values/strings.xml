@@ -19,4 +19,9 @@
     <string name="action_options">Options</string>
     <string name="title_painting_detail">Painting</string>
     <string name="title_artist_detail">Artist</string>
+    <string name="support_feedback_title">We'd love your feedback</string>
+    <string name="support_email_hint">Your email (optional)</string>
+    <string name="support_message_hint">Message</string>
+    <string name="support_send_feedback">Send Feedback</string>
+    <string name="support_donate">Donate</string>
 </resources>
