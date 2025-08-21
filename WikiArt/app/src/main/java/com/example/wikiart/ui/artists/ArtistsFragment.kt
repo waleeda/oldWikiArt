@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wikiart.R
 import com.example.wikiart.databinding.FragmentArtistsBinding
 import com.example.wikiart.model.ArtistCategory
+import com.example.wikiart.model.ArtistSection
 
 class ArtistsFragment : Fragment() {
 
@@ -69,6 +70,25 @@ class ArtistsFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        binding.sectionSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val secs = viewModel.sections.value ?: emptyList()
+                val selected = if (position == 0) null else secs[position - 1]
+                if (selected != viewModel.section) {
+                    viewModel.setSection(selected)
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
+        viewModel.sections.observe(viewLifecycleOwner) { secs ->
+            val secTitles = listOf(getString(R.string.section_all)) + secs.map { it.Title }
+            binding.sectionSelector.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, secTitles)
+            val currentIndex = secs.indexOfFirst { it.url == viewModel.section?.url }.let { if (it >= 0) it + 1 else 0 }
+            binding.sectionSelector.setSelection(currentIndex)
+        }
+
         binding.categoryButton.setOnClickListener { openOptions() }
 
         viewModel.artists.observe(viewLifecycleOwner) { adapter.submitList(it) }
@@ -104,11 +124,18 @@ class ArtistsFragment : Fragment() {
     }
 
     private fun openOptions() {
-        ArtistOptionsBottomSheetFragment.newInstance(viewModel.category, viewModel.layout).apply {
+        ArtistOptionsBottomSheetFragment.newInstance(
+            viewModel.category,
+            viewModel.layout,
+            viewModel.section,
+            viewModel.sections.value ?: emptyList()
+        ).apply {
             setListener(object : ArtistOptionsBottomSheetFragment.Listener {
-                override fun onOptionsSelected(category: ArtistCategory, layout: ArtistAdapter.Layout) {
+                override fun onOptionsSelected(category: ArtistCategory, section: ArtistSection?, layout: ArtistAdapter.Layout) {
                     if (viewModel.category != category) {
                         viewModel.setCategory(category)
+                    } else if (viewModel.section != section) {
+                        viewModel.setSection(section)
                     }
                     if (viewModel.layout != layout) {
                         viewModel.setLayout(layout)

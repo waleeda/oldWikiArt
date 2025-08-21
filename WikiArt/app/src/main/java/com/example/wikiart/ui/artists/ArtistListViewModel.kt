@@ -19,7 +19,8 @@ class ArtistListViewModel : ViewModel() {
     val artists: LiveData<List<Artist>> = _artists
 
     private val _sections = MutableLiveData<List<ArtistSection>>(emptyList())
-    val sections: LiveData<List<ArtistSection>> = _sections
+    val sections: LiveData<List<ArtistSection>>
+        get() = _sections
 
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
