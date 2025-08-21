@@ -21,7 +21,7 @@
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Paintings"
+                android:text="@string/title_artist_paintings"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
                 android:textAppearance="?attr/textAppearanceTitleMedium" />

@@ -48,7 +48,13 @@ class ArtistPaintingsFragment : Fragment() {
         viewModel.paintings.observe(viewLifecycleOwner) { adapter.submitList(it) }
         viewModel.loading.observe(viewLifecycleOwner) { binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE }
         viewModel.error.observe(viewLifecycleOwner) { err ->
-            err?.let { Toast.makeText(requireContext(), it.localizedMessage ?: "Load failed", Toast.LENGTH_SHORT).show() }
+            err?.let {
+                Toast.makeText(
+                    requireContext(),
+                    it.localizedMessage ?: getString(R.string.error_generic),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         viewModel.loadNext()

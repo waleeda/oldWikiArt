@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.wikiart.databinding.FragmentSupportBinding
+import com.example.wikiart.R
 
 class SupportFragment : Fragment() {
 
@@ -34,13 +35,14 @@ class SupportFragment : Fragment() {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:")
                 putExtra(Intent.EXTRA_EMAIL, arrayOf("support@example.com"))
-                putExtra(Intent.EXTRA_SUBJECT, "App Feedback")
-                putExtra(Intent.EXTRA_TEXT, message + if (email.isNotBlank()) "\n\nFrom: $email" else "")
+                putExtra(Intent.EXTRA_SUBJECT, getString(R.string.support_email_subject))
+                val extraText = message + if (email.isNotBlank()) "\n\n" + getString(R.string.support_email_from) + " " + email else ""
+                putExtra(Intent.EXTRA_TEXT, extraText)
             }
             try {
-                startActivity(Intent.createChooser(intent, "Send Email"))
+                startActivity(Intent.createChooser(intent, getString(R.string.support_email_chooser)))
             } catch (e: ActivityNotFoundException) {
-                Toast.makeText(requireContext(), "No email app found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.support_no_email_app), Toast.LENGTH_SHORT).show()
             }
         }
 

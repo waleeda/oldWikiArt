@@ -59,27 +59,27 @@
                     android:id="@+id/favoriteButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Favorite" />
+                    android:text="@string/favorite" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/shareButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Share"
+                    android:text="@string/share"
                     android:layout_marginStart="8dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/buyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Buy"
+                    android:text="@string/buy"
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Related artworks"
+                android:text="@string/related_artworks"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
                 android:textAppearance="?attr/textAppearanceTitleMedium" />
