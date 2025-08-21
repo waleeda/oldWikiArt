@@ -1,20 +1,19 @@
 package com.example.wikiart.ui.support
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.wikiart.databinding.FragmentSupportBinding
 
 class SupportFragment : Fragment() {
 
     private var _binding: FragmentSupportBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,17 +21,34 @@ class SupportFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val supportViewModel =
-            ViewModelProvider(this).get(SupportViewModel::class.java)
-
         _binding = FragmentSupportBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textSupport
-        supportViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.buttonSendFeedback.setOnClickListener {
+            val message = binding.inputMessage.text?.toString().orEmpty()
+            val email = binding.inputEmail.text?.toString().orEmpty()
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:")
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("support@example.com"))
+                putExtra(Intent.EXTRA_SUBJECT, "App Feedback")
+                putExtra(Intent.EXTRA_TEXT, message + if (email.isNotBlank()) "\n\nFrom: $email" else "")
+            }
+            try {
+                startActivity(Intent.createChooser(intent, "Send Email"))
+            } catch (e: ActivityNotFoundException) {
+                Toast.makeText(requireContext(), "No email app found", Toast.LENGTH_SHORT).show()
+            }
         }
-        return root
+
+        binding.buttonDonate.setOnClickListener {
+            val url = "https://www.buymeacoffee.com/wikiart"
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
