@@ -39,6 +39,12 @@
     </fragment>
 
     <fragment
+        android:id="@+id/navigation_notifications"
+        android:name="com.example.wikiart.ui.notifications.NotificationsFragment"
+        android:label="@string/title_notifications"
+        tools:layout="@layout/fragment_notifications" />
+
+    <fragment
         android:id="@+id/navigation_support"
         android:name="com.example.wikiart.ui.support.SupportFragment"
         android:label="@string/title_support"
