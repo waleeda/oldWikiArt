@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.retrofit2)
     implementation(libs.converter.moshi)
     implementation(libs.coil)
+    implementation(libs.photoview)
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     testImplementation(libs.junit)
