@@ -1,5 +1,7 @@
 package com.example.wikiart.model
 
+import java.io.Serializable
+
 /**
  * Represents a section within an artist category returned by the API.
  */
@@ -7,7 +9,7 @@ data class ArtistSection(
     val Url: String,
     val Title: String,
     val Count: Int
-) {
+) : Serializable {
     val url: String
         get() = Url.substringAfterLast('/')
 }
