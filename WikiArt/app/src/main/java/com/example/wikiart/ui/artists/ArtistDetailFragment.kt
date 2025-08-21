@@ -48,6 +48,11 @@ class ArtistDetailFragment : Fragment() {
         viewModel.loading.observe(viewLifecycleOwner) {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
+
+        binding.seeAllButton.setOnClickListener {
+            val bundle = Bundle().apply { putString(ArtistPaintingsFragment.ARG_ARTIST_PATH, requireArguments().getString(ARG_ARTIST_PATH)) }
+            findNavController().navigate(R.id.action_artistDetailFragment_to_artistPaintingsFragment, bundle)
+        }
     }
 
     override fun onDestroyView() {

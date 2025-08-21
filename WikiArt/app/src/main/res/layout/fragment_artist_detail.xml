@@ -32,6 +32,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:nestedScrollingEnabled="false" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/seeAllButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="@string/see_all" />
         </LinearLayout>
     </ScrollView>
 
