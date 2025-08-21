@@ -3,13 +3,17 @@ package com.example.wikiart.ui.paintings
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.ApiClient
+import com.example.wikiart.api.FavoritesRepository
 import com.example.wikiart.model.Painting
 import com.example.wikiart.model.PaintingCategory
 import kotlinx.coroutines.launch
 
-class PaintingListViewModel : ViewModel() {
+class PaintingListViewModel(
+    private val favoritesRepository: FavoritesRepository? = null
+) : ViewModel() {
     private val _paintings = MutableLiveData<List<Painting>>(emptyList())
     val paintings: LiveData<List<Painting>> = _paintings
 
@@ -32,7 +36,15 @@ class PaintingListViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 if (category == PaintingCategory.FAVORITES) {
-                    // TODO: load favourites from local storage when implemented
+                    val ids = favoritesRepository?.getFavorites()?.toList() ?: emptyList()
+                    val favs = ids.mapNotNull { id ->
+                        try {
+                            ApiClient.service.paintingDetails("en", id)
+                        } catch (_: Exception) {
+                            null
+                        }
+                    }
+                    _paintings.value = favs
                     _loading.value = false
                     return@launch
                 }
@@ -68,5 +80,15 @@ class PaintingListViewModel : ViewModel() {
 
     fun setLayout(l: PaintingAdapter.Layout) {
         layout = l
+    }
+
+    class Factory(private val repo: FavoritesRepository) : ViewModelProvider.Factory {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(PaintingListViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return PaintingListViewModel(repo) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
     }
 }
