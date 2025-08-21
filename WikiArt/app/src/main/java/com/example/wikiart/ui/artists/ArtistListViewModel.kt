@@ -6,14 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.ArtistsRepository
 import com.example.wikiart.api.ArtistsCategoryRepository
+import com.example.wikiart.api.getLanguage
 import com.example.wikiart.model.Artist
 import com.example.wikiart.model.ArtistCategory
 import com.example.wikiart.model.ArtistSection
 import kotlinx.coroutines.launch
 
-class ArtistListViewModel : ViewModel() {
-    private val repository = ArtistsRepository()
-    private val categoryRepository = ArtistsCategoryRepository()
+class ArtistListViewModel(
+    private val language: String = getLanguage(),
+) : ViewModel() {
+    private val repository = ArtistsRepository(language)
+    private val categoryRepository = ArtistsCategoryRepository(language)
 
     private val _artists = MutableLiveData<List<Artist>>(emptyList())
     val artists: LiveData<List<Artist>> = _artists

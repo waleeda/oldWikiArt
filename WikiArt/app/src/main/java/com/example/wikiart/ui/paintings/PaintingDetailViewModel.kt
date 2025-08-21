@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.PaintingDetailsRepository
 import com.example.wikiart.api.RelatedPaintingsRepository
+import com.example.wikiart.api.getLanguage
 import com.example.wikiart.model.Painting
 import kotlinx.coroutines.launch
 
 class PaintingDetailViewModel(
     private val paintingId: String,
-    private val detailsRepository: PaintingDetailsRepository = PaintingDetailsRepository(),
-    private val relatedRepository: RelatedPaintingsRepository = RelatedPaintingsRepository()
+    private val language: String = getLanguage(),
+    private val detailsRepository: PaintingDetailsRepository = PaintingDetailsRepository(language),
+    private val relatedRepository: RelatedPaintingsRepository = RelatedPaintingsRepository(),
 ) : ViewModel() {
 
     private val _painting = MutableLiveData<Painting?>()
@@ -43,11 +45,14 @@ class PaintingDetailViewModel(
         }
     }
 
-    class Factory(private val paintingId: String) : ViewModelProvider.Factory {
+    class Factory(
+        private val paintingId: String,
+        private val language: String = getLanguage(),
+    ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PaintingDetailViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return PaintingDetailViewModel(paintingId) as T
+                return PaintingDetailViewModel(paintingId, language) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

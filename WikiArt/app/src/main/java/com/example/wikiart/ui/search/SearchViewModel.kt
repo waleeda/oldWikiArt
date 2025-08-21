@@ -5,12 +5,15 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.SearchRepository
+import com.example.wikiart.api.getLanguage
 import com.example.wikiart.model.Artist
 import com.example.wikiart.model.Painting
 import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
-    private val repository = SearchRepository()
+class SearchViewModel(
+    private val language: String = getLanguage(),
+) : ViewModel() {
+    private val repository = SearchRepository(language)
 
     private val paintings = mutableListOf<Painting>()
     private val artists = mutableListOf<Artist>()
