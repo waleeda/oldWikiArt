@@ -32,6 +32,22 @@
                 android:paddingEnd="16dp"
                 android:textAppearance="?attr/textAppearanceBodyMedium" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/paintingYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/paintingSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
+
             <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
