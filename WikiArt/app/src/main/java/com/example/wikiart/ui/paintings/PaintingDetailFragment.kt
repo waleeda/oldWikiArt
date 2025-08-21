@@ -1,5 +1,7 @@
 package com.example.wikiart.ui.paintings
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.wikiart.R
+import com.example.wikiart.data.FavoritesRepository
 import com.example.wikiart.databinding.FragmentPaintingDetailBinding
 
 class PaintingDetailFragment : Fragment() {
@@ -20,6 +23,8 @@ class PaintingDetailFragment : Fragment() {
     private val viewModel: PaintingDetailViewModel by viewModels {
         PaintingDetailViewModel.Factory(requireArguments().getString(ARG_PAINTING_ID)!!)
     }
+
+    private val favoritesRepository by lazy { FavoritesRepository(requireContext()) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,6 +50,7 @@ class PaintingDetailFragment : Fragment() {
                 binding.paintingImage.load(it.imageUrl())
                 binding.paintingTitle.text = it.title
                 binding.paintingArtist.text = it.artistName
+                updateFavoriteButton(favoritesRepository.isFavorite(it.id))
             }
         }
 
@@ -56,10 +62,27 @@ class PaintingDetailFragment : Fragment() {
             binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
 
-        // Buttons currently have no functionality
-        binding.favoriteButton.setOnClickListener { }
-        binding.shareButton.setOnClickListener { }
-        binding.buyButton.setOnClickListener { }
+        binding.favoriteButton.setOnClickListener {
+            val painting = viewModel.painting.value ?: return@setOnClickListener
+            val isFav = favoritesRepository.toggleFavorite(painting.id)
+            updateFavoriteButton(isFav)
+        }
+
+        binding.shareButton.setOnClickListener {
+            val painting = viewModel.painting.value ?: return@setOnClickListener
+            val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, "${painting.title} - ${painting.paintingUrl}")
+            }
+            startActivity(Intent.createChooser(shareIntent, getString(R.string.share_painting)))
+        }
+
+        binding.buyButton.setOnClickListener {
+            val painting = viewModel.painting.value ?: return@setOnClickListener
+            val uri = Uri.parse(painting.paintingUrl)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroyView() {
@@ -69,5 +92,10 @@ class PaintingDetailFragment : Fragment() {
 
     companion object {
         const val ARG_PAINTING_ID = "painting_id"
+    }
+
+    private fun updateFavoriteButton(isFavorite: Boolean) {
+        binding.favoriteButton.text =
+            if (isFavorite) getString(R.string.unfavorite) else getString(R.string.favorite)
     }
 }

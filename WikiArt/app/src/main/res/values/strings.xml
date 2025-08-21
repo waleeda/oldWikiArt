@@ -24,4 +24,7 @@
     <string name="support_message_hint">Message</string>
     <string name="support_send_feedback">Send Feedback</string>
     <string name="support_donate">Donate</string>
+    <string name="favorite">Favorite</string>
+    <string name="unfavorite">Unfavorite</string>
+    <string name="share_painting">Share painting</string>
 </resources>
