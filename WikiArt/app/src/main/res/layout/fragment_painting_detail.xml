@@ -17,20 +17,20 @@
                 android:layout_height="200dp"
                 android:scaleType="centerCrop" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/paintingTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="?attr/textAppearanceHeadline6"
+                android:textAppearance="?attr/textAppearanceHeadlineSmall"
                 android:padding="16dp" />
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/paintingArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:textAppearance="?attr/textAppearanceBodyMedium" />
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -39,20 +39,20 @@
                 android:gravity="center"
                 android:padding="16dp">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/favoriteButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Favorite" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/shareButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Share"
                     android:layout_marginStart="8dp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/buyButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,12 +60,13 @@
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Related artworks"
                 android:paddingStart="16dp"
-                android:paddingTop="16dp" />
+                android:paddingTop="16dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/relatedRecyclerView"
@@ -76,9 +77,8 @@
         </LinearLayout>
     </ScrollView>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

@@ -18,26 +18,26 @@
         android:gravity="center"
         android:layout_marginTop="16dp">
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/listButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/layout_list" />
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/gridButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/layout_grid" />
 
-        <RadioButton
+        <com.google.android.material.radiobutton.MaterialRadioButton
             android:id="@+id/sheetButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/layout_sheet" />
     </RadioGroup>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/applyButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
