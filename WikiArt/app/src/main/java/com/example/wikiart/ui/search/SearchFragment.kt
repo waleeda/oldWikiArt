@@ -85,7 +85,38 @@ class SearchFragment : Fragment() {
             }
         })
 
-        viewModel.items.observe(viewLifecycleOwner) { adapter.submitList(it) }
+        viewModel.items.observe(viewLifecycleOwner) {
+            adapter.submitList(it)
+            if (it.isEmpty() && viewModel.error.value == null && viewModel.loading.value == false) {
+                binding.emptyMessage.visibility = View.VISIBLE
+                binding.emptyMessage.text = getString(R.string.no_results)
+            } else if (viewModel.error.value == null) {
+                binding.emptyMessage.visibility = View.GONE
+            }
+        }
+
+        viewModel.loading.observe(viewLifecycleOwner) { loading ->
+            binding.loadingProgressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            if (loading) {
+                binding.emptyMessage.visibility = View.GONE
+            } else if (viewModel.items.value.isNullOrEmpty() && viewModel.error.value == null) {
+                binding.emptyMessage.visibility = View.VISIBLE
+                binding.emptyMessage.text = getString(R.string.no_results)
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { throwable ->
+            if (throwable != null) {
+                binding.emptyMessage.visibility = View.VISIBLE
+                binding.emptyMessage.text = throwable.localizedMessage
+                    ?: getString(R.string.error_generic)
+            } else if (viewModel.items.value.isNullOrEmpty() && viewModel.loading.value == false) {
+                binding.emptyMessage.visibility = View.VISIBLE
+                binding.emptyMessage.text = getString(R.string.no_results)
+            } else {
+                binding.emptyMessage.visibility = View.GONE
+            }
+        }
     }
 
     override fun onDestroyView() {
