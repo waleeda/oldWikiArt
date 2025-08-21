@@ -10,6 +10,7 @@ import android.view.MenuItem
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.wikiart.api.FavoritesRepository
+import com.example.wikiart.api.getLanguage
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,7 +28,10 @@ class PaintingListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PaintingListViewModel by viewModels {
-        PaintingListViewModel.Factory(FavoritesRepository(requireContext()))
+        PaintingListViewModel.Factory(
+            FavoritesRepository(requireContext()),
+            getLanguage(),
+        )
     }
     private lateinit var adapter: PaintingAdapter
     private lateinit var sectionAdapter: ArrayAdapter<String>

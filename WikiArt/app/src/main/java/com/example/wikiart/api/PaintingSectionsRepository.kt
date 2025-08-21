@@ -8,6 +8,7 @@ import com.example.wikiart.model.PaintingSection
  */
 class PaintingSectionsRepository(
     private val service: WikiArtService = ApiClient.service,
+    private val language: String = getLanguage(),
 ) {
     suspend fun getSections(category: PaintingCategory): List<PaintingSection> {
         val group = when (category) {
@@ -17,8 +18,8 @@ class PaintingSectionsRepository(
             else -> return emptyList()
         }
         return service.paintingSections(
-            language = "en",
-            group = group
+            language = language,
+            group = group,
         )
     }
 }

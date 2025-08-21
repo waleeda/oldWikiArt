@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
 import com.example.wikiart.R
 import com.example.wikiart.api.FavoritesRepository
+import com.example.wikiart.api.getLanguage
 import com.example.wikiart.databinding.FragmentPaintingDetailBinding
 import androidx.lifecycle.lifecycleScope
 import androidx.core.content.ContextCompat
@@ -24,7 +25,10 @@ class PaintingDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: PaintingDetailViewModel by viewModels {
-        PaintingDetailViewModel.Factory(requireArguments().getString(ARG_PAINTING_ID)!!)
+        PaintingDetailViewModel.Factory(
+            requireArguments().getString(ARG_PAINTING_ID)!!,
+            getLanguage(),
+        )
     }
 
     private val favoritesRepository by lazy { FavoritesRepository(requireContext()) }

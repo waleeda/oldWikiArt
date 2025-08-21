@@ -8,13 +8,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.ApiClient
 import com.example.wikiart.api.FavoritesRepository
 import com.example.wikiart.api.PaintingSectionsRepository
+import com.example.wikiart.api.getLanguage
 import com.example.wikiart.model.Painting
 import com.example.wikiart.model.PaintingCategory
 import com.example.wikiart.model.PaintingSection
 import kotlinx.coroutines.launch
 
 class PaintingListViewModel(
-    private val favoritesRepository: FavoritesRepository? = null
+    private val favoritesRepository: FavoritesRepository? = null,
+    private val language: String = getLanguage(),
 ) : ViewModel() {
     private val _paintings = MutableLiveData<List<Painting>>(emptyList())
     val paintings: LiveData<List<Painting>> = _paintings
@@ -33,7 +35,7 @@ class PaintingListViewModel(
     var layout: PaintingAdapter.Layout = PaintingAdapter.Layout.LIST
         private set
 
-    private val sectionsRepository = PaintingSectionsRepository()
+    private val sectionsRepository = PaintingSectionsRepository(language)
     private val _sections = MutableLiveData<List<PaintingSection>>(emptyList())
     val sections: LiveData<List<PaintingSection>> = _sections
 
@@ -47,7 +49,7 @@ class PaintingListViewModel(
                     val ids = favoritesRepository?.getFavorites()?.toList() ?: emptyList()
                     val favs = ids.mapNotNull { id ->
                         try {
-                            ApiClient.service.paintingDetails("en", id)
+                            ApiClient.service.paintingDetails(language, id)
                         } catch (_: Exception) {
                             null
                         }
@@ -60,22 +62,22 @@ class PaintingListViewModel(
                 val result = when {
                     category == PaintingCategory.POPULAR -> {
                         ApiClient.service.popularPaintings(
-                            language = "en",
-                            page = page
+                            language = language,
+                            page = page,
                         )
                     }
                     section != null -> {
                         ApiClient.service.paintingsBySection(
-                            language = "en",
+                            language = language,
                             dictIdsJson = "[\"${section!!.url}\"]",
-                            page = page
+                            page = page,
                         )
                     }
                     else -> {
                         ApiClient.service.paintingsByCategory(
-                            language = "en",
+                            language = language,
                             param = category.param,
-                            page = page
+                            page = page,
                         )
                     }
                 }
@@ -113,11 +115,14 @@ class PaintingListViewModel(
         layout = l
     }
 
-    class Factory(private val repo: FavoritesRepository) : ViewModelProvider.Factory {
+    class Factory(
+        private val repo: FavoritesRepository,
+        private val language: String = getLanguage(),
+    ) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(PaintingListViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
-                return PaintingListViewModel(repo) as T
+                return PaintingListViewModel(repo, language) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

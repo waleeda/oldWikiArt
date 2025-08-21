@@ -5,7 +5,7 @@ package com.example.wikiart.model
  */
 data class PaintingSection(
     val _id: Id,
-    val Content: Content
+    val Content: Content,
 ) {
     data class Id(val _oid: String)
     data class Content(val Title: TitleContent) {
@@ -22,6 +22,11 @@ data class PaintingSection(
      * Localized title resolved from the map of translations.
      */
     val title: String
-        get() = Content.Title.Title["en"] ?: Content.Title.Title.values.firstOrNull().orEmpty()
+        get() {
+            val lang = com.example.wikiart.api.getLanguage()
+            return Content.Title.Title[lang]
+                ?: Content.Title.Title["en"]
+                ?: Content.Title.Title.values.firstOrNull().orEmpty()
+        }
 }
 
