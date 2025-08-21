@@ -115,6 +115,12 @@ class PaintingListViewModel(
         layout = l
     }
 
+    fun refresh() {
+        page = 1
+        _paintings.value = emptyList()
+        loadNext()
+    }
+
     class Factory(
         private val repo: FavoritesRepository,
         private val language: String = getLanguage(),

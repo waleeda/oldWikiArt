@@ -81,6 +81,12 @@ class ArtistListViewModel(
         layout = l
     }
 
+    fun refresh() {
+        page = 1
+        _artists.value = emptyList()
+        loadNext()
+    }
+
     private fun loadSections() {
         viewModelScope.launch {
             try {
