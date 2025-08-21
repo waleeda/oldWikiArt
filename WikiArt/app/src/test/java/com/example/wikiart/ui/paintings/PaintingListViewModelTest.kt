@@ -2,9 +2,7 @@ package com.example.wikiart.ui.paintings
 
 import com.example.wikiart.api.ApiClient
 import com.example.wikiart.api.WikiArtService
-import com.example.wikiart.model.Painting
-import com.example.wikiart.model.PaintingCategory
-import com.example.wikiart.model.PaintingList
+import com.example.wikiart.model.*
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -48,6 +46,59 @@ class PaintingListViewModelTest {
             return PaintingList(listOf(p), 1, 1)
         }
         override suspend fun paintingDetails(language: String, id: String): Painting {
+            throw NotImplementedError()
+        }
+
+        override suspend fun relatedPaintings(path: String, json: Int): PaintingList {
+            throw NotImplementedError()
+        }
+
+        override suspend fun artistDetails(path: String, json: Int): ArtistDetails {
+            throw NotImplementedError()
+        }
+
+        override suspend fun artistPaintings(path: String, json: Int, page: Int): PaintingList {
+            throw NotImplementedError()
+        }
+
+        override suspend fun artistsByCategory(language: String, category: String, page: Int, json: Int, layout: String, searchTerm: String?): ArtistList {
+            throw NotImplementedError()
+        }
+
+        override suspend fun artistSections(language: String, category: String, json: Int): ArtistSections {
+            throw NotImplementedError()
+        }
+
+        override suspend fun paintingSections(language: String, group: Int): List<PaintingSection> {
+            return emptyList()
+        }
+
+        override suspend fun paintingsBySection(language: String, dictIdsJson: String, page: Int, json: Int): PaintingList {
+            lastPageRequested = page
+            val p = Painting(
+                id = dictIdsJson + page,
+                title = "Title$page",
+                year = "",
+                width = 0,
+                height = 0,
+                artistName = "Artist",
+                image = "url",
+                paintingUrl = "",
+                artistUrl = null,
+                flags = 0
+            )
+            return PaintingList(listOf(p), 1, 1)
+        }
+
+        override suspend fun searchPaintings(language: String, term: String, page: Int, json: Int, layout: String): PaintingList {
+            throw NotImplementedError()
+        }
+
+        override suspend fun searchArtists(language: String, term: String, page: Int, json: Int, layout: String): ArtistList {
+            throw NotImplementedError()
+        }
+
+        override suspend fun autocomplete(language: String, term: String, json: Int): AutocompleteResult {
             throw NotImplementedError()
         }
     }

@@ -30,6 +30,7 @@ class PaintingListFragment : Fragment() {
         PaintingListViewModel.Factory(FavoritesRepository(requireContext()))
     }
     private lateinit var adapter: PaintingAdapter
+    private lateinit var sectionAdapter: ArrayAdapter<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +71,41 @@ class PaintingListFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        sectionAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, mutableListOf())
+        binding.sectionSelector.adapter = sectionAdapter
+        binding.sectionSelector.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val secs = viewModel.sections.value ?: return
+                if (position == 0) {
+                    viewModel.setSection(null)
+                } else if (position - 1 in secs.indices) {
+                    viewModel.setSection(secs[position - 1])
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+
         binding.categoryButton.setOnClickListener { openOptions() }
 
         viewModel.paintings.observe(viewLifecycleOwner) { adapter.submitList(it) }
         viewModel.loading.observe(viewLifecycleOwner) { binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE }
         viewModel.error.observe(viewLifecycleOwner) { err ->
             err?.let { Toast.makeText(requireContext(), it.localizedMessage ?: "Load failed", Toast.LENGTH_SHORT).show() }
+        }
+
+        viewModel.sections.observe(viewLifecycleOwner) { secs ->
+            if (secs.isNullOrEmpty()) {
+                binding.sectionSelector.visibility = View.GONE
+                sectionAdapter.clear()
+            } else {
+                binding.sectionSelector.visibility = View.VISIBLE
+                sectionAdapter.clear()
+                sectionAdapter.add(getString(R.string.section_all))
+                sectionAdapter.addAll(secs.map { it.title })
+                sectionAdapter.notifyDataSetChanged()
+                binding.sectionSelector.setSelection(0)
+            }
         }
 
         viewModel.loadNext()

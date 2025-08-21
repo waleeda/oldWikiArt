@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.wikiart.api.ApiClient
 import com.example.wikiart.api.FavoritesRepository
+import com.example.wikiart.api.PaintingSectionsRepository
 import com.example.wikiart.model.Painting
 import com.example.wikiart.model.PaintingCategory
+import com.example.wikiart.model.PaintingSection
 import kotlinx.coroutines.launch
 
 class PaintingListViewModel(
@@ -26,8 +28,14 @@ class PaintingListViewModel(
     private var page = 1
     var category: PaintingCategory = PaintingCategory.POPULAR
         private set
+    var section: PaintingSection? = null
+        private set
     var layout: PaintingAdapter.Layout = PaintingAdapter.Layout.LIST
         private set
+
+    private val sectionsRepository = PaintingSectionsRepository()
+    private val _sections = MutableLiveData<List<PaintingSection>>(emptyList())
+    val sections: LiveData<List<PaintingSection>> = _sections
 
     fun loadNext() {
         if (_loading.value == true) return
@@ -49,17 +57,27 @@ class PaintingListViewModel(
                     return@launch
                 }
 
-                val result = if (category == PaintingCategory.POPULAR) {
-                    ApiClient.service.popularPaintings(
-                        language = "en",
-                        page = page
-                    )
-                } else {
-                    ApiClient.service.paintingsByCategory(
-                        language = "en",
-                        param = category.param,
-                        page = page
-                    )
+                val result = when {
+                    category == PaintingCategory.POPULAR -> {
+                        ApiClient.service.popularPaintings(
+                            language = "en",
+                            page = page
+                        )
+                    }
+                    section != null -> {
+                        ApiClient.service.paintingsBySection(
+                            language = "en",
+                            dictIdsJson = "[\"${section!!.url}\"]",
+                            page = page
+                        )
+                    }
+                    else -> {
+                        ApiClient.service.paintingsByCategory(
+                            language = "en",
+                            param = category.param,
+                            page = page
+                        )
+                    }
                 }
                 _paintings.value = _paintings.value!! + result.Paintings
                 page++
@@ -73,6 +91,19 @@ class PaintingListViewModel(
     fun setCategory(cat: PaintingCategory) {
         if (category == cat) return
         category = cat
+        section = null
+        page = 1
+        _paintings.value = emptyList()
+        _sections.value = emptyList()
+        viewModelScope.launch {
+            _sections.value = sectionsRepository.getSections(cat)
+        }
+        loadNext()
+    }
+
+    fun setSection(sec: PaintingSection?) {
+        if (section == sec) return
+        section = sec
         page = 1
         _paintings.value = emptyList()
         loadNext()
