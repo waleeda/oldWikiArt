@@ -18,4 +18,5 @@
     <string name="layout_sheet">Sheet</string>
     <string name="action_options">Options</string>
     <string name="title_painting_detail">Painting</string>
+    <string name="title_artist_detail">Artist</string>
 </resources>
