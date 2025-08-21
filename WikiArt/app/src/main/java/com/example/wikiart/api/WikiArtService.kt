@@ -6,6 +6,7 @@ import com.example.wikiart.model.ArtistList
 import com.example.wikiart.model.ArtistDetails
 import com.example.wikiart.model.AutocompleteResult
 import com.example.wikiart.model.ArtistSections
+import com.example.wikiart.model.PaintingSection
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -68,6 +69,20 @@ interface WikiArtService {
         @Path("category") category: String,
         @Query("json") json: Int = 2
     ): ArtistSections
+
+    @GET("/{lang}/app/dictionary/GetAllGroup")
+    suspend fun paintingSections(
+        @Path("lang") language: String,
+        @Query("group") group: Int
+    ): List<PaintingSection>
+
+    @GET("/{lang}/App/Search/PaintingAdvancedSearch")
+    suspend fun paintingsBySection(
+        @Path("lang") language: String,
+        @Query("dictIdsJson") dictIdsJson: String,
+        @Query("page") page: Int,
+        @Query("json") json: Int = 2
+    ): PaintingList
 
     @GET("/{lang}/App/Search/Paintings")
     suspend fun searchPaintings(
