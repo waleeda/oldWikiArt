@@ -42,4 +42,7 @@
     <string name="support_no_email_app">No email app found</string>
     <string name="suggestions_header">Suggestions</string>
     <string name="no_notifications">No notifications yet</string>
+    <string name="painting_image">Painting image</string>
+    <string name="artist_image">Artist image</string>
+    <string name="content_description_painting">%1$s by %2$s</string>
 </resources>

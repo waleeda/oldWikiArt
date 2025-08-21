@@ -55,6 +55,7 @@ class PaintingDetailFragment : Fragment() {
         viewModel.painting.observe(viewLifecycleOwner) { painting ->
             painting?.let {
                 binding.paintingImage.load(it.imageUrl())
+                binding.paintingImage.contentDescription = getString(R.string.content_description_painting, it.title, it.artistName)
                 binding.paintingTitle.text = it.title
                 binding.paintingArtist.text = it.artistName
                 binding.paintingYear.text = it.year
