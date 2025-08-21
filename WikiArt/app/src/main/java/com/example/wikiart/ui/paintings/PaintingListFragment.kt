@@ -14,6 +14,7 @@ import com.example.wikiart.api.getLanguage
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import android.widget.ArrayAdapter
 import android.widget.AdapterView
 import android.widget.Toast
@@ -116,8 +117,15 @@ class PaintingListFragment : Fragment() {
 
         binding.paintingRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val manager = recyclerView.layoutManager as LinearLayoutManager
-                val lastVisible = manager.findLastVisibleItemPosition()
+                val lastVisible = when (val manager = recyclerView.layoutManager) {
+                    is LinearLayoutManager -> manager.findLastVisibleItemPosition()
+                    is StaggeredGridLayoutManager -> {
+                        val positions = IntArray(manager.spanCount)
+                        manager.findLastVisibleItemPositions(positions)
+                        positions.maxOrNull() ?: 0
+                    }
+                    else -> return
+                }
                 if (lastVisible >= adapter.itemCount - 5) {
                     viewModel.loadNext()
                 }
@@ -159,7 +167,9 @@ class PaintingListFragment : Fragment() {
     private fun layoutManagerFor(layout: PaintingAdapter.Layout): RecyclerView.LayoutManager = when(layout) {
         PaintingAdapter.Layout.LIST -> LinearLayoutManager(requireContext())
         PaintingAdapter.Layout.GRID -> GridLayoutManager(requireContext(), 2)
-        PaintingAdapter.Layout.SHEET -> GridLayoutManager(requireContext(), 2)
+        PaintingAdapter.Layout.SHEET -> StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL).apply {
+            gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        }
     }
 
 
