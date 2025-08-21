@@ -54,6 +54,12 @@ class PaintingAdapter(layout: Layout, private val listener: ((Painting) -> Unit)
         private val artist: TextView? = view.findViewById(R.id.paintingArtist)
 
         fun bind(p: Painting, listener: ((Painting) -> Unit)?) {
+            if (layout == Layout.GRID) {
+                val lp = image.layoutParams
+                lp.width = p.width
+                lp.height = p.height
+                image.layoutParams = lp
+            }
             image.load(p.imageUrl())
             title?.text = p.title
             artist?.text = p.artistName
