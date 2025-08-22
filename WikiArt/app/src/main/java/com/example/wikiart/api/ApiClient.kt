@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object ApiClient {
-    private const val BASE_URL = "https://www.wikiart.org"
+    private const val BASE_URL = "https://www.wikiart.org/"
 
     var serviceOverride: WikiArtService? = null
 
