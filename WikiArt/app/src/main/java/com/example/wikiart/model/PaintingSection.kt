@@ -5,7 +5,7 @@ package com.example.wikiart.model
  */
 data class PaintingSection(
     val _id: Id,
-    val Content: Content,
+    val content: Content,
 ) {
     data class Id(val _oid: String)
     data class Content(val Title: TitleContent) {
@@ -24,9 +24,9 @@ data class PaintingSection(
     val title: String
         get() {
             val lang = com.example.wikiart.api.getLanguage()
-            return Content.Title.Title[lang]
-                ?: Content.Title.Title["en"]
-                ?: Content.Title.Title.values.firstOrNull().orEmpty()
+            return content.Title.Title[lang]
+                ?: content.Title.Title["en"]
+                ?: content.Title.Title.values.firstOrNull().orEmpty()
         }
 }
 
