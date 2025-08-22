@@ -15,8 +15,8 @@ import kotlinx.coroutines.launch
 class ArtistListViewModel(
     private val language: String = getLanguage(),
 ) : ViewModel() {
-    private val repository = ArtistsRepository(language)
-    private val categoryRepository = ArtistsCategoryRepository(language)
+    private val repository = ArtistsRepository(language = language)
+    private val categoryRepository = ArtistsCategoryRepository(language = language)
 
     private val _artists = MutableLiveData<List<Artist>>(emptyList())
     val artists: LiveData<List<Artist>> = _artists

@@ -35,7 +35,7 @@ class PaintingListViewModel(
     var layout: PaintingAdapter.Layout = PaintingAdapter.Layout.LIST
         private set
 
-    private val sectionsRepository = PaintingSectionsRepository(language)
+    private val sectionsRepository = PaintingSectionsRepository(language = language)
     private val _sections = MutableLiveData<List<PaintingSection>>(emptyList())
     val sections: LiveData<List<PaintingSection>> = _sections
 

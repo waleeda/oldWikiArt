@@ -14,7 +14,8 @@ import kotlinx.coroutines.launch
 class PaintingDetailViewModel(
     private val paintingId: String,
     private val language: String = getLanguage(),
-    private val detailsRepository: PaintingDetailsRepository = PaintingDetailsRepository(language),
+    private val detailsRepository: PaintingDetailsRepository =
+        PaintingDetailsRepository(language = language),
     private val relatedRepository: RelatedPaintingsRepository = RelatedPaintingsRepository(),
 ) : ViewModel() {
 
