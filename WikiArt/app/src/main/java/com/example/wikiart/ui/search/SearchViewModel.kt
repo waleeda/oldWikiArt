@@ -17,7 +17,7 @@ class SearchViewModel(
     application: Application,
     private val language: String = getLanguage(),
 ) : AndroidViewModel(application) {
-    private val repository = SearchRepository(language)
+    private val repository = SearchRepository(language = language)
     private val resources = application.resources
 
     private val paintings = mutableListOf<Painting>()
