@@ -31,19 +31,19 @@
     <string name="see_all">Voir tout</string>
     <string name="title_artist_paintings">Peintures</string>
     <string name="no_results">Aucun résultat</string>
-    <string name="error_generic">Une erreur s&apos;est produite</string>
+    <string name="error_generic">Une erreur sest produite</string>
     <string name="share">Partager</string>
     <string name="buy">Acheter</string>
     <string name="related_artworks">Œuvres liées</string>
-    <string name="support_email_subject">Commentaires sur l&apos;application</string>
+    <string name="support_email_subject">Commentaires sur lapplication</string>
     <string name="support_email_from">De :</string>
     <string name="support_email_chooser">Envoyer un e-mail</string>
     <string name="support_no_email_app">Aucune application e-mail trouvée</string>
     <string name="suggestions_header">Suggestions</string>
-    <string name="home_placeholder">Ceci est le fragment d&apos;accueil</string>
+    <string name="home_placeholder">Ceci est le fragment daccueil</string>
     <string name="dashboard_placeholder">Ceci est le fragment du tableau de bord</string>
     <string name="notifications_placeholder">Ceci est le fragment des notifications</string>
     <string name="painting_image">Image de peinture</string>
-    <string name="artist_image">Image de l&apos;artiste</string>
+    <string name="artist_image">Image de lartiste</string>
     <string name="content_description_painting">%1$s par %2$s</string>
 </resources>
