@@ -4,7 +4,6 @@ import com.example.wikiart.WikiArtApplication
 import com.example.wikiart.data.local.CACHE_TIMEOUT
 import com.example.wikiart.data.local.SearchResultDao
 import com.example.wikiart.data.local.toEntity
-import com.example.wikiart.data.local.toModel
 import com.example.wikiart.model.ArtistList
 import com.example.wikiart.model.AutocompleteResult
 import com.example.wikiart.model.PaintingList

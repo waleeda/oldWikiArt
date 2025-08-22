@@ -4,7 +4,6 @@ import com.example.wikiart.WikiArtApplication
 import com.example.wikiart.data.local.CACHE_TIMEOUT
 import com.example.wikiart.data.local.PaintingDao
 import com.example.wikiart.data.local.toEntity
-import com.example.wikiart.data.local.toModel
 import com.example.wikiart.model.Painting
 
 class PaintingDetailsRepository(
