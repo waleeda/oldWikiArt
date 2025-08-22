@@ -52,21 +52,38 @@ class MainActivity : AppCompatActivity() {
 
     private fun handleDeepLink(intent: Intent?) {
         val data: Uri = intent?.data ?: return
-        if (data.host != "www.wikiart.org") return
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val segments = data.pathSegments
-        if (segments.size >= 3) {
-            val id = segments[2]
-            val bundle = Bundle().apply {
-                putString(PaintingDetailFragment.ARG_PAINTING_ID, id)
+        val request = parseDeepLink(data)
+        if (request != null) {
+            navController.navigate(request.destinationId, request.args)
+        } else {
+            navController.navigate(R.id.navigation_paintings)
+        }
+    }
+
+    data class NavigationRequest(val destinationId: Int, val args: Bundle)
+
+    companion object {
+        internal fun parseDeepLink(data: Uri): NavigationRequest? {
+            if (data.scheme != "https" || data.host != "www.wikiart.org") return null
+            val segments = data.pathSegments
+            return when {
+                segments.size == 3 && segments[1] == "paintings" -> {
+                    val id = segments[2]
+                    val bundle = Bundle().apply {
+                        putString(PaintingDetailFragment.ARG_PAINTING_ID, id)
+                    }
+                    NavigationRequest(R.id.paintingDetailFragment, bundle)
+                }
+                segments.size == 3 && segments[1] == "artists" -> {
+                    val path = "/${segments[0]}/${segments[1]}/${segments[2]}"
+                    val bundle = Bundle().apply {
+                        putString(ArtistDetailFragment.ARG_ARTIST_PATH, path)
+                    }
+                    NavigationRequest(R.id.artistDetailFragment, bundle)
+                }
+                else -> null
             }
-            navController.navigate(R.id.paintingDetailFragment, bundle)
-        } else if (segments.size >= 2) {
-            val path = "/${segments[0]}/${segments[1]}"
-            val bundle = Bundle().apply {
-                putString(ArtistDetailFragment.ARG_ARTIST_PATH, path)
-            }
-            navController.navigate(R.id.artistDetailFragment, bundle)
         }
     }
 }
