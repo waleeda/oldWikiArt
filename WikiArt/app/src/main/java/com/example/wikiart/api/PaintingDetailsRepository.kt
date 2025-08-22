@@ -15,16 +15,16 @@ class PaintingDetailsRepository(
     suspend fun getPainting(id: String): Painting {
         val cached = paintingDao.getPainting(id)
         val now = System.currentTimeMillis()
-        if (cached != null && now - cached.updated < CACHE_TIMEOUT) {
-            return cached.toModel()
+        if (cached != null) {
+            if (now - cached.updated < CACHE_TIMEOUT) {
+                return cached.toModel()
+            } else {
+                paintingDao.delete(id)
+            }
         }
-        return try {
-            val network = service.paintingDetails(language, id)
-            paintingDao.insert(network.toEntity(now))
-            network
-        } catch (e: Exception) {
-            cached?.toModel() ?: throw e
-        }
+        val network = service.paintingDetails(language, id)
+        paintingDao.insert(network.toEntity(now))
+        return network
     }
 }
 
