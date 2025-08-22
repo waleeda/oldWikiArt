@@ -8,9 +8,8 @@ import com.example.wikiart.model.Artist
 import com.example.wikiart.model.AutocompleteResult
 import com.example.wikiart.model.Painting
 import org.json.JSONArray
-import java.util.concurrent.TimeUnit
 
-const val CACHE_TIMEOUT: Long = TimeUnit.HOURS.toMillis(1)
+const val CACHE_TIMEOUT: Long = 60L * 60L * 1000L
 
 @Entity(tableName = "paintings")
 data class PaintingEntity(
