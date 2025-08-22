@@ -2,9 +2,12 @@ package com.example.wikiart.data.local
 
 import android.content.Context
 import androidx.room.*
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.wikiart.model.Artist
 import com.example.wikiart.model.AutocompleteResult
 import com.example.wikiart.model.Painting
+import org.json.JSONArray
 import java.util.concurrent.TimeUnit
 
 const val CACHE_TIMEOUT: Long = TimeUnit.HOURS.toMillis(1)
@@ -62,10 +65,18 @@ fun AutocompleteResult.toEntity(query: String, now: Long): SearchResultEntity =
 
 class Converters {
     @TypeConverter
-    fun fromStringList(list: List<String>): String = list.joinToString(separator = "|||")
+    fun fromStringList(list: List<String>): String {
+        val jsonArray = JSONArray()
+        list.forEach { jsonArray.put(it) }
+        return jsonArray.toString()
+    }
 
     @TypeConverter
-    fun toStringList(data: String): List<String> = if (data.isEmpty()) emptyList() else data.split("|||")
+    fun toStringList(data: String): List<String> {
+        if (data.isEmpty()) return emptyList()
+        val jsonArray = JSONArray(data)
+        return List(jsonArray.length()) { index -> jsonArray.optString(index) }
+    }
 }
 
 @Dao
@@ -97,7 +108,7 @@ interface SearchResultDao {
 
 @Database(
     entities = [PaintingEntity::class, ArtistEntity::class, SearchResultEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false,
 )
 @TypeConverters(Converters::class)
@@ -115,8 +126,27 @@ abstract class WikiArtDatabase : RoomDatabase() {
                     context.applicationContext,
                     WikiArtDatabase::class.java,
                     "wikiart.db"
-                ).build().also { INSTANCE = it }
+                ).addMigrations(MIGRATION_1_2).build().also { INSTANCE = it }
             }
+    }
+}
+
+private val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        val cursor = database.query("SELECT query, results FROM search_results")
+        val update = database.compileStatement("UPDATE search_results SET results = ? WHERE query = ?")
+        while (cursor.moveToNext()) {
+            val query = cursor.getString(0)
+            val results = cursor.getString(1)
+            val jsonArray = JSONArray()
+            if (results.isNotEmpty()) {
+                results.split("|||").forEach { jsonArray.put(it) }
+            }
+            update.bindString(1, jsonArray.toString())
+            update.bindString(2, query)
+            update.executeUpdateDelete()
+        }
+        cursor.close()
     }
 }
 
