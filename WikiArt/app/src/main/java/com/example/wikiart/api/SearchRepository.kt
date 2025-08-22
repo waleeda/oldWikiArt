@@ -25,16 +25,16 @@ class SearchRepository(
     suspend fun autocomplete(term: String): AutocompleteResult {
         val cached = searchDao.get(term)
         val now = System.currentTimeMillis()
-        if (cached != null && now - cached.updated < CACHE_TIMEOUT) {
-            return cached.toModel()
+        if (cached != null) {
+            if (now - cached.updated < CACHE_TIMEOUT) {
+                return cached.toModel()
+            } else {
+                searchDao.delete(term)
+            }
         }
-        return try {
-            val result = service.autocomplete(language = language, term = term)
-            searchDao.insert(result.toEntity(term, now))
-            result
-        } catch (e: Exception) {
-            cached?.toModel() ?: throw e
-        }
+        val result = service.autocomplete(language = language, term = term)
+        searchDao.insert(result.toEntity(term, now))
+        return result
     }
 }
 

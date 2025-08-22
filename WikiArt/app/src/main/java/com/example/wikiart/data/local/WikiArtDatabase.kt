@@ -86,6 +86,9 @@ interface PaintingDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(painting: PaintingEntity)
+
+    @Query("DELETE FROM paintings WHERE id = :id")
+    suspend fun delete(id: String)
 }
 
 @Dao
@@ -95,6 +98,9 @@ interface ArtistDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(artists: List<ArtistEntity>)
+
+    @Query("DELETE FROM artists WHERE category = :category AND page = :page AND ((section IS NULL AND :section IS NULL) OR section = :section)")
+    suspend fun delete(category: String, page: Int, section: String?)
 }
 
 @Dao
@@ -104,6 +110,9 @@ interface SearchResultDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(result: SearchResultEntity)
+
+    @Query("DELETE FROM search_results WHERE query = :query")
+    suspend fun delete(query: String)
 }
 
 @Database(
