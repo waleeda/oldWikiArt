@@ -1,17 +1,19 @@
 package com.example.wikiart.model
 
+import com.squareup.moshi.Json
 import java.io.Serializable
 
 /**
  * Represents a section within an artist category returned by the API.
  */
 data class ArtistSection(
-    val Url: String,
+    @field:Json(name = "Url")
+    val rawUrl: String,
     val Title: String,
     val Count: Int
 ) : Serializable {
     val url: String
-        get() = Url.substringAfterLast('/')
+        get() = rawUrl.substringAfterLast('/')
 }
 
 /**
