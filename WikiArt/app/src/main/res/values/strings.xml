@@ -41,6 +41,9 @@
     <string name="support_email_chooser">Send Email</string>
     <string name="support_no_email_app">No email app found</string>
     <string name="suggestions_header">Suggestions</string>
+    <string name="home_placeholder">This is the home fragment</string>
+    <string name="dashboard_placeholder">This is the dashboard fragment</string>
+    <string name="notifications_placeholder">This is the notifications fragment</string>
     <string name="no_notifications">No notifications yet</string>
     <string name="painting_image">Painting image</string>
     <string name="artist_image">Artist image</string>
